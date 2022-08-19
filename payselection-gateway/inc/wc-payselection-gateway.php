@@ -1,18 +1,23 @@
 <?php
 
-class WC_GateExpress_Gateway extends WC_Payment_Gateway {
+if (!defined('ABSPATH')) {
+    exit;
+}
+
+class WC_Payselection_Gateway extends WC_Payment_Gateway {
     
     public function __construct() {
-        $this->id                   = 'wc_gateexpress_gateway';
+        $this->id                   = 'wc_payselection_gateway';
         $this->has_fields           = true;
-        $this->icon                 = GE_PLUGIN_URL . 'ge.svg';
-        $this->method_title         = __('Gate Express', 'gate_express');
-        $this->method_description   = __('Pay via Gate Express', 'gate_express');
+        $this->icon                 = PAYSELECTION_URL . 'logo.svg';
+        $this->method_title         = __('Payselection', 'payselection');
+        $this->method_description   = __('Pay via Payselection', 'payselection');
         
         $this->init_form_fields();
         $this->init_settings();        
 
         $this->enabled      = $this->get_option('enabled');
+        $this->redirect     = $this->get_option('redirect');
         $this->host         = $this->get_option('host');
         $this->create_host  = $this->get_option('create_host');
         $this->check_host   = $this->get_option('check_host');
@@ -21,8 +26,11 @@ class WC_GateExpress_Gateway extends WC_Payment_Gateway {
         $this->title        = $this->get_option('title');
         $this->description  = $this->get_option('description');
 
+        $webhook = new Payselection_Webhook();
+
         add_action('woocommerce_update_options_payment_gateways_' . $this->id, array($this, 'process_admin_options'));
-        add_action('woocommerce_api_' . $this->id . '_webhook', array($this, 'webhook'));
+        add_action('woocommerce_api_' . $this->id . '_webhook', array($webhook, 'handle'));
+        add_action('woocommerce_api_' . $this->id . '_widget', array($this, 'widget'));
         add_action('woocommerce_thankyou', array($this, 'check_payment'), 10);
     }
     
@@ -35,67 +43,87 @@ class WC_GateExpress_Gateway extends WC_Payment_Gateway {
     public function init_form_fields() {
         $this->form_fields = array(
             'enabled'   => array(
-                'title'   => __('Enable/Disable', 'gate_express'),
+                'title'   => __('Enable/Disable', 'payselection'),
                 'type'    => 'checkbox',
-                'label'   => __('Enable GateExpress', 'gate_express'),
+                'label'   => __('Enable Payselection', 'payselection'),
                 'default' => 'yes'
             ),
+            'redirect'   => array(
+                'title'   => __('Widget/Redirect', 'payselection'),
+                'type'    => 'checkbox',
+                'label'   => __('Redirect to Payselection', 'payselection'),
+                'default' => 'no'
+            ),
             'webhook'   => array(
-                'title'       => __('Webhook url', 'gate_express'),
+                'title'       => __('Webhook URL', 'payselection'),
                 'type'        => 'text',
                 'default'     => home_url('/wc-api/' . $this->id . '_webhook'),
                 'custom_attributes' => ['readonly' => 'readonly']
             ),
             'host'      => array(
-                'title'       => __('API host', 'gate_express'),
+                'title'       => __('API host', 'payselection'),
                 'type'        => 'text',
-                'description' => __('API hostname', 'gate_express'),
+                'description' => __('API hostname', 'payselection'),
                 'default'     => '',
                 'desc_tip'    => true,
             ),
             'create_host'   => array(
-                'title'       => __('Create Payment host', 'gate_express'),
+                'title'       => __('Create Payment host', 'payselection'),
                 'type'        => 'text',
-                'description' => __('Leave blank if you dont know what you do', 'gate_express'),
+                'description' => __('Leave blank if you dont know what you do', 'payselection'),
                 'default'     => '',
                 'desc_tip'    => true,
             ),
             'check_host'   => array(
-                'title'       => __('Check Payment host', 'gate_express'),
+                'title'       => __('Check Payment host', 'payselection'),
                 'type'        => 'text',
-                'description' => __('Leave blank if you dont know what you do', 'gate_express'),
+                'description' => __('Leave blank if you dont know what you do', 'payselection'),
                 'default'     => '',
                 'desc_tip'    => true,
             ),
             'site_id'        => array(
-                'title'       => __('Site ID', 'gate_express'),
+                'title'       => __('Site ID', 'payselection'),
                 'type'        => 'text',
-                'description' => __('Your site ID on Gate Express', 'gate_express'),
+                'description' => __('Your site ID on Payselection', 'payselection'),
                 'default'     => '',
                 'desc_tip'    => false,
             ),
             'key'        => array(
-                'title'       => __('Key', 'gate_express'),
+                'title'       => __('Key', 'payselection'),
                 'type'        => 'text',
-                'description' => __('Your Key on Gate Express', 'gate_express'),
+                'description' => __('Your Key on Payselection', 'payselection'),
                 'default'     => '',
                 'desc_tip'    => false,
             ),
+            'language'         => array(
+                'title'   => __('Widget language', 'payselection'),
+                'type'    => 'select',
+                'default' => 'en',
+                'options' => array(
+                    'ru' => __('Russian', 'payselection'),
+                    'en' => __('English', 'payselection'),
+                ),
+            ),
             'title'            => array(
-                'title'       => __('Title', 'gate_express'),
+                'title'       => __('Title', 'payselection'),
                 'type'        => 'text',
-                'description' => __('This controls the title which the user sees during checkout.', 'gate_express'),
-                'default'     => __('Pay via Gate Express', 'gate_express'),
+                'description' => __('This controls the title which the user sees during checkout.', 'payselection'),
+                'default'     => __('Pay via Payselection', 'payselection'),
                 'desc_tip'    => true,
             ),
             'description'      => array(
-                'title'       => __('Description', 'gate_express'),
+                'title'       => __('Description', 'payselection'),
                 'type'        => 'textarea',
-                'description' => __('Payment method description that the customer will see on your checkout.', 'gate_express'),
-                'default'     => __('To pay for the order, you will be redirected to the GateExpress service page.', 'gate_express'),
+                'description' => __('Payment method description that the customer will see on your checkout.', 'payselection'),
+                'default'     => __('To pay for the order, you will be redirected to the Payselection service page.', 'payselection'),
                 'desc_tip'    => true,
             ),
         );
+    }
+
+    public function widget() {
+        require(PAYSELECTION_URL . 'templates/widget.php');
+        die();
     }
     
     /**
@@ -186,7 +214,7 @@ class WC_GateExpress_Gateway extends WC_Payment_Gateway {
         );
 
         if (is_wp_error($response)) {
-            wc_add_notice(__('Gate Express error:', 'gate_express') . $response->get_error_message());
+            wc_add_notice(__('Payselection error:', 'payselection') . $response->get_error_message());
             return false;
         }
 
@@ -200,7 +228,7 @@ class WC_GateExpress_Gateway extends WC_Payment_Gateway {
             // Link created, redirect
             case 201:
                 if (empty($response['body'])) {
-                    wc_add_notice(__('Gate Express error:', 'gate_express') . ' ' . __("can't get payment link", 'gate_express'), 'error');
+                    wc_add_notice(__('Payselection error:', 'payselection') . ' ' . __("can't get payment link", 'payselection'), 'error');
                 } else {
                     if ('processing'== $order->get_status()) {
                         $order->update_status('on-hold');
@@ -214,7 +242,7 @@ class WC_GateExpress_Gateway extends WC_Payment_Gateway {
             
             // Maybe error
             default:
-                wc_add_notice(__('Gate Express error:', 'gate_express') . ' ' . $response['body']['Code'] . ($response['body']['Description'] ? " " . $response['body']['Description'] : ''), 'error');
+                wc_add_notice(__('Payselection error:', 'payselection') . ' ' . $response['body']['Code'] . ($response['body']['Description'] ? " " . $response['body']['Description'] : ''), 'error');
                 break;
         }
 
@@ -270,50 +298,5 @@ class WC_GateExpress_Gateway extends WC_Payment_Gateway {
                 }
             }
         }
-    }
-    
-    /**
-     * webhook API webhook endpoint
-     *
-     * @return void
-     */
-    public function webhook() {
-        $request = file_get_contents('php://input');
-        $headers = getallheaders();
-        if (
-            empty($request) ||
-            empty($headers['X-SITE-ID']) ||
-            $this->site_id != $headers['X-SITE-ID'] ||
-            empty($headers['X-WEBHOOK-SIGNATURE'])
-        )
-            wp_die('Not found', 'gate_express', array('response' => 404));
-        
-        // Check signature
-        if ($headers['X-WEBHOOK-SIGNATURE'] !== self::getSignature($request, $this->key))
-            wp_die('Signature error', 'gate_express', array('response' => 404));
-
-        $request = json_decode($request, true);
-        
-        $order_id = (int) $request['OrderId'];
-        $order = new WC_Order($order_id);
-
-        if (empty($order))
-            wp_die('Order not found', 'gate_express', array('response' => 404));
-        
-        if ('completed' == $order->get_status()) {
-            wp_die('Ok', 'gate_express', array('response' => 200));
-        }
-
-        if ('on-hold'== $order->get_status()) {
-            $order->update_status('processing');
-        }
-
-        if ($request['Event'] === 'Payment') {
-            $order->payment_complete();
-            $order->add_order_note(sprintf('Payment approved (ID: %s)', $request['TransactionId']));
-        }
-        
-        wp_die('Ok', 'gate_express', array('response' => 200));
-        die();
     }
 }
