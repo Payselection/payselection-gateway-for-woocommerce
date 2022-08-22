@@ -11,4 +11,4 @@ jobs:
         uses: actions/checkout@v2
       - name: Copy new plugin version
         run: |
-          rsync ./payselection-gateway /opt/Payment_Center/wordpress/wp-content/plugins/
+          rsync -zvhr ./payselection-gateway /opt/Payment_Center/wordpress/wp-content/plugins/
