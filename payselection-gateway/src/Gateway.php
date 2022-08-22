@@ -29,6 +29,7 @@ class Gateway extends \WC_Payment_Gateway
         $this->language = $this->get_option("language");
         $this->title = $this->get_option("title");
         $this->description = $this->get_option("description");
+        $this->debug = $this->get_option("debug") === 'yes';
 
         $webhook = new Webhook();
 
@@ -140,6 +141,12 @@ class Gateway extends \WC_Payment_Gateway
                 "default" => __("To pay for the order, you will be redirected to the Payselection service page.", "payselection"),
                 "desc_tip" => true,
             ],
+            "debug" => [
+                "title" => __("Enable DEBUG", "payselection"),
+                "type" => "checkbox",
+                "label" => __("Enable DEBUG", "payselection"),
+                "default" => "no",
+            ],
         ];
     }
 
@@ -178,6 +185,10 @@ class Gateway extends \WC_Payment_Gateway
         // wc_add_notice(__("Payselection data:", "payselection") . json_encode($order->getRequestData(), JSON_UNESCAPED_UNICODE));
 
         if (is_wp_error($response)) {
+            if ($this->debug) {
+                wc_add_notice(__("Payselection data:", "payselection") . json_encode($order->getRequestData(), JSON_UNESCAPED_UNICODE));
+                wc_add_notice(__("Payselection response:", "payselection") . json_encode($response, JSON_UNESCAPED_UNICODE));
+            }
             wc_add_notice(__('Payselection error:', 'payselection') . " " . $response->get_error_message());
             return false;
         }
