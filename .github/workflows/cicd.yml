@@ -1,0 +1,14 @@
+name: Payment Center Wordpress plugin deployment 
+on:
+  push:
+    branches:
+      - "master"
+jobs:
+  deploy:
+    runs-on: self-hosted
+    steps:
+      - name: Repository Checkout
+        uses: actions/checkout@v2
+      - name: Copy new plugin version
+        run: |
+          rsync ./payselection-gateway /opt/Payment_Center/wordpress/wp-content/plugins/
