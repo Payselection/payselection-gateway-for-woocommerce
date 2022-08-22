@@ -9,11 +9,11 @@ class Api
     /**
      * request Send request to API server
      *
-     * @param  mixed $path - API path
-     * @param  mixed $data - Request DATA
+     * @param  string $path - API path
+     * @param  array|bool $data - Request DATA
      * @return WP_Error|string
      */
-    private static function request(string $path, $data = false)
+    private static function request(string $path, $data = false, $method = "GET")
     {
         // Get plugin options
         $options = self::get_options();
@@ -26,18 +26,19 @@ class Api
             "X-REQUEST-SIGNATURE" => self::getSignature($body_json, $options->key),
         ];
 
-        // return new \WP_Error('payselection', $body_json);
-
         $host = !empty($options->create_host) ? $options->create_host : $options->host;
 
-        $response = wp_remote_post($host . "/" . $path, [
+        $url = $host . "/" . $path;
+        $params = [
             "timeout" => 30,
             "redirection" => 5,
             "httpversion" => "1.0",
             "blocking" => true,
             "headers" => $headers,
             "body" => $body_json,
-        ]);
+        ];
+
+        $response = $method === 'POST' ? wp_remote_post($url, $params) : wp_remote_get($url, $params) ;
 
         if (is_wp_error($response)) {
             return $response;
@@ -96,6 +97,6 @@ class Api
      */
     public static function get_payment_link(array $data = [])
     {
-        return self::request('webpayments/create', $data);
+        return self::request('webpayments/create', $data, 'POST');
     }
 }

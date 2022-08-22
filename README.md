@@ -1,1 +1,1 @@
-# WooCommerce GE gateway plugin
+# WooCommerce Payselection gateway plugin

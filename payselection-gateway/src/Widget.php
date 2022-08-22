@@ -31,7 +31,7 @@ class Widget
             return;
         }
 
-        wp_enqueue_script("payselection-widget", "https://web3test.payment.center/widget/pay-widget.js", [], time(), false);
+        wp_enqueue_script("payselection-widget", "https://widget.payselection.com/lib/pay-widget.js", [], time(), false);
         wp_add_inline_script("payselection-widget", self::widget_js());
     }
 

@@ -35,6 +35,8 @@ class Gateway extends \WC_Payment_Gateway
         add_action("woocommerce_update_options_payment_gateways_" . $this->id, [$this, "process_admin_options"]);
         add_action("woocommerce_api_" . $this->id . "_webhook", "\Payselection\Webhook::handle");
         add_action("woocommerce_api_" . $this->id . "_widget", "\Payselection\Widget::handle");
+
+        // TODO: replace check payment
         add_action("woocommerce_thankyou", [$this, "check_payment"], 10);
     }
 
@@ -77,14 +79,14 @@ class Gateway extends \WC_Payment_Gateway
                 "title" => __("API host", "payselection"),
                 "type" => "text",
                 "description" => __("API hostname", "payselection"),
-                "default" => "",
+                "default" => "https://gw.payselection.com",
                 "desc_tip" => true,
             ],
             "create_host" => [
                 "title" => __("Create Payment host", "payselection"),
                 "type" => "text",
                 "description" => __("Leave blank if you dont know what you do", "payselection"),
-                "default" => "",
+                "default" => "https://webform.payselection.com",
                 "desc_tip" => true,
             ],
             "check_host" => [
@@ -102,9 +104,16 @@ class Gateway extends \WC_Payment_Gateway
                 "desc_tip" => false,
             ],
             "key" => [
-                "title" => __("Key", "payselection"),
+                "title" => __("Secret Key", "payselection"),
                 "type" => "text",
                 "description" => __("Your Key on Payselection", "payselection"),
+                "default" => "",
+                "desc_tip" => false,
+            ],
+            "widget_key" => [
+                "title" => __("Widget Key", "payselection"),
+                "type" => "text",
+                "description" => __("Your Widget Key on Payselection", "payselection"),
                 "default" => "",
                 "desc_tip" => false,
             ],
