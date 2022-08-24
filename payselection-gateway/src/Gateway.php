@@ -24,21 +24,16 @@ class Gateway extends \WC_Payment_Gateway
         $this->host = $this->get_option("host");
         $this->create_host = $this->get_option("create_host");
         $this->check_host = $this->get_option("check_host");
+        $this->widget_url = $this->get_option("widget_url");
         $this->site_id = $this->get_option("site_id");
         $this->key = $this->get_option("key");
         $this->language = $this->get_option("language");
         $this->title = $this->get_option("title");
         $this->description = $this->get_option("description");
-        $this->debug = $this->get_option("debug") === 'yes';
-
-        $webhook = new Webhook();
 
         add_action("woocommerce_update_options_payment_gateways_" . $this->id, [$this, "process_admin_options"]);
-        add_action("woocommerce_api_" . $this->id . "_webhook", "\Payselection\Webhook::handle");
+        add_action("woocommerce_api_" . $this->id . "_webhook", [new Webhook(), "handle"]);
         add_action("woocommerce_api_" . $this->id . "_widget", "\Payselection\Widget::handle");
-
-        // TODO: replace check payment
-        add_action("woocommerce_thankyou", [$this, "check_payment"], 10);
     }
 
     /**
@@ -111,6 +106,12 @@ class Gateway extends \WC_Payment_Gateway
                 "default" => "",
                 "desc_tip" => false,
             ],
+            "widget_url" => [
+                "title" => __("Widget URL", "payselection"),
+                "type" => "text",
+                "default" => "https://widget.payselection.com/lib/pay-widget.js",
+                "desc_tip" => true,
+            ],
             "widget_key" => [
                 "title" => __("Widget Key", "payselection"),
                 "type" => "text",
@@ -179,16 +180,12 @@ class Gateway extends \WC_Payment_Gateway
         }
 
         // Redirect payment
-        $response = Api::get_payment_link($order->getRequestData());
-
-        // Debug request
-        // wc_add_notice(__("Payselection data:", "payselection") . json_encode($order->getRequestData(), JSON_UNESCAPED_UNICODE));
+        $api = new Api();
+        $response = $api->get_payment_link($order->getRequestData());
 
         if (is_wp_error($response)) {
-            if ($this->debug) {
-                wc_add_notice(__("Payselection data:", "payselection") . json_encode($order->getRequestData(), JSON_UNESCAPED_UNICODE));
-                wc_add_notice(__("Payselection response:", "payselection") . json_encode($response, JSON_UNESCAPED_UNICODE));
-            }
+            $api->debug(wc_print_r($order->getRequestData(), true));
+            $api->debug(wc_print_r($response, true));
             wc_add_notice(__('Payselection error:', 'payselection') . " " . $response->get_error_message());
             return false;
         }

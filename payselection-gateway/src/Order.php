@@ -2,8 +2,6 @@
 
 namespace Payselection;
 
-use Payselection\Options;
-
 class Order extends \WC_Order
 {
     use Traits\Options;

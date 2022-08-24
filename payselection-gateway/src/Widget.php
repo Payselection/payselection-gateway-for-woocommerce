@@ -3,7 +3,6 @@
 namespace Payselection;
 
 use Payselection\Order;
-use Payselection\Options;
 
 class Widget
 {
@@ -27,11 +26,13 @@ class Widget
      */
     public static function enqueue_scripts()
     {
+        $options = self::get_options();
+
         if (empty($_REQUEST["paywidget"])) {
             return;
         }
 
-        wp_enqueue_script("payselection-widget", "https://widget.payselection.com/lib/pay-widget.js", [], time(), false);
+        wp_enqueue_script("payselection-widget", $options->widget_url, [], time(), false);
         wp_add_inline_script("payselection-widget", self::widget_js());
     }
 
@@ -44,7 +45,6 @@ class Widget
     {
         global $woocommerce;
 
-        // Get plugin options
         $options = self::get_options();
 
         // Parse order ID from request
@@ -63,21 +63,25 @@ class Widget
         // Get order data
         $data = $order->getRequestData();
 
-        // Set service ID
-        $data["ServiceId"] = (string) $options->site_id;
+        // var_dump(json_encode($data, JSON_UNESCAPED_UNICODE));
 
         return "
-            const data = " .
-            json_encode($data, JSON_UNESCAPED_UNICODE) .
-            ";
-            const widget = new pw.WidgetCreate();
-            widget.pay(data, {
-                onSuccess: () => {
-                    window.location.href = '" . $data["PaymentRequest"]["ExtraData"]["SuccessUrl"] . "';
-                },
-                onError: () => {
-                    window.location.href = '" . $data["PaymentRequest"]["ExtraData"]["CancelUrl"] . "';
-                }
+            document.addEventListener('DOMContentLoaded', () => {
+                const data = " .
+                json_encode($data, JSON_UNESCAPED_UNICODE) .
+                ";
+                const widget = new pw.PayWidget();
+                widget.pay({
+                    serviceId: '" . $options->site_id . "',
+                    key: '" . $options->widget_key . "'
+                }, data, {
+                    onSuccess: () => {
+                        window.location.href = '" . $data["PaymentRequest"]["ExtraData"]["SuccessUrl"] . "';
+                    },
+                    onClose: () => {
+                        window.location.href = '" . $data["PaymentRequest"]["ExtraData"]["CancelUrl"] . "';
+                    }
+                });
             });
         ";
     }

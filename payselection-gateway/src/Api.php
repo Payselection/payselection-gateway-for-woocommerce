@@ -4,7 +4,20 @@ namespace Payselection;
 
 class Api
 {
-    use Traits\Options;
+    protected $options;
+
+    public function __construct()
+    {
+        $this->options = (object) get_option("woocommerce_wc_payselection_gateway_settings");
+    }
+
+    public function debug(string $data = '') {
+        if ($this->options->debug === 'yes') {
+            $logger = wc_get_logger();
+            $logger_context = ['source' => "wc_payselection_gateway"];
+            $logger->debug($data, $logger_context);
+        }
+    }
 
     /**
      * request Send request to API server
@@ -13,20 +26,19 @@ class Api
      * @param  array|bool $data - Request DATA
      * @return WP_Error|string
      */
-    private static function request(string $path, $data = false, $method = "GET")
+    protected function request(string $host, string $path, $data = false, $method = "GET")
     {
-        // Get plugin options
-        $options = self::get_options();
+        $bodyJSON = !empty($data) ? json_encode($data, JSON_UNESCAPED_UNICODE) : "";
 
-        $body_json = !empty($data) ? json_encode($data, JSON_UNESCAPED_UNICODE) : "";
+        $requestID = self::guidv4();
+
+        $signBody = $method . PHP_EOL . "/" . $path . PHP_EOL . $this->options->site_id . PHP_EOL . $requestID . PHP_EOL . $bodyJSON;
 
         $headers = [
-            "X-SITE-ID" => $options->site_id,
-            "X-REQUEST-ID" => self::guidv4(),
-            "X-REQUEST-SIGNATURE" => self::getSignature($body_json, $options->key),
+            "X-SITE-ID" => $this->options->site_id,
+            "X-REQUEST-ID" => $requestID,
+            "X-REQUEST-SIGNATURE" => self::getSignature($signBody, $this->options->key),
         ];
-
-        $host = !empty($options->create_host) ? $options->create_host : $options->host;
 
         $url = $host . "/" . $path;
         $params = [
@@ -35,10 +47,16 @@ class Api
             "httpversion" => "1.0",
             "blocking" => true,
             "headers" => $headers,
-            "body" => $body_json,
+            "body" => $bodyJSON,
         ];
 
-        $response = $method === 'POST' ? wp_remote_post($url, $params) : wp_remote_get($url, $params) ;
+        // Debug request
+        $this->debug(wc_print_r($params, true));
+
+        $response = $method === 'POST' ? wp_remote_post($url, $params) : wp_remote_get($url, $params);
+        
+        // Debug response
+        $this->debug(wc_print_r($response, true));
 
         if (is_wp_error($response)) {
             return $response;
@@ -63,7 +81,7 @@ class Api
      * @param  array|null $data - Random 16 bytes
      * @return string
      */
-    private static function guidv4($data = null)
+    protected static function guidv4($data = null)
     {
         $data = $data ?? random_bytes(16);
         assert(strlen($data) == 16);
@@ -79,7 +97,7 @@ class Api
      * @param  string $secretKey
      * @return string
      */
-    private static function getSignature(string $body, string $secretKey)
+    protected static function getSignature(string $body, string $secretKey)
     {
         if (empty($body)) {
             return ";";
@@ -95,8 +113,9 @@ class Api
      * @param  array $data - Request params
      * @return WP_Error|string
      */
-    public static function get_payment_link(array $data = [])
+    public function get_payment_link(array $data = [])
     {
-        return self::request('webpayments/create', $data, 'POST');
+        $host = $this->options->create_host ?: $this->options->host;
+        return $this->request($host, 'webpayments/create', $data, 'POST');
     }
 }
