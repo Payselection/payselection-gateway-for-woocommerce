@@ -20,18 +20,13 @@ class Gateway extends \WC_Payment_Gateway
 
         $this->enabled = $this->get_option("enabled");
         $this->redirect = $this->get_option("redirect");
-        $this->type = $this->get_option("type");
-        $this->host = $this->get_option("host");
-        $this->create_host = $this->get_option("create_host");
-        $this->check_host = $this->get_option("check_host");
-        $this->widget_url = $this->get_option("widget_url");
-        $this->site_id = $this->get_option("site_id");
-        $this->key = $this->get_option("key");
-        $this->language = $this->get_option("language");
         $this->title = $this->get_option("title");
         $this->description = $this->get_option("description");
+        
+        $this->payselection = new Api();
 
         add_action("woocommerce_update_options_payment_gateways_" . $this->id, [$this, "process_admin_options"]);
+        add_action("woocommerce_order_status_changed", array($this, "update_order_status"), 10, 3);
         add_action("woocommerce_api_" . $this->id . "_webhook", [new Webhook(), "handle"]);
         add_action("woocommerce_api_" . $this->id . "_widget", "\Payselection\Widget::handle");
     }
@@ -85,13 +80,6 @@ class Gateway extends \WC_Payment_Gateway
                 "default" => "https://webform.payselection.com",
                 "desc_tip" => true,
             ],
-            "check_host" => [
-                "title" => __("Check Payment host", "payselection"),
-                "type" => "text",
-                "description" => __("Leave blank if you dont know what you do", "payselection"),
-                "default" => "",
-                "desc_tip" => true,
-            ],
             "site_id" => [
                 "title" => __("Site ID", "payselection"),
                 "type" => "text",
@@ -128,6 +116,63 @@ class Gateway extends \WC_Payment_Gateway
                     "en" => __("English", "payselection"),
                 ],
             ],
+            "receipt" => [
+                "title" => __("Fiscalization", "payselection"),
+                "type" => "checkbox",
+                "label" => __("If this option is enabled order receipts will be created and sent to your customer and to the revenue service via Payselection", "payselection"),
+                "default" => "no",
+            ],
+            "company_inn" => [
+                "title" => __("INN organization", "payselection"),
+                "type" => "text",
+                "default" => "",
+                "desc_tip" => false,
+            ],
+            "company_email" => [
+                "title" => __("Email organization", "payselection"),
+                "type" => "text",
+                "default" => "",
+                "desc_tip" => false,
+            ],
+            "company_address" => [
+                "title" => __("Legal address", "payselection"),
+                "type" => "text",
+                "default" => "",
+                "desc_tip" => false,
+            ],
+            "company_tax_system" => [
+                "title" => __("Taxation system", "payselection"),
+                "type" => "select",
+                "default" => "0",
+                "options" => [
+                    "osn"                   => __("General", "payselection"),
+                    "usn_income"            => __("Simplified, income", "payselection"),
+                    "usn_income_outcome"    => __("Simplified, income minus expences", "payselection"),
+                    "envd"                  => __("Unified tax on imputed income", "payselection"),
+                    "esn"                   => __("Unified agricultural tax", "payselection"),
+                    "patent"                => __("Patent taxation system", "payselection"),
+                ],
+            ],
+            "company_vat" => [
+                "title" => __("Item-dependent tax (VAT)", "payselection"),
+                "type" => "select",
+                "label" => __("Be sure to specify if you use receipt printing through Payselection", "payselection"),
+                "default" => "0",
+                "options" => [
+                    "none"      => __("Tax excluded", "payselection"),
+                    "vat0"      => __("VAT at 0%", "payselection"),
+                    "vat10"     => __("VAT receipt at rate 10%", "payselection"),
+                    "vat18"     => __("VAT receipt at rate 18%", "payselection"),
+                    "vat110"    => __("VAT check at the estimated rate 10/110", "payselection"),
+                    "vat118"    => __("VAT check at the estimated rate 18/118", "payselection"),
+                ],
+            ],
+            "debug" => [
+                "title" => __("Enable DEBUG", "payselection"),
+                "type" => "checkbox",
+                "label" => __("Enable DEBUG", "payselection"),
+                "default" => "no",
+            ],
             "title" => [
                 "title" => __("Title", "payselection"),
                 "type" => "text",
@@ -141,12 +186,6 @@ class Gateway extends \WC_Payment_Gateway
                 "description" => __("Payment method description that the customer will see on your checkout.", "payselection"),
                 "default" => __("To pay for the order, you will be redirected to the Payselection service page.", "payselection"),
                 "desc_tip" => true,
-            ],
-            "debug" => [
-                "title" => __("Enable DEBUG", "payselection"),
-                "type" => "checkbox",
-                "label" => __("Enable DEBUG", "payselection"),
-                "default" => "no",
             ],
         ];
     }
@@ -180,12 +219,11 @@ class Gateway extends \WC_Payment_Gateway
         }
 
         // Redirect payment
-        $api = new Api();
-        $response = $api->get_payment_link($order->getRequestData());
+        $response = $this->payselection->getPaymentLink($order->getRequestData());
 
         if (is_wp_error($response)) {
-            $api->debug(wc_print_r($order->getRequestData(), true));
-            $api->debug(wc_print_r($response, true));
+            $this->payselection->debug(wc_print_r($order->getRequestData(), true));
+            $this->payselection->debug(wc_print_r($response, true));
             wc_add_notice(__('Payselection error:', 'payselection') . " " . $response->get_error_message());
             return false;
         }
@@ -195,4 +233,34 @@ class Gateway extends \WC_Payment_Gateway
             'redirect' => $response
         );
     }
+    
+    public function update_order_status($order_id, $old_status, $new_status)
+    {
+        if ($old_status === 'on-hold') {
+            global $woocommerce;
+            $order = new Order($order_id);
+            if ($order->meta_exists('BlockTransactionId')) {
+                switch ($new_status)
+                {
+                    case "processing":
+                        $response = $this->payselection->charge($order->getChargeCancelData());
+                        break;
+
+                    default:
+                        $response = $this->payselection->cancel($order->getChargeCancelData());
+                        break;
+                }
+                $this->payselection->debug(wc_print_r($response, true));
+
+                if (is_wp_error($response)) {
+                    $this->payselection->debug(wc_print_r($order->getChargeCancelData(), true));
+                    $this->payselection->debug(wc_print_r($response, true));
+                    return false;
+                }
+                
+                return true;
+            }
+        }
+    }
+    
 }

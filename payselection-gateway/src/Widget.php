@@ -63,8 +63,6 @@ class Widget
         // Get order data
         $data = $order->getRequestData();
 
-        // var_dump(json_encode($data, JSON_UNESCAPED_UNICODE));
-
         return "
             document.addEventListener('DOMContentLoaded', () => {
                 const data = " .
@@ -77,6 +75,9 @@ class Widget
                 }, data, {
                     onSuccess: () => {
                         window.location.href = '" . $data["PaymentRequest"]["ExtraData"]["SuccessUrl"] . "';
+                    },
+                    onError: () => {
+                        // window.location.href = '" . $data["PaymentRequest"]["ExtraData"]["CancelUrl"] . "';
                     },
                     onClose: () => {
                         window.location.href = '" . $data["PaymentRequest"]["ExtraData"]["CancelUrl"] . "';

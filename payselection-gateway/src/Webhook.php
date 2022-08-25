@@ -15,6 +15,9 @@ class Webhook extends Api
         $request = file_get_contents('php://input');
         $headers = getallheaders();
 
+        $this->debug(wc_print_r($request, true));
+        $this->debug(wc_print_r($headers, true));
+
         if (
             empty($request) ||
             empty($headers['X-SITE-ID']) ||
@@ -33,17 +36,28 @@ class Webhook extends Api
 
         if (!$request)
             wp_die('Can\'t decode JSON', 'payselection', array('response' => 403));
-            
-        $order_id = (int) $request['OrderId'];
+        
+        $requestOrder = explode('-', $request['OrderId']);
+
+        if (count($requestOrder) !== 3)
+            wp_die('Order id error', 'payselection', array('response' => 404));
+
+        $order_id = (int) $requestOrder[0];
         $order = new \WC_Order($order_id);
 
         if (empty($order))
             wp_die('Order not found', 'payselection', array('response' => 404));
 
+        if ($request['Event'] === 'Fail' || $request['Event'] === 'Payment') {
+            $order->add_order_note(sprintf("Payselection Webhook:\nEvent: %s\nOrderId: %s\nTransaction: %s", $request['Event'], esc_sql($request['OrderId']), esc_sql($request['TransactionId'])));
+        }
+
         switch ($request['Event'])
         {
             case 'Payment':
-                self::payment($order, 'completed', $request['TransactionId']);
+                $order->add_order_note(sprintf('Payment approved (ID: %s)', esc_sql($request['TransactionId'])));
+                $order->update_meta_data('TransactionId', esc_sql($request['TransactionId']));
+                self::payment($order, 'completed');
                 break;
 
             case 'Fail':
@@ -51,10 +65,14 @@ class Webhook extends Api
                 break;
 
             case 'Block':
+                $order->update_meta_data('BlockTransactionId', esc_sql($request['TransactionId']));
                 self::payment($order, 'hold');
                 break;
 
             case 'Refund':
+                self::payment($order, 'refund');
+                break;
+
             case 'Cancel':
                 self::payment($order, 'cancel');
                 break;
@@ -65,9 +83,9 @@ class Webhook extends Api
         }
     }
 
-    private static function payment($order, $status = 'completed', $transaction = false)
+    private static function payment($order, $status = 'completed')
     {
-        if ('completed' == $order->get_status()) {
+        if ('completed' == $order->get_status() && $status !== 'refund') {
             wp_die('Ok', 'payselection', array('response' => 200));
         }
 
@@ -75,19 +93,19 @@ class Webhook extends Api
         {
             case 'completed':
                 $order->payment_complete();
-                $order->add_order_note(sprintf('Payment approved (ID: %s)', $transaction));
                 break;
 
             case 'hold':
-                $order->update_status('wc-on-hold');
+                $order->update_status('on-hold');
                 break;
 
             case 'cancel':
-                $order->update_status('wc-cancelled');
+            case 'refund':
+                $order->update_status('cancelled');
                 break;
 
             default:
-                $order->update_status('wc-pending');
+                $order->update_status('pending');
                 break;
         }        
         

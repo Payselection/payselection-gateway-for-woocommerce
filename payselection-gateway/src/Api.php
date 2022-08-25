@@ -54,9 +54,6 @@ class Api
         $this->debug(wc_print_r($params, true));
 
         $response = $method === 'POST' ? wp_remote_post($url, $params) : wp_remote_get($url, $params);
-        
-        // Debug response
-        $this->debug(wc_print_r($response, true));
 
         if (is_wp_error($response)) {
             return $response;
@@ -108,14 +105,36 @@ class Api
     }
     
     /**
-     * get_payment_link Get payment link
+     * getPaymentLink Get payment link
      *
      * @param  array $data - Request params
      * @return WP_Error|string
      */
-    public function get_payment_link(array $data = [])
+    public function getPaymentLink(array $data = [])
     {
         $host = $this->options->create_host ?: $this->options->host;
         return $this->request($host, 'webpayments/create', $data, 'POST');
+    }
+    
+    /**
+     * charge Charge payment
+     *
+     * @param  array $data - Request params
+     * @return WP_Error|string
+     */
+    public function charge(array $data = [])
+    {
+        return $this->request($this->options->host, 'payments/charge', $data, 'POST');
+    }
+    
+    /**
+     * cancel Cancel payment
+     *
+     * @param  array $data - Request params
+     * @return WP_Error|string
+     */
+    public function cancel(array $data = [])
+    {
+        return $this->request($this->options->host, 'payments/cancellation', $data, 'POST');
     }
 }
