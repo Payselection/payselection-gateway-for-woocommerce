@@ -77,7 +77,7 @@ class Widget
                         window.location.href = '" . $data["PaymentRequest"]["ExtraData"]["SuccessUrl"] . "';
                     },
                     onError: () => {
-                        // window.location.href = '" . $data["PaymentRequest"]["ExtraData"]["CancelUrl"] . "';
+                        window.location.href = '" . $data["PaymentRequest"]["ExtraData"]["CancelUrl"] . "';
                     },
                     onClose: () => {
                         window.location.href = '" . $data["PaymentRequest"]["ExtraData"]["CancelUrl"] . "';
