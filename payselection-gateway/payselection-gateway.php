@@ -38,3 +38,8 @@ spl_autoload_register(function ($class) {
 
 // Run
 new Plugin();
+ 
+// Load language
+add_action('plugins_loaded', function() {
+    load_plugin_textdomain('payselection', false, dirname(plugin_basename(__FILE__)) . '/languages'); 
+});
