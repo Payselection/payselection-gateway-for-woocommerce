@@ -233,7 +233,15 @@ class Gateway extends \WC_Payment_Gateway
             'redirect' => $response
         );
     }
-    
+        
+    /**
+     * update_order_status Update order action
+     *
+     * @param  mixed $order_id
+     * @param  mixed $old_status
+     * @param  mixed $new_status
+     * @return void
+     */
     public function update_order_status($order_id, $old_status, $new_status)
     {
         if ($old_status === 'on-hold') {

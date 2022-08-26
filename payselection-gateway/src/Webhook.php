@@ -9,7 +9,12 @@ class Webhook extends Api
     public function __construct() {
         parent::__construct();
     }
-
+    
+    /**
+     * handle Webhook handler
+     *
+     * @return void
+     */
     public function handle()
     {
         $request = file_get_contents('php://input');
@@ -82,7 +87,14 @@ class Webhook extends Api
                 break;
         }
     }
-
+    
+    /**
+     * payment Set order status
+     *
+     * @param  mixed $order
+     * @param  mixed $status
+     * @return void
+     */
     private static function payment($order, $status = 'completed')
     {
         if ('completed' == $order->get_status() && $status !== 'refund') {

@@ -5,7 +5,12 @@ namespace Payselection;
 class Order extends \WC_Order
 {
     use Traits\Options;
-
+    
+    /**
+     * getRequestData Create order data for Payselection
+     *
+     * @return void
+     */
     public function getRequestData()
     {
         // Get plugin options
@@ -56,7 +61,13 @@ class Order extends \WC_Order
 
         return $data;
     }
-
+    
+    /**
+     * getReceiptData Create receipt data
+     *
+     * @param  mixed $options
+     * @return void
+     */
     public function getReceiptData(object $options)
     {
         $items = [];
@@ -109,7 +120,12 @@ class Order extends \WC_Order
             'total' => number_format($this->get_total(), 2, ".", ""),
         ];
     }
-
+    
+    /**
+     * getChargeCancelData Create data for Charge or Cancel
+     *
+     * @return void
+     */
     public function getChargeCancelData()
     {
         return [
