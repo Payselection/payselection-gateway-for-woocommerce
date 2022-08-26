@@ -2,7 +2,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "POT-Creation-Date: 2022-08-26 11:14+0400\n"
-"PO-Revision-Date: 2022-08-26 11:30+0400\n"
+"PO-Revision-Date: 2022-08-26 11:54+0400\n"
 "Last-Translator: \n"
 "Language-Team: \n"
 "Language: ru\n"
@@ -38,7 +38,7 @@ msgstr "Виджет/Редирект"
 
 #: src/Gateway.php:51
 msgid "Redirect to Payselection"
-msgstr "Редирект на Payselection"
+msgstr "Редирект в Payselection"
 
 #: src/Gateway.php:55
 msgid "Payment type"
