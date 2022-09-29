@@ -26,7 +26,7 @@ class Widget
             exit;
         }
 
-        if ('completed' == $order->get_status() && $status !== 'refund') {
+        if ('pending' != $order->get_status()) {
             wp_redirect($order->get_checkout_order_received_url());
             exit;
         }
