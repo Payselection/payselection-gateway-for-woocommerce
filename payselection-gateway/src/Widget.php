@@ -15,6 +15,22 @@ class Widget
      */
     public static function handle()
     {
+        // Parse order ID from request
+        $order_id = (int) $_REQUEST["order_id"];
+
+        // Retrive order
+        $order = new Order($order_id);
+
+        if (!$order) {
+            wp_redirect(home_url());
+            exit;
+        }
+
+        if ('completed' == $order->get_status() && $status !== 'refund') {
+            wp_redirect($order->get_checkout_order_received_url());
+            exit;
+        }
+
         require PAYSELECTION_DIR . "templates/widget.php";
         die();
     }
