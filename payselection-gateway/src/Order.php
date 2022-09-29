@@ -47,7 +47,7 @@ class Order extends \WC_Order
                 "Language" => !empty($options->language) ? $options->language : "en",
                 "Address" => $this->get_billing_address_1(),
                 "Town" => $this->get_billing_city(),
-                "Country" => $this->get_billing_country(),
+                // "Country" => $this->get_billing_country(),
                 "ZIP" => $this->get_billing_postcode(),
                 "FirstName" => $this->get_billing_first_name(),
                 "LastName" => $this->get_billing_last_name(),
