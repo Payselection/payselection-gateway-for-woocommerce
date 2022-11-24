@@ -47,11 +47,8 @@ class Order extends \WC_Order
                 "Language" => !empty($options->language) ? $options->language : "en",
                 "Address" => $this->get_billing_address_1(),
                 "Town" => $this->get_billing_city(),
-                // "Country" => $this->get_billing_country(),
+                //"Country" => $this->get_billing_country(),
                 "ZIP" => $this->get_billing_postcode(),
-                "FirstName" => $this->get_billing_first_name(),
-                "LastName" => $this->get_billing_last_name(),
-                "IP" => \WC_Geolocation::get_ip_address(),
             ],
         ];
 
@@ -76,25 +73,29 @@ class Order extends \WC_Order
         foreach ($cart as $item_data) {
             $product = $item_data->get_product();
             $items[] = [
-                'name'      => mb_substr($product->get_name(), 0, 120),
-                'sum'       => number_format(floatval($item_data->get_total()), 2, '.', ''),
-                'price'     => number_format($product->get_price(), 2, '.', ''),
-                'quantity'  => $item_data->get_quantity(),
-                'vat'       => [
-                    'type'      => $options->company_vat,
-                ]
+                'name'           => mb_substr($product->get_name(), 0, 120),
+                'sum'            => (float) number_format(floatval($item_data->get_total()), 2, '.', ''),
+                'price'          => (float) number_format($product->get_price(), 2, '.', ''),
+                'quantity'       => (int) $item_data->get_quantity(),
+                'payment_method' => 'full_prepayment',
+                'payment_object' => 'commodity',
+                'vat'            => [
+                    'type'          => $options->company_vat,
+                ] 
             ];
         }
         
         if ($this->get_total_shipping()) {
 			$items[] = [
-                'name'      => __('Shipping', 'payselection'),
-                'sum'       => number_format($this->get_total_shipping(), 2, '.', ''),
-                'price'     => number_format($this->get_total_shipping(), 2, '.', ''),
-                'quantity'  => 1,
-                'vat'       => [
-                    'type'      => $options->company_vat,
-                ]
+                'name'           => __('Shipping', 'payselection'),
+                'sum'            => (float) number_format($this->get_total_shipping(), 2, '.', ''),
+                'price'          => (float) number_format($this->get_total_shipping(), 2, '.', ''),
+                'quantity'       => 1,
+                'payment_method' => 'full_prepayment',
+                'payment_object' => 'commodity',
+                'vat'            => [
+                    'type'          => $options->company_vat,
+                ]  
             ];
         }
 
@@ -112,12 +113,14 @@ class Order extends \WC_Order
                     'payment_address' => $options->company_address,
                 ],
                 'items' => $items,
+                'payments' => [
+                    [
+                        'type' => 1,
+                        'sum' => (float) number_format($this->get_total(), 2, '.', ''),
+                    ]
+                ],
+                'total' => (float) number_format($this->get_total(), 2, '.', ''),
             ],
-            'payments' => [
-                'type' => 1,
-                'sum' => number_format($this->get_total(), 2, ".", ""),
-            ],
-            'total' => number_format($this->get_total(), 2, ".", ""),
         ];
     }
     

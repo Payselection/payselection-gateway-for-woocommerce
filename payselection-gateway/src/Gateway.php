@@ -76,7 +76,7 @@ class Gateway extends \WC_Payment_Gateway
             "create_host" => [
                 "title" => __("Create Payment host", "payselection"),
                 "type" => "text",
-                "description" => __("Leave blank if you dont know what you do", "payselection"),
+                "description" => __("Create Payment hostname", "payselection"),
                 "default" => "https://webform.payselection.com",
                 "desc_tip" => true,
             ],

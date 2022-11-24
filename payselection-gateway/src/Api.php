@@ -112,8 +112,7 @@ class Api
      */
     public function getPaymentLink(array $data = [])
     {
-        $host = $this->options->create_host ?: $this->options->host;
-        return $this->request($host, 'webpayments/create', $data, 'POST');
+        return $this->request($this->options->create_host, 'webpayments/create', $data, 'POST');
     }
     
     /**
