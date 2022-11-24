@@ -1,8 +1,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: \n"
-"POT-Creation-Date: 2022-08-26 11:14+0400\n"
-"PO-Revision-Date: 2022-09-21 00:31+0400\n"
+"POT-Creation-Date: 2022-11-24 13:44+0300\n"
+"PO-Revision-Date: 2022-11-24 13:44+0300\n"
 "Last-Translator: \n"
 "Language-Team: \n"
 "Language: ru\n"
@@ -69,8 +69,8 @@ msgid "Create Payment host"
 msgstr "Хост для создания платежа"
 
 #: src/Gateway.php:79
-msgid "Leave blank if you dont know what you do"
-msgstr "Оставьте пустым если вы не понимаете что делать"
+msgid "Create Payment hostname"
+msgstr "Имя хоста для создания платежа"
 
 #: src/Gateway.php:84
 msgid "Site ID"
@@ -225,6 +225,9 @@ msgstr ""
 msgid "Payselection error:"
 msgstr "Ошибка Payselection:"
 
-#: src/Order.php:80
+#: src/Order.php:90
 msgid "Shipping"
 msgstr "Доставка"
+
+#~ msgid "Leave blank if you dont know what you do"
+#~ msgstr "Оставьте пустым если вы не понимаете что делать"
