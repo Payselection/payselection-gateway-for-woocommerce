@@ -101,9 +101,9 @@ class Gateway extends \WC_Payment_Gateway
                 "desc_tip" => true,
             ],
             "widget_key" => [
-                "title" => __("Widget Key", "payselection"),
+                "title" => __("Public Key", "payselection"),
                 "type" => "text",
-                "description" => __("Your Widget Key on Payselection", "payselection"),
+                "description" => __("Your Public Key on Payselection", "payselection"),
                 "default" => "",
                 "desc_tip" => false,
             ],
@@ -205,8 +205,53 @@ class Gateway extends \WC_Payment_Gateway
             return false;
         }
 
+        if (empty($this->get_option('host'))) {
+            wc_add_notice(sprintf(__('Payselection settings error: %s is required.', 'payselection'), __('API host', 'payselection')));
+            return false;
+        }
+
+        if (empty($this->get_option('create_host'))) {
+            wc_add_notice(sprintf(__('Payselection settings error: %s is required.', 'payselection'), __('Create Payment host', 'payselection')));
+            return false;
+        }
+
+        if (empty($this->get_option('site_id'))) {
+            wc_add_notice(sprintf(__('Payselection settings error: %s is required.', 'payselection'), __('Site ID', 'payselection')));
+            return false;
+        }
+
+        if (empty($this->get_option('key'))) {
+            wc_add_notice(sprintf(__('Payselection settings error: %s is required.', 'payselection'), __('Secret Key', 'payselection')));
+            return false;
+        }
+
+        if ($this->get_option('receipt') === 'yes') {
+
+            if (empty($this->get_option('company_inn'))) {
+                wc_add_notice(sprintf(__('Payselection settings error: %s is required.', 'payselection'), __('INN organization', 'payselection')));
+                return false;
+            }
+
+            if (empty($this->get_option('company_address'))) {
+                wc_add_notice(sprintf(__('Payselection settings error: %s is required.', 'payselection'), __('Legal address', 'payselection')));
+                return false;
+            }
+
+        }
+
         // Widget payment
         if (empty($this->redirect) || $this->redirect !== 'yes')  {
+
+            if (empty($this->get_option('widget_url'))) {
+                wc_add_notice(sprintf(__('Payselection settings error: %s is required.', 'payselection'), __('Widget URL', 'payselection')));
+                return false;
+            }
+
+            if (empty($this->get_option('widget_key'))) {
+                wc_add_notice(sprintf(__('Payselection settings error: %s is required.', 'payselection'), __('Public Key', 'payselection')));
+                return false;
+            }
+
             $args = [
                 "paywidget" => 1,
                 "order_id" => $order_id

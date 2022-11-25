@@ -17,7 +17,7 @@ class Order extends \WC_Order
         $options = self::get_options();
 
         $successUrl = $this->get_checkout_order_received_url();
-        $cancelUrl = is_user_logged_in() ? $this->get_checkout_order_received_url() : $this->get_cancel_order_url();
+        $cancelUrl = esc_url(wc_get_checkout_url());
 
         // Redirect links
         $extraData = [

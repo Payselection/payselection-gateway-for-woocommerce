@@ -1,8 +1,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: \n"
-"POT-Creation-Date: 2022-11-24 13:44+0300\n"
-"PO-Revision-Date: 2022-11-24 13:44+0300\n"
+"POT-Creation-Date: 2022-11-25 17:29+0300\n"
+"PO-Revision-Date: 2022-11-25 17:30+0300\n"
 "Last-Translator: \n"
 "Language-Team: \n"
 "Language: ru\n"
@@ -56,7 +56,7 @@ msgstr "Блокировка"
 msgid "Webhook URL"
 msgstr "URL вебхука"
 
-#: src/Gateway.php:70
+#: src/Gateway.php:70 src/Gateway.php:209
 msgid "API host"
 msgstr "Хост API"
 
@@ -64,7 +64,7 @@ msgstr "Хост API"
 msgid "API hostname"
 msgstr "Имя хоста API"
 
-#: src/Gateway.php:77
+#: src/Gateway.php:77 src/Gateway.php:214
 msgid "Create Payment host"
 msgstr "Хост для создания платежа"
 
@@ -72,7 +72,7 @@ msgstr "Хост для создания платежа"
 msgid "Create Payment hostname"
 msgstr "Имя хоста для создания платежа"
 
-#: src/Gateway.php:84
+#: src/Gateway.php:84 src/Gateway.php:219
 msgid "Site ID"
 msgstr "ID сайта"
 
@@ -80,7 +80,7 @@ msgstr "ID сайта"
 msgid "Your site ID on Payselection"
 msgstr "Ваш ID сайта в Payselection"
 
-#: src/Gateway.php:91
+#: src/Gateway.php:91 src/Gateway.php:224
 msgid "Secret Key"
 msgstr "Секретный ключ"
 
@@ -88,17 +88,17 @@ msgstr "Секретный ключ"
 msgid "Your Key on Payselection"
 msgstr "Ваш ключ в Payselection"
 
-#: src/Gateway.php:98
+#: src/Gateway.php:98 src/Gateway.php:246
 msgid "Widget URL"
 msgstr "URL виджета"
 
-#: src/Gateway.php:104
-msgid "Widget Key"
-msgstr "Ключ виджета"
+#: src/Gateway.php:104 src/Gateway.php:251
+msgid "Public Key"
+msgstr "Открытый ключ"
 
 #: src/Gateway.php:106
-msgid "Your Widget Key on Payselection"
-msgstr "Ключ виджета в Payselection"
+msgid "Your Public Key on Payselection"
+msgstr "Ваш открытый ключ в Payselection"
 
 #: src/Gateway.php:111
 msgid "Widget language"
@@ -122,7 +122,7 @@ msgid ""
 "customer and to the revenue service via Payselection"
 msgstr "Если отмечено, то сформирует и отправит клиенту чек через Payselection"
 
-#: src/Gateway.php:126
+#: src/Gateway.php:126 src/Gateway.php:231
 msgid "INN organization"
 msgstr "ИНН организации"
 
@@ -130,7 +130,7 @@ msgstr "ИНН организации"
 msgid "Email organization"
 msgstr "Email организации"
 
-#: src/Gateway.php:138
+#: src/Gateway.php:138 src/Gateway.php:236
 msgid "Legal address"
 msgstr "Юридический адрес"
 
@@ -221,13 +221,26 @@ msgid ""
 msgstr ""
 "Для оплаты заказа, вы будете перенаправлены на страницу оплаты Payselection."
 
-#: src/Gateway.php:227
+#: src/Gateway.php:209 src/Gateway.php:214 src/Gateway.php:219
+#: src/Gateway.php:224 src/Gateway.php:231 src/Gateway.php:236
+#: src/Gateway.php:246 src/Gateway.php:251
+#, php-format
+msgid "Payselection settings error: %s is required."
+msgstr "Ошибка настроек Payselection: %s обязательное поле."
+
+#: src/Gateway.php:272
 msgid "Payselection error:"
 msgstr "Ошибка Payselection:"
 
 #: src/Order.php:90
 msgid "Shipping"
 msgstr "Доставка"
+
+#~ msgid "Widget Key"
+#~ msgstr "Ключ виджета"
+
+#~ msgid "Your Widget Key on Payselection"
+#~ msgstr "Ключ виджета в Payselection"
 
 #~ msgid "Leave blank if you dont know what you do"
 #~ msgstr "Оставьте пустым если вы не понимаете что делать"
