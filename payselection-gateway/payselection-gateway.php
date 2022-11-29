@@ -3,7 +3,7 @@
  * Plugin Name: Payselection Gateway for WooCommerce
  * Plugin URI: https://payselection.com/
  * Description: Payselection Gateway for WooCommerce
- * Version: 0.2.0
+ * Version: 0.3.0
  * License: GNU GPLv3
  * Text Domain: payselection
  * Domain Path: /languages
