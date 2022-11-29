@@ -13,6 +13,7 @@ use \Payselection\Plugin;
 
 defined('ABSPATH') or die('Ooops!');
 
+define('PAYSELECTION_VERSION', '0.3.0');
 define('PAYSELECTION_URL', plugin_dir_url(__FILE__));
 define('PAYSELECTION_DIR', plugin_dir_path(__FILE__));
 

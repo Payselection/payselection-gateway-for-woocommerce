@@ -26,6 +26,6 @@ class Plugin
     }
 
     public function enqueue_scripts() {
-        wp_enqueue_script("payselection-gateway-main", PAYSELECTION_URL . '/js/main.js', ['jquery'], time(), true);
+        wp_enqueue_script("payselection-gateway-main", PAYSELECTION_URL . '/js/main.js', ['jquery'], PAYSELECTION_VERSION, true);
     }
 }
