@@ -67,7 +67,7 @@ class Gateway extends \WC_Payment_Gateway
                 "custom_attributes" => ["readonly" => "readonly"],
             ],
             "host" => [
-                "title" => __("API host", "payselection"),
+                "title" => __("API host!", "payselection"),
                 "type" => "text",
                 "description" => __("API hostname", "payselection"),
                 "default" => "https://gw.payselection.com",
