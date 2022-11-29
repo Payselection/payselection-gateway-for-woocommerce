@@ -92,7 +92,9 @@ class Widget
                     onSuccess: () => {
                         window.location.href = '" . $data["PaymentRequest"]["ExtraData"]["SuccessUrl"] . "';
                     },
-                    onError: () => {
+                    onError: (res) => {
+                        localStorage.payselectionWidgetError = res;
+                        localStorage.payselectionWidgetUrl = window.location.href;
                         window.location.href = '" . $data["PaymentRequest"]["ExtraData"]["CancelUrl"] . "';
                     },
                     onClose: () => {
