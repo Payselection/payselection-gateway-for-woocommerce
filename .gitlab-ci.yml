@@ -9,7 +9,7 @@ variables:
 deploy:
   stage: update
   tags:
-    - dev-wp
+    - wp-dev-wordpress-payselection-gateway
   script:
   - sudo rsync --remove-source-files --delete -r ./ ${docs_dir}
   - sudo chown -R www-data:www-data ${docs_dir}
