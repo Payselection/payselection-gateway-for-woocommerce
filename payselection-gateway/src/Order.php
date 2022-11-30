@@ -42,15 +42,30 @@ class Order extends \WC_Order
                 "ExtraData" => $extraData,
             ],
             "CustomerInfo" => [
-                "Email" => $this->get_billing_email(),
-                "Phone" => $this->get_billing_phone(),
                 "Language" => !empty($options->language) ? $options->language : "en",
-                "Address" => $this->get_billing_address_1(),
-                "Town" => $this->get_billing_city(),
                 //"Country" => $this->get_billing_country(),
-                "ZIP" => $this->get_billing_postcode(),
             ],
         ];
+
+        if (!empty($billing_email = $this->get_billing_email())) {
+            $data['CustomerInfo']['Email'] = $billing_email;
+        }
+
+        if (!empty($billing_phone = $this->get_billing_phone())) {
+            $data['CustomerInfo']['Phone'] = $billing_phone;
+        }
+
+        if (!empty($billing_address = $this->get_billing_address_1())) {
+            $data['CustomerInfo']['Address'] = $billing_address;
+        }
+
+        if (!empty($billing_city = $this->get_billing_city())) {
+            $data['CustomerInfo']['Town'] = $billing_city;
+        }
+
+        if (!empty($billing_zip = $this->get_billing_postcode())) {
+            $data['CustomerInfo']['ZIP'] = $billing_zip;
+        }
 
         if ($options->receipt === 'yes') {
             $data['ReceiptData'] = $this->getReceiptData($options);
