@@ -32,7 +32,7 @@ class Api
 
         $requestID = self::guidv4();
 
-        $signBody = $method . PHP_EOL . "/" . $path . PHP_EOL . $this->options->site_id . PHP_EOL . $requestID . PHP_EOL . $bodyJSON;
+        $signBody = esc_html($method) . PHP_EOL . "/" . esc_html($path) . PHP_EOL . esc_html($this->options->site_id) . PHP_EOL . $requestID . PHP_EOL . $bodyJSON;
 
         $headers = [
             "X-SITE-ID" => $this->options->site_id,
@@ -68,7 +68,7 @@ class Api
             return $response["body"];
         }
 
-        return new \WP_Error("payselection", $response["body"]["Code"] . ($response["body"]["Description"] ? " " . $response["body"]["Description"] : ""));
+        return new \WP_Error("payselection-request-error", $response["body"]["Code"] . ($response["body"]["Description"] ? " " . $response["body"]["Description"] : ""));
     }
 
     /**

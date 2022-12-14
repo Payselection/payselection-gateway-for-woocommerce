@@ -31,7 +31,7 @@ class Widget
             exit;
         }
 
-        require PAYSELECTION_DIR . "templates/widget.php";
+        require PAYSELECTION_WOO_DIR . "templates/widget.php";
         die();
     }
 
@@ -86,19 +86,19 @@ class Widget
                 ";
                 const widget = new pw.PayWidget();
                 widget.pay({
-                    serviceId: '" . $options->site_id . "',
-                    key: '" . $options->widget_key . "'
+                    serviceId: '" . esc_attr($options->site_id) . "',
+                    key: '" . esc_attr($options->widget_key) . "'
                 }, data, {
                     onSuccess: () => {
-                        window.location.href = '" . $data["PaymentRequest"]["ExtraData"]["SuccessUrl"] . "';
+                        window.location.href = '" . esc_url($data["PaymentRequest"]["ExtraData"]["SuccessUrl"]) . "';
                     },
                     onError: (res) => {
-                        localStorage.payselectionWidgetError = res;
+                        localStorage.payselectionWidgetError = res.code;
                         localStorage.payselectionWidgetUrl = window.location.href;
-                        window.location.href = '" . $data["PaymentRequest"]["ExtraData"]["CancelUrl"] . "';
+                        window.location.href = '" . esc_url($data["PaymentRequest"]["ExtraData"]["CancelUrl"]) . "';
                     },
                     onClose: () => {
-                        window.location.href = '" . $data["PaymentRequest"]["ExtraData"]["CancelUrl"] . "';
+                        window.location.href = '" . esc_url($data["PaymentRequest"]["ExtraData"]["CancelUrl"]) . "';
                     }
                 });
             });

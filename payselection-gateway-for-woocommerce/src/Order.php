@@ -36,14 +36,13 @@ class Order extends \WC_Order
                 "OrderId" => implode("-",[$this->get_id(), $options->site_id, time()]),
                 "Amount" => number_format($this->get_total(), 2, ".", ""),
                 "Currency" => $this->get_currency(),
-                "Description" => "Order payment #" . $this->get_id(),
+                "Description" => esc_html__('Order payment #', 'payselection-gateway-for-woocommerce') . $this->get_id(),
                 "PaymentMethod" => "Card",
                 "RebillFlag" => !empty($options->rebill) ? !!$options->rebill : false,
                 "ExtraData" => $extraData,
             ],
             "CustomerInfo" => [
                 "Language" => !empty($options->language) ? $options->language : "en",
-                //"Country" => $this->get_billing_country(),
             ],
         ];
 
@@ -102,7 +101,7 @@ class Order extends \WC_Order
         
         if ($this->get_total_shipping()) {
 			$items[] = [
-                'name'           => __('Shipping', 'payselection-gateway-for-woocommerce'),
+                'name'           => esc_html__('Shipping', 'payselection-gateway-for-woocommerce'),
                 'sum'            => (float) number_format($this->get_total_shipping(), 2, '.', ''),
                 'price'          => (float) number_format($this->get_total_shipping(), 2, '.', ''),
                 'quantity'       => 1,

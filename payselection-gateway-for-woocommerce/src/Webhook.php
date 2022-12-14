@@ -29,39 +29,39 @@ class Webhook extends Api
             $this->options->site_id != $headers['X-SITE-ID'] ||
             empty($headers['X-WEBHOOK-SIGNATURE'])
         )
-            wp_die('Not found', 'payselection', array('response' => 404));
+            wp_die(esc_html__('Not found', 'payselection-gateway-for-woocommerce'), '', array('response' => 404));
         
         // Check signature
-        $signBody = $_SERVER['REQUEST_METHOD'] . PHP_EOL . home_url('/wc-api/wc_payselection_gateway_webhook') . PHP_EOL . $this->options->site_id . PHP_EOL . $request;
+        $signBody = esc_html($_SERVER['REQUEST_METHOD']) . PHP_EOL . esc_url(home_url('/wc-api/wc_payselection_gateway_webhook')) . PHP_EOL . esc_html($this->options->site_id) . PHP_EOL . $request;
 
         if ($headers['X-WEBHOOK-SIGNATURE'] !== self::getSignature($signBody, $this->options->key))
-            wp_die('Signature error', 'payselection', array('response' => 403));
+            wp_die(esc_html__('Signature error', 'payselection-gateway-for-woocommerce'), '', array('response' => 403));
 
         $request = json_decode($request, true);
 
         if (!$request)
-            wp_die('Can\'t decode JSON', 'payselection', array('response' => 403));
+            wp_die(esc_html__('Can\'t decode JSON', 'payselection-gateway-for-woocommerce'), '', array('response' => 403));
         
         $requestOrder = explode('-', $request['OrderId']);
 
         if (count($requestOrder) !== 3)
-            wp_die('Order id error', 'payselection', array('response' => 404));
+            wp_die(esc_html__('Order id error', 'payselection-gateway-for-woocommerce'), '', array('response' => 404));
 
         $order_id = (int) $requestOrder[0];
         $order = new \WC_Order($order_id);
 
         if (empty($order))
-            wp_die('Order not found', 'payselection', array('response' => 404));
+            wp_die(esc_html__('Order not found', 'payselection-gateway-for-woocommerce'), '', array('response' => 404));
 
         if ($request['Event'] === 'Fail' || $request['Event'] === 'Payment') {
-            $order->add_order_note(sprintf("Payselection Webhook:\nEvent: %s\nOrderId: %s\nTransaction: %s", $request['Event'], esc_sql($request['OrderId']), esc_sql($request['TransactionId'])));
+            $order->add_order_note(sprintf(esc_html__("Payselection Webhook:\nEvent: %s\nOrderId: %s\nTransaction: %s", "payselection-gateway-for-woocommerce"), $request['Event'], esc_html($request['OrderId']), esc_html($request['TransactionId'])));
         }
 
         switch ($request['Event'])
         {
             case 'Payment':
-                $order->add_order_note(sprintf('Payment approved (ID: %s)', esc_sql($request['TransactionId'])));
-                $order->update_meta_data('TransactionId', esc_sql($request['TransactionId']));
+                $order->add_order_note(sprintf(esc_html__('Payment approved (ID: %s)', 'payselection-gateway-for-woocommerce'), esc_html($request['TransactionId'])));
+                $order->update_meta_data('TransactionId', sanitize_text_field($request['TransactionId']));
                 self::payment($order, 'completed');
                 break;
 
@@ -70,7 +70,7 @@ class Webhook extends Api
                 break;
 
             case 'Block':
-                $order->update_meta_data('BlockTransactionId', esc_sql($request['TransactionId']));
+                $order->update_meta_data('BlockTransactionId', sanitize_text_field($request['TransactionId']));
                 self::payment($order, 'hold');
                 break;
 
@@ -83,7 +83,7 @@ class Webhook extends Api
                 break;
 
             default:
-                wp_die('There is no handler for this event', 'payselection', array('response' => 404));
+                wp_die(esc_html__('There is no handler for this event', 'payselection-gateway-for-woocommerce'), '', array('response' => 404));
                 break;
         }
     }
@@ -98,7 +98,7 @@ class Webhook extends Api
     private static function payment($order, $status = 'completed')
     {
         if ('completed' == $order->get_status() && $status !== 'refund') {
-            wp_die('Ok', 'payselection', array('response' => 200));
+            wp_die(esc_html__('Ok', 'payselection-gateway-for-woocommerce'), '', array('response' => 200));
         }
 
         switch ($status)
@@ -121,6 +121,6 @@ class Webhook extends Api
                 break;
         }        
         
-        wp_die('Ok', 'payselection', array('response' => 200));
+        wp_die(esc_html__('Ok', 'payselection-gateway-for-woocommerce'), '', array('response' => 200));
     }
 }

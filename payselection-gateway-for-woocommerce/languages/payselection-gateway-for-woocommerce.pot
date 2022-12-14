@@ -1,264 +1,266 @@
+#, fuzzy
 msgid ""
 msgstr ""
-"Project-Id-Version: \n"
+"Project-Id-Version: Payselection Gateway for WooCommerce\n"
 "POT-Creation-Date: 2022-12-14 16:16+0300\n"
-"PO-Revision-Date: 2022-12-14 16:22+0300\n"
+"PO-Revision-Date: 2021-01-13 13:35+0300\n"
 "Last-Translator: \n"
 "Language-Team: \n"
-"Language: ru\n"
+"Language: en_US\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Plural-Forms: nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && n"
-"%10<=4 && (n%100<12 || n%100>14) ? 1 : 2);\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
 "X-Generator: Poedit 3.0.1\n"
 "X-Poedit-Basepath: ..\n"
-"X-Poedit-KeywordsList: __;_e;esc_html__;esc_attr__;esc_html_e;esc_attr_e\n"
+"X-Poedit-SourceCharset: UTF-8\n"
+"X-Poedit-KeywordsList: __;_e;_c;_n:1,2;_x:1,2c;_nc:1,2;_nx:1,2,4c;"
+"_n_noop:1,2;_nx_noop:1,2,3c;esc_attr__;esc_attr_e;esc_attr_x:1,2c;esc_html__;"
+"esc_html_e;esc_html_x:1,2c;__ngettext:1,2;__ngettext_noop:1,2\n"
 "X-Poedit-SearchPath-0: .\n"
 
 #: src/Gateway.php:15 templates/widget.php:9
 msgid "Payselection"
-msgstr "Payselection"
+msgstr ""
 
 #: src/Gateway.php:16 src/Gateway.php:180
 msgid "Pay via Payselection"
-msgstr "Оплатить через Payselection"
+msgstr ""
 
 #: src/Gateway.php:43
 msgid "Enable/Disable"
-msgstr "Включено/Выключено"
+msgstr ""
 
 #: src/Gateway.php:45
 msgid "Enable Payselection"
-msgstr "Включить Payselection"
+msgstr ""
 
 #: src/Gateway.php:49
 msgid "Widget/Redirect"
-msgstr "Виджет/Редирект"
+msgstr ""
 
 #: src/Gateway.php:51
 msgid "Redirect to Payselection"
-msgstr "Редирект в Payselection"
+msgstr ""
 
 #: src/Gateway.php:55
 msgid "Payment type"
-msgstr "Тип платежа"
+msgstr ""
 
 #: src/Gateway.php:59
 msgid "Pay"
-msgstr "Оплата"
+msgstr ""
 
 #: src/Gateway.php:60
 msgid "Block"
-msgstr "Блокировка"
+msgstr ""
 
 #: src/Gateway.php:64
 msgid "Webhook URL"
-msgstr "URL вебхука"
+msgstr ""
 
 #: src/Gateway.php:70 src/Gateway.php:209
 msgid "API host"
-msgstr "Хост API"
+msgstr ""
 
 #: src/Gateway.php:72
 msgid "API hostname"
-msgstr "Имя хоста API"
+msgstr ""
 
 #: src/Gateway.php:77 src/Gateway.php:214
 msgid "Create Payment host"
-msgstr "Хост для создания платежа"
+msgstr ""
 
 #: src/Gateway.php:79
 msgid "Create Payment hostname"
-msgstr "Имя хоста для создания платежа"
+msgstr ""
 
 #: src/Gateway.php:84 src/Gateway.php:219
 msgid "Site ID"
-msgstr "ID сайта"
+msgstr ""
 
 #: src/Gateway.php:86
 msgid "Your site ID on Payselection"
-msgstr "Ваш ID сайта в Payselection"
+msgstr ""
 
 #: src/Gateway.php:91 src/Gateway.php:224
 msgid "Secret Key"
-msgstr "Секретный ключ"
+msgstr ""
 
 #: src/Gateway.php:93
 msgid "Your Key on Payselection"
-msgstr "Ваш ключ в Payselection"
+msgstr ""
 
 #: src/Gateway.php:98 src/Gateway.php:246
 msgid "Widget URL"
-msgstr "URL виджета"
+msgstr ""
 
 #: src/Gateway.php:104 src/Gateway.php:251
 msgid "Public Key"
-msgstr "Открытый ключ"
+msgstr ""
 
 #: src/Gateway.php:106
 msgid "Your Public Key on Payselection"
-msgstr "Ваш открытый ключ в Payselection"
+msgstr ""
 
 #: src/Gateway.php:111
 msgid "Widget language"
-msgstr "Язык виджета"
+msgstr ""
 
 #: src/Gateway.php:115
 msgid "Russian"
-msgstr "Русский"
+msgstr ""
 
 #: src/Gateway.php:116
 msgid "English"
-msgstr "Английский"
+msgstr ""
 
 #: src/Gateway.php:120
 msgid "Fiscalization"
-msgstr "Печать чеков"
+msgstr ""
 
 #: src/Gateway.php:122
 msgid ""
 "If this option is enabled order receipts will be created and sent to your "
 "customer and to the revenue service via Payselection"
-msgstr "Если отмечено, то сформирует и отправит клиенту чек через Payselection"
+msgstr ""
 
 #: src/Gateway.php:126 src/Gateway.php:231
 msgid "INN organization"
-msgstr "ИНН организации"
+msgstr ""
 
 #: src/Gateway.php:132
 msgid "Email organization"
-msgstr "Email организации"
+msgstr ""
 
 #: src/Gateway.php:138 src/Gateway.php:236
 msgid "Legal address"
-msgstr "Юридический адрес"
+msgstr ""
 
 #: src/Gateway.php:144
 msgid "Taxation system"
-msgstr "Система налогообложения"
+msgstr ""
 
 #: src/Gateway.php:148
 msgid "General"
-msgstr "Общая"
+msgstr ""
 
 #: src/Gateway.php:149
 msgid "Simplified, income"
-msgstr "Упрощённая, доход"
+msgstr ""
 
 #: src/Gateway.php:150
 msgid "Simplified, income minus expences"
-msgstr "Упрощённая, доход минус расход"
+msgstr ""
 
 #: src/Gateway.php:151
 msgid "Unified tax on imputed income"
-msgstr "Единый налог на вменённый доход"
+msgstr ""
 
 #: src/Gateway.php:152
 msgid "Unified agricultural tax"
-msgstr "Единый сельскохозяйственный налог"
+msgstr ""
 
 #: src/Gateway.php:153
 msgid "Patent taxation system"
-msgstr "Патентная система налогообложения"
+msgstr ""
 
 #: src/Gateway.php:157
 msgid "Item-dependent tax (VAT)"
-msgstr "НДС"
+msgstr ""
 
 #: src/Gateway.php:159
 msgid "Be sure to specify if you use receipt printing through Payselection"
-msgstr "Обязательно укажите, если используете печать чеков через Payselection"
+msgstr ""
 
 #: src/Gateway.php:162
 msgid "Tax excluded"
-msgstr "Без НДС"
+msgstr ""
 
 #: src/Gateway.php:163
 msgid "VAT at 0%"
-msgstr "НДС по ставке 0%"
+msgstr ""
 
 #: src/Gateway.php:164
 msgid "VAT receipt at rate 10%"
-msgstr "НДС чека по ставке 10%"
+msgstr ""
 
 #: src/Gateway.php:165
 msgid "VAT receipt at rate 18%"
-msgstr "НДС чека по ставке 18%"
+msgstr ""
 
 #: src/Gateway.php:166
 msgid "VAT check at the estimated rate 10/110"
-msgstr "НДС чека по расчетной ставке 10/110"
+msgstr ""
 
 #: src/Gateway.php:167
 msgid "VAT check at the estimated rate 18/118"
-msgstr "НДС чека по расчетной ставке 18/118"
+msgstr ""
 
 #: src/Gateway.php:171 src/Gateway.php:173
 msgid "Enable DEBUG"
-msgstr "Включить отладку"
+msgstr ""
 
 #: src/Gateway.php:177
 msgid "Title"
-msgstr "Заголовок"
+msgstr ""
 
 #: src/Gateway.php:179
 msgid "This controls the title which the user sees during checkout."
-msgstr "Заголовок который увидят пользователи в корзине."
+msgstr ""
 
 #: src/Gateway.php:184
 msgid "Description"
-msgstr "Описание"
+msgstr ""
 
 #: src/Gateway.php:186
 msgid "Payment method description that the customer will see on your checkout."
-msgstr "Описание шлюза которое увидят пользователи в корзине."
+msgstr ""
 
 #: src/Gateway.php:187
 msgid ""
 "To pay for the order, you will be redirected to the Payselection service "
 "page."
 msgstr ""
-"Для оплаты заказа, вы будете перенаправлены на страницу оплаты Payselection."
 
 #: src/Gateway.php:209 src/Gateway.php:214 src/Gateway.php:219
 #: src/Gateway.php:224 src/Gateway.php:231 src/Gateway.php:236
 #: src/Gateway.php:246 src/Gateway.php:251
 #, php-format
 msgid "Payselection settings error: %s is required."
-msgstr "Ошибка настроек Payselection: %s обязательное поле."
+msgstr ""
 
 #: src/Gateway.php:272
 msgid "Payselection error:"
-msgstr "Ошибка Payselection:"
+msgstr ""
 
 #: src/Order.php:39
 msgid "Order payment #"
-msgstr "Оплата заказа #"
+msgstr ""
 
 #: src/Order.php:104
 msgid "Shipping"
-msgstr "Доставка"
+msgstr ""
 
 #: src/Webhook.php:32
 msgid "Not found"
-msgstr "Не найдено"
+msgstr ""
 
 #: src/Webhook.php:38
 msgid "Signature error"
-msgstr "Ошибка сигнатуры"
+msgstr ""
 
 #: src/Webhook.php:43
 msgid "Can't decode JSON"
-msgstr "Не возможно декодировать JSON"
+msgstr ""
 
 #: src/Webhook.php:48
 msgid "Order id error"
-msgstr "Ошибка id заказа"
+msgstr ""
 
 #: src/Webhook.php:54
 msgid "Order not found"
-msgstr "Заказ не найден"
+msgstr ""
 
 #: src/Webhook.php:57
 #, php-format
@@ -268,29 +270,16 @@ msgid ""
 "OrderId: %s\n"
 "Transaction: %s"
 msgstr ""
-"Payselection Webhook:\n"
-"Событие: %s\n"
-"Ордер: %s\n"
-"Транзакция: %s"
 
 #: src/Webhook.php:63
 #, php-format
 msgid "Payment approved (ID: %s)"
-msgstr "Платёж одобрен (ID: %s)"
+msgstr ""
 
 #: src/Webhook.php:86
 msgid "There is no handler for this event"
-msgstr "Нет обработчика для данного события"
+msgstr ""
 
 #: src/Webhook.php:101 src/Webhook.php:124
 msgid "Ok"
-msgstr "Хорошо"
-
-#~ msgid "Widget Key"
-#~ msgstr "Ключ виджета"
-
-#~ msgid "Your Widget Key on Payselection"
-#~ msgstr "Ключ виджета в Payselection"
-
-#~ msgid "Leave blank if you dont know what you do"
-#~ msgstr "Оставьте пустым если вы не понимаете что делать"
+msgstr ""

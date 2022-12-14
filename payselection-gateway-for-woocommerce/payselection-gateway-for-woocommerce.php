@@ -13,15 +13,15 @@ use \Payselection\Plugin;
 
 defined('ABSPATH') or die('Ooops!');
 
-define('PAYSELECTION_VERSION', '1.0.0');
-define('PAYSELECTION_URL', plugin_dir_url(__FILE__));
-define('PAYSELECTION_DIR', plugin_dir_path(__FILE__));
+define('PAYSELECTION_WOO_VERSION', '1.0.0');
+define('PAYSELECTION_WOO_URL', plugin_dir_url(__FILE__));
+define('PAYSELECTION_WOO_DIR', plugin_dir_path(__FILE__));
 
 // Autoloader
 spl_autoload_register(function ($class) {
     $prefix = 'Payselection\\';
 
-    $base_dir = PAYSELECTION_DIR. 'src/';
+    $base_dir = PAYSELECTION_WOO_DIR. 'src/';
 
     $len = strlen($prefix);
     if (strncmp($prefix, $class, $len) !== 0) {
