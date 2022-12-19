@@ -32,7 +32,8 @@ class Webhook extends Api
             wp_die(esc_html__('Not found', 'payselection-gateway-for-woocommerce'), '', array('response' => 404));
         
         // Check signature
-        $signBody = esc_html($_SERVER['REQUEST_METHOD']) . PHP_EOL . esc_url(home_url('/wc-api/wc_payselection_gateway_webhook')) . PHP_EOL . esc_html($this->options->site_id) . PHP_EOL . $request;
+        $request_method = isset($_SERVER['REQUEST_METHOD']) ? sanitize_text_field(wp_unslash($_SERVER['REQUEST_METHOD'])) : '';
+        $signBody = $request_method . PHP_EOL . home_url('/wc-api/wc_payselection_gateway_webhook') . PHP_EOL . $this->options->site_id . PHP_EOL . $request;
 
         if ($headers['X-WEBHOOK-SIGNATURE'] !== self::getSignature($signBody, $this->options->key))
             wp_die(esc_html__('Signature error', 'payselection-gateway-for-woocommerce'), '', array('response' => 403));

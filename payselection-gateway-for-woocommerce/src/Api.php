@@ -32,7 +32,7 @@ class Api
 
         $requestID = self::guidv4();
 
-        $signBody = esc_html($method) . PHP_EOL . "/" . esc_html($path) . PHP_EOL . esc_html($this->options->site_id) . PHP_EOL . $requestID . PHP_EOL . $bodyJSON;
+        $signBody = $method . PHP_EOL . "/" . $path . PHP_EOL . $this->options->site_id . PHP_EOL . $requestID . PHP_EOL . $bodyJSON;
 
         $headers = [
             "X-SITE-ID" => $this->options->site_id,
