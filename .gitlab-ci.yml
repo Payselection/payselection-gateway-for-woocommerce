@@ -1,16 +1,13 @@
-# For more information, see: https://docs.gitlab.com/ee/ci/yaml/index.html#stages
-
-stages:          # List of stages for jobs, and their order of execution
+stages:
   - update
-
-variables:
-  docs_dir: /var/www/html/wp-app/wp-content/plugins
 
 deploy:
   stage: update
+  only: 
+    - staging
   tags:
-    - wp-dev-wordpress-payselection-gateway
+    - wp-staging
   script:
-  - sudo rsync --remove-source-files -r ./ ${docs_dir}
-  - sudo chown -R www-data:www-data ${docs_dir}
-  - sudo rm -rf ${docs_dir}/.git
+    - sudo rsync --remove-source-files -r ./payselection-gateway-for-woocommerce /wordpess-plugin/test
+    # - sudo chown -R www-data:www-data ${docs_dir}
+    # - sudo rm -rf ${docs_dir}/.git
