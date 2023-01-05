@@ -8,6 +8,5 @@ deploy:
   tags:
     - wp-staging
   script:
-    - sudo rsync --remove-source-files -r ./payselection-gateway-for-woocommerce/ /wordpess-plugin/test
-    # - sudo chown -R www-data:www-data ${docs_dir}
-    # - sudo rm -rf ${docs_dir}/.git
+    - sudo rsync --remove-source-files -r ./payselection-gateway-for-woocommerce/ /wordpess-plugin/wp/wp-content/plugins/payselection-gateway-for-woocommerce
+    - sudo chown -R www-data:www-data /wordpess-plugin/wp/wp-content/plugins/payselection-gateway-for-woocommerce
