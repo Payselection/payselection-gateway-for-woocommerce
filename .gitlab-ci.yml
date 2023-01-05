@@ -1,12 +1,29 @@
+variables:
+  docs_dir: /var/www/html/wp-app/wp-content/plugins
+  repo_dir: ./payselection-gateway-for-woocommerce/
+  stage_dir: /wordpess-plugin/wp/wp-content/plugins/payselection-gateway-for-woocommerce
+
 stages:
   - update
 
-deploy:
+deploy-stage:
   stage: update
   only: 
     - staging
   tags:
     - wp-staging
   script:
-    - sudo rsync --remove-source-files -r ./payselection-gateway-for-woocommerce/ /wordpess-plugin/wp/wp-content/plugins/payselection-gateway-for-woocommerce
-    - sudo chown -R www-data:www-data /wordpess-plugin/wp/wp-content/plugins/payselection-gateway-for-woocommerce
+    - sudo rsync --remove-source-files -r ${repo_dir} ${stage_dir} 
+    - sudo chown -R www-data:www-data ${stage_dir}
+
+deploy-main:
+  stage: update
+  only: 
+    - master
+  tags:
+    - wp-dev-wordpress-payselection-gateway
+  script:
+  - sudo rsync --remove-source-files -r ./ ${docs_dir}
+  - sudo chown -R www-data:www-data ${docs_dir}
+  - sudo rm -rf ${docs_dir}/.git
+
