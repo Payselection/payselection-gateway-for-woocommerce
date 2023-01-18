@@ -66,7 +66,7 @@ class Webhook extends Api
         if (empty($order))
             wp_die(esc_html__('Order not found', 'payselection-gateway-for-woocommerce'), '', array('response' => 404));
 
-        if ($request['Event'] === 'Fail' || $request['Event'] === 'Payment') {
+        if ($request['Event'] === 'Fail' || $request['Event'] === 'Payment' || $request['Event'] === 'Refund') {
             $order->add_order_note(sprintf(esc_html__("Payselection Webhook:\nEvent: %s\nOrderId: %s\nTransaction: %s", "payselection-gateway-for-woocommerce"), $request['Event'], esc_html($request['OrderId']), esc_html($request['TransactionId'])));
         }
 
