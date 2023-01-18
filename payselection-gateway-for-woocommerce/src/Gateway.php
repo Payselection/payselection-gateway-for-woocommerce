@@ -322,18 +322,11 @@ class Gateway extends \WC_Payment_Gateway
     }
 
     public function process_refund($order_id, $amount = null, $reason = '') {
+
 		$order = wc_get_order($order_id);
 
-		if (!$order) {
-			return false;
-		}
-
-		$transaction_id = $order->get_meta_data('TransactionId', true);
-        $block_transaction_id = $order->get_meta_data('BlockTransactionId', true);
-
-		if ( ! $transaction_id ) {
-            $order->add_order_note(__('Refund is not possible, because there is not transaction id.', 'payselection-gateway-for-woocommerce'));
-			return false;
+		if (!$order || !empty($order->get_meta_data('TransactionId', true))) {
+            return new \WP_Error( 'payselection-refund-error', __( 'Refund failed.', 'woocommerce' ) );
 		}
 
 		$response = $this->payselection->refund($order->getRefundData($amount));
@@ -342,9 +335,7 @@ class Gateway extends \WC_Payment_Gateway
 
             $this->payselection->debug(wc_print_r($order->getRefundData($amount), true));
             $this->payselection->debug(wc_print_r($response, true));
-            wc_add_notice(esc_html__('Payselection error:', 'payselection-gateway-for-woocommerce') . " " . $response->get_error_message());
-            
-            return false;
+			return new \WP_Error('payselection-refund-error', $response->get_error_message());
 
         } elseif (!empty( $response['TransactionId'])) { 
 
@@ -356,6 +347,8 @@ class Gateway extends \WC_Payment_Gateway
 			return true;
 
 		}
+
+        return false;
 	}
     
 }
