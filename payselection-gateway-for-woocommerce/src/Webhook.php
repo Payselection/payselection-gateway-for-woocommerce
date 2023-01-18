@@ -99,6 +99,11 @@ class Webhook extends Api
                 wp_die(esc_html__('There is no handler for this event', 'payselection-gateway-for-woocommerce'), '', array('response' => 404));
                 break;
         }
+
+        // test
+        $order->add_order_note('Test transaction id = '.$order->get_meta_data('TransactionId', true));
+        $order->add_order_note('Test block transaction id = '.$order->get_meta_data('BlockTransactionId', true));
+        $order->add_order_note('Test refund id = '.$order->get_meta_data('RefundTransactionId', true));
     }
     
     /**
@@ -120,14 +125,18 @@ class Webhook extends Api
                 $order->payment_complete();
                 break;
 
+            case 'fail':
+                $order->update_status('failed');
+                break;
+
             case 'hold':
                 $order->update_status('on-hold');
                 break;
 
             case 'cancel':
             case 'refund':
-                $order->update_status('cancelled');
-                break;
+                //$order->update_status('cancelled');
+                //break;
 
             default:
                 $order->update_status('pending');

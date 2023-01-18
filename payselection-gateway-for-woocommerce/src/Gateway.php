@@ -15,6 +15,11 @@ class Gateway extends \WC_Payment_Gateway
         $this->method_title = esc_html__("Payselection", "payselection-gateway-for-woocommerce");
         $this->method_description = esc_html__("Pay via Payselection", "payselection-gateway-for-woocommerce");
 
+        $this->supports = [
+			'products',
+			'refunds',
+		];
+
         $this->init_form_fields();
         $this->init_settings();
 
@@ -315,5 +320,42 @@ class Gateway extends \WC_Payment_Gateway
             }
         }
     }
+
+    public function process_refund($order_id, $amount = null, $reason = '') {
+		$order = wc_get_order($order_id);
+
+		if (!$order) {
+			return false;
+		}
+
+		$transaction_id = $order->get_meta_data('TransactionId', true);
+        $block_transaction_id = $order->get_meta_data('BlockTransactionId', true);
+
+		if ( ! $transaction_id ) {
+            $order->add_order_note(__('Refund is not possible, because there is not transaction id.', 'payselection-gateway-for-woocommerce'));
+			return false;
+		}
+
+		$response = $this->payselection->refund($order->getRefundData($amount));
+
+        if (is_wp_error($response)) {
+
+            $this->payselection->debug(wc_print_r($order->getRefundData($amount), true));
+            $this->payselection->debug(wc_print_r($response, true));
+            wc_add_notice(esc_html__('Payselection error:', 'payselection-gateway-for-woocommerce') . " " . $response->get_error_message());
+            
+            return false;
+
+        } elseif (!empty( $response['TransactionId'])) { 
+
+			$formatted_amount = wc_price( $response['Amount'] );
+			$order->update_meta_data( 'RefundTransactionId', sanitize_text_field($response['TransactionId']) );
+			$refund_message = sprintf( __( 'Refunded %1$s - Refund ID: %2$s - Reason: %3$s', 'payselection-gateway-for-woocommerce' ), $formatted_amount, $response['TransactionId'], $reason );
+			$order->add_order_note( $refund_message );
+
+			return true;
+
+		}
+	}
     
 }

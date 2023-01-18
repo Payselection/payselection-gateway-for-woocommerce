@@ -136,4 +136,15 @@ class Api
     {
         return $this->request($this->options->host, 'payments/cancellation', $data, 'POST');
     }
+
+    /**
+     * refund Refund payment
+     *
+     * @param  array $data - Request params
+     * @return WP_Error|string
+     */
+    public function refund(array $data = [])
+    {
+        return $this->request($this->options->host, 'payments/refund', $data, 'POST');
+    }
 }

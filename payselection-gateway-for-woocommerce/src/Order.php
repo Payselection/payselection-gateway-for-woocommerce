@@ -152,4 +152,19 @@ class Order extends \WC_Order
             "WebhookUrl"    => home_url('/wc-api/wc_payselection_gateway_webhook')
         ];
     }
+
+    /**
+     * getRefundData Create data for Refund
+     *
+     * @return void
+     */
+    public function getRefundData($amount)
+    {
+        return [
+            "TransactionId" => $this->get_meta('TransactionId'),
+            "Amount"        => number_format($amount, 2, ".", ""),
+            "Currency"      => $this->get_currency(),
+            "WebhookUrl"    => home_url('/wc-api/wc_payselection_gateway_webhook')
+        ];
+    }
 }
