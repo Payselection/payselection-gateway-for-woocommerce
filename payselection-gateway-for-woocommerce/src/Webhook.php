@@ -101,9 +101,9 @@ class Webhook extends Api
         }
 
         // test
-        $order->add_order_note('Test transaction id = '.$order->get_meta_data('TransactionId', true));
-        $order->add_order_note('Test block transaction id = '.$order->get_meta_data('BlockTransactionId', true));
-        $order->add_order_note('Test refund id = '.$order->get_meta_data('RefundTransactionId', true));
+        $order->add_order_note(sprintf(esc_html__('Test transaction ID: %s', 'payselection-gateway-for-woocommerce'), $order->get_meta_data('TransactionId', true)));
+        $order->add_order_note(sprintf(esc_html__('Test block transaction ID: %s', 'payselection-gateway-for-woocommerce'), $order->get_meta_data('BlockTransactionId', true)));
+        $order->add_order_note(sprintf(esc_html__('Test refund transaction ID: %s', 'payselection-gateway-for-woocommerce'), $order->get_meta_data('RefundTransactionId', true)));
     }
     
     /**
