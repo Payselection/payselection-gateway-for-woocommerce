@@ -331,6 +331,20 @@ class Gateway extends \WC_Payment_Gateway
 
 		$response = $this->payselection->refund($order->getRefundData($amount));
 
+
+
+        $file = get_template_directory() . '/payselection-errors2.txt'; 
+        $current = file_get_contents($file);
+        if (is_wp_error($response)) {
+            $current .= $response->get_error_message()."\n";
+        } else {
+            $current .= $response ."\n";
+        }
+        
+        $open = file_put_contents($file, $current);
+
+
+
         if (is_wp_error($response)) {
 
             $this->payselection->debug(wc_print_r($order->getRefundData($amount), true));
