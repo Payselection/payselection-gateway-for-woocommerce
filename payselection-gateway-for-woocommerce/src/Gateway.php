@@ -329,7 +329,50 @@ class Gateway extends \WC_Payment_Gateway
             return new \WP_Error( 'payselection-refund-error', __( 'Refund failed.', 'payselection-gateway-for-woocommerce' ) );
 		}
 
-        $result = $amount;
+        $items[] = [
+            'name'           => esc_html__('Refund', 'payselection-gateway-for-woocommerce'),
+            'sum'            => (float) number_format(floatval($amount), 2, '.', ''),
+            'price'          => (float) number_format($amount, 2, '.', ''),
+            'quantity'       => 1,
+            'payment_method' => 'full_prepayment',
+            'payment_object' => 'commodity',
+            'vat'            => [
+                'type'          => 'none',
+            ] 
+        ];
+
+        $data = [
+            "TransactionId" => $order->get_meta('TransactionId', true),
+            "Amount"        => number_format($amount, 2, ".", ""),
+            "Currency"      => $order->get_currency(),
+            "WebhookUrl"    => home_url('/wc-api/wc_payselection_gateway_webhook'),
+            "ReceiptData"   => [
+                'timestamp' => date('d.m.Y H:i:s'),
+                //'external_id' => (string) $order->get_id(),
+                'external_id' => implode('-',[$order->get_id(), time()]),
+                'receipt' => [
+                    'client' => [
+                        'email' => $order->get_billing_email(),
+                    ],
+                    'company' => [
+                        'email' => 'none',
+                        'inn' => 'none',
+                        'sno' => 'none',
+                        'payment_address' => 'none',
+                    ],
+                    'items' => $items,
+                    'payments' => [
+                        [
+                            'type' => 1,
+                            'sum' => (float) number_format($amount, 2, '.', ''),
+                        ]
+                    ],
+                    'total' => (float) number_format($amount, 2, '.', ''),
+                ],
+            ]
+        ];
+
+		$result = $this->payselection->refund($data);
 
 
         $file = get_template_directory() . '/payselection-errors2.txt'; 
@@ -341,21 +384,6 @@ class Gateway extends \WC_Payment_Gateway
         }
         
         $open = file_put_contents($file, $current);
-
-        return false;
-
-		// $result = $this->payselection->refund($order->getRefundData($amount));
-
-
-        // $file = get_template_directory() . '/payselection-errors2.txt'; 
-        // $current = file_get_contents($file);
-        // if (is_wp_error($result)) {
-        //     $current .= $result->get_error_message()."\n";
-        // } else {
-        //     $current .= $result ."\n";
-        // }
-        
-        // $open = file_put_contents($file, $current);
 
         if (is_wp_error($result)) {
 
