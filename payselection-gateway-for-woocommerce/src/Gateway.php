@@ -378,9 +378,9 @@ class Gateway extends \WC_Payment_Gateway
         $file = get_template_directory() . '/payselection-errors2.txt'; 
         $current = file_get_contents($file);
         if (is_wp_error($result)) {
-            $current .= $result->get_error_message()."\n";
+            $current .= 'is error'.$result->get_error_message()."\n";
         } else {
-            $current .= $result ."\n";
+            $current .= 'is not error'.gettype($result) ."\n";
         }
         
         $open = file_put_contents($file, $current);
