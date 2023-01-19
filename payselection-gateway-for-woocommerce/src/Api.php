@@ -58,7 +58,7 @@ class Api
 
         // Debug response
         $this->debug(esc_html__('Operation response', 'payselection-gateway-for-woocommerce'));
-        $this->debug(wc_print_r($response["response"]["code"], true));
+        $this->debug(wc_print_r($response, true));
 
         if (is_wp_error($response)) {
             return $response;
