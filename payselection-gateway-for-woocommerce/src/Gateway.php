@@ -392,6 +392,7 @@ class Gateway extends \WC_Payment_Gateway
 			return new \WP_Error('payselection-refund-error', $result->get_error_message());
 
         } elseif (!empty( $result['TransactionId'])) { 
+            return false;
 
 			$formatted_amount = wc_price( $result['Amount'] );
 			$order->update_meta_data( 'RefundTransactionId', sanitize_text_field($result['TransactionId']) );
