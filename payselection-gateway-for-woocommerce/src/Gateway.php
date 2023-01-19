@@ -329,7 +329,7 @@ class Gateway extends \WC_Payment_Gateway
             return new \WP_Error( 'payselection-refund-error', __( 'Refund failed.', 'payselection-gateway-for-woocommerce' ) );
 		}
 
-        $result = $order->getRefundData($amount);
+        $result = $amount;
 
 
         $file = get_template_directory() . '/payselection-errors2.txt'; 
