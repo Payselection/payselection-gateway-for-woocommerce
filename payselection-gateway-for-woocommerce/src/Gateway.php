@@ -378,22 +378,23 @@ class Gateway extends \WC_Payment_Gateway
         $file = get_template_directory() . '/payselection-errors2.txt'; 
         $current = file_get_contents($file);
         if (is_wp_error($result)) {
-            $current .= 'is error'.$result->get_error_code()."\n";
+            $current .= 'is error: '.$result->get_error_code()."\n";
         } else {
-            $current .= 'is not error'.gettype($result) ."\n";
+            $current .= 'is not error: '.gettype($result) ."\n";
         }
         
         $open = file_put_contents($file, $current);
 
         if (is_wp_error($result)) {
 
+            return false;
+
             $this->payselection->debug(wc_print_r($order->getRefundData($amount), true));
             $this->payselection->debug(wc_print_r($result, true));
 			return new \WP_Error('payselection-refund-error', $result->get_error_code());
 
         } elseif (!empty( $result['TransactionId'])) { 
-            return false;
-
+            
 			$formatted_amount = wc_price( $result['Amount'] );
 			$order->update_meta_data( 'RefundTransactionId', sanitize_text_field($result['TransactionId']) );
 			$refund_message = sprintf( __( 'Refunded %1$s - Refund ID: %2$s - Reason: %3$s', 'payselection-gateway-for-woocommerce' ), $formatted_amount, $result['TransactionId'], $reason );
