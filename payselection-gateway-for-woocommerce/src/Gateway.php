@@ -272,6 +272,7 @@ class Gateway extends \WC_Payment_Gateway
         $response = $this->payselection->getPaymentLink($order->getRequestData());
 
         if (is_wp_error($response)) {
+            $this->payselection->debug(esc_html__('Payment Link request', 'payselection-gateway-for-woocommerce'));
             $this->payselection->debug(wc_print_r($order->getRequestData(), true));
             $this->payselection->debug(wc_print_r($response, true));
             wc_add_notice(esc_html__('Payselection error:', 'payselection-gateway-for-woocommerce') . " " . $response->get_error_message());
@@ -308,9 +309,11 @@ class Gateway extends \WC_Payment_Gateway
                         $response = $this->payselection->cancel($order->getChargeCancelData());
                         break;
                 }
+                $this->payselection->debug(esc_html__('Charge/Cancel request', 'payselection-gateway-for-woocommerce'));
                 $this->payselection->debug(wc_print_r($response, true));
 
                 if (is_wp_error($response)) {
+                    $this->payselection->debug(esc_html__('Charge/Cancel request error', 'payselection-gateway-for-woocommerce'));
                     $this->payselection->debug(wc_print_r($order->getChargeCancelData(), true));
                     $this->payselection->debug(wc_print_r($response, true));
                     return false;
@@ -387,9 +390,8 @@ class Gateway extends \WC_Payment_Gateway
 
         if (is_wp_error($result)) {
 
-            return false;
-
-            $this->payselection->debug(wc_print_r($order->getRefundData($amount), true));
+            $this->payselection->debug(esc_html__('Process refund', 'payselection-gateway-for-woocommerce'));
+            //$this->payselection->debug(wc_print_r($order->getRefundData($amount), true));
             $this->payselection->debug(wc_print_r($result, true));
 			return new \WP_Error('payselection-refund-error', $result->get_error_code());
 

@@ -51,6 +51,7 @@ class Api
         ];
 
         // Debug request
+        $this->debug(esc_html__('Operation request', 'payselection-gateway-for-woocommerce'));
         $this->debug(wc_print_r($params, true));
 
         $response = $method === 'POST' ? wp_remote_post($url, $params) : wp_remote_get($url, $params);
