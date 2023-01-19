@@ -160,11 +160,46 @@ class Order extends \WC_Order
      */
     public function getRefundData($amount)
     {
+        $items[] = [
+            'name'           => esc_html__('Refund', 'payselection-gateway-for-woocommerce'),
+            'sum'            => (float) number_format(floatval($amount), 2, '.', ''),
+            'price'          => (float) number_format($amount, 2, '.', ''),
+            'quantity'       => 1,
+            'payment_method' => 'full_prepayment',
+            'payment_object' => 'commodity',
+            'vat'            => [
+                'type'          => $options->company_vat,
+            ] 
+        ];
+
         return [
-            "TransactionId" => $this->get_meta('TransactionId'),
+            "TransactionId" => $this->get_meta('TransactionId', true),
             "Amount"        => number_format($amount, 2, ".", ""),
             "Currency"      => $this->get_currency(),
-            "WebhookUrl"    => home_url('/wc-api/wc_payselection_gateway_webhook')
+            "WebhookUrl"    => home_url('/wc-api/wc_payselection_gateway_webhook'),
+            "ReceiptData"   => [
+                'timestamp' => date('d.m.Y H:i:s'),
+                'external_id' => (string) $this->get_id(),
+                'receipt' => [
+                    'client' => [
+                        'email' => $this->get_billing_email(),
+                    ],
+                    'company' => [
+                        'email' => $options->company_email,
+                        'inn' => $options->company_inn,
+                        'sno' => $options->company_tax_system,
+                        'payment_address' => $options->company_address,
+                    ],
+                    'items' => $items,
+                    'payments' => [
+                        [
+                            'type' => 1,
+                            'sum' => (float) number_format($amount, 2, '.', ''),
+                        ]
+                    ],
+                    'total' => (float) number_format($amount, 2, '.', ''),
+                ],
+            ]
         ];
     }
 }

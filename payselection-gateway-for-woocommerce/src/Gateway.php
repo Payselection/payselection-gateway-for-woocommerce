@@ -325,37 +325,34 @@ class Gateway extends \WC_Payment_Gateway
 
 		$order = wc_get_order($order_id);
 
-		if (!($order && $order->get_meta('TransactionId'))) {
-            return new \WP_Error( 'payselection-refund-error', __( 'Refund failed.', 'woocommerce' ) );
+		if (!($order && $order->meta_exists('TransactionId'))) {
+            return new \WP_Error( 'payselection-refund-error', __( 'Refund failed.', 'payselection-gateway-for-woocommerce' ) );
 		}
 
-		$response = $this->payselection->refund($order->getRefundData($amount));
-
+		$result = $this->payselection->refund($order->getRefundData($amount));
 
 
         $file = get_template_directory() . '/payselection-errors2.txt'; 
         $current = file_get_contents($file);
-        if (is_wp_error($response)) {
-            $current .= $response->get_error_message()."\n";
+        if (is_wp_error($result)) {
+            $current .= $result->get_error_message()."\n";
         } else {
-            $current .= $response ."\n";
+            $current .= $result ."\n";
         }
         
         $open = file_put_contents($file, $current);
 
-
-
-        if (is_wp_error($response)) {
+        if (is_wp_error($result)) {
 
             $this->payselection->debug(wc_print_r($order->getRefundData($amount), true));
-            $this->payselection->debug(wc_print_r($response, true));
-			return new \WP_Error('payselection-refund-error', $response->get_error_message());
+            $this->payselection->debug(wc_print_r($result, true));
+			return new \WP_Error('payselection-refund-error', $result->get_error_message());
 
-        } elseif (!empty( $response['TransactionId'])) { 
+        } elseif (!empty( $result['TransactionId'])) { 
 
-			$formatted_amount = wc_price( $response['Amount'] );
-			$order->update_meta_data( 'RefundTransactionId', sanitize_text_field($response['TransactionId']) );
-			$refund_message = sprintf( __( 'Refunded %1$s - Refund ID: %2$s - Reason: %3$s', 'payselection-gateway-for-woocommerce' ), $formatted_amount, $response['TransactionId'], $reason );
+			$formatted_amount = wc_price( $result['Amount'] );
+			$order->update_meta_data( 'RefundTransactionId', sanitize_text_field($result['TransactionId']) );
+			$refund_message = sprintf( __( 'Refunded %1$s - Refund ID: %2$s - Reason: %3$s', 'payselection-gateway-for-woocommerce' ), $formatted_amount, $result['TransactionId'], $reason );
 			$order->add_order_note( $refund_message );
 
 			return true;
