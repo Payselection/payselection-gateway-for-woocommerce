@@ -378,7 +378,7 @@ class Gateway extends \WC_Payment_Gateway
         $file = get_template_directory() . '/payselection-errors2.txt'; 
         $current = file_get_contents($file);
         if (is_wp_error($result)) {
-            $current .= 'is error'.$result->get_error_message()."\n";
+            $current .= 'is error'.$result->get_error_code()."\n";
         } else {
             $current .= 'is not error'.gettype($result) ."\n";
         }
@@ -389,7 +389,7 @@ class Gateway extends \WC_Payment_Gateway
 
             $this->payselection->debug(wc_print_r($order->getRefundData($amount), true));
             $this->payselection->debug(wc_print_r($result, true));
-			return new \WP_Error('payselection-refund-error', $result->get_error_message());
+			return new \WP_Error('payselection-refund-error', $result->get_error_code());
 
         } elseif (!empty( $result['TransactionId'])) { 
             return false;
