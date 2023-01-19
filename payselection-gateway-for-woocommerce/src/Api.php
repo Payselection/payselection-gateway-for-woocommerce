@@ -56,6 +56,10 @@ class Api
 
         $response = $method === 'POST' ? wp_remote_post($url, $params) : wp_remote_get($url, $params);
 
+        // Debug response
+        $this->debug(esc_html__('Operation response', 'payselection-gateway-for-woocommerce'));
+        $this->debug(wc_print_r($response, true));
+
         if (is_wp_error($response)) {
             return $response;
         }
