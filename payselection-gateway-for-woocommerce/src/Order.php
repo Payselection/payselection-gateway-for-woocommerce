@@ -21,8 +21,8 @@ class Order extends \WC_Order
 
         // Redirect links
         $extraData = [
-            //"WebhookUrl"    => home_url('/wc-api/wc_payselection_gateway_webhook'),
-            "WebhookUrl"    => "https://webhook.site/3f2ae6e6-d59d-4719-a5bf-11aa1ba66982",
+            "WebhookUrl"    => home_url('/wc-api/wc_payselection_gateway_webhook'),
+            //"WebhookUrl"    => "https://webhook.site/3f2ae6e6-d59d-4719-a5bf-11aa1ba66982",
             "SuccessUrl"    => $successUrl,
             "CancelUrl"     => $cancelUrl,
             "DeclineUrl"    => $cancelUrl,
@@ -150,8 +150,8 @@ class Order extends \WC_Order
             "TransactionId" => $this->get_meta('BlockTransactionId'),
             "Amount"        => number_format($this->get_total(), 2, ".", ""),
             "Currency"      => $this->get_currency(),
-            //"WebhookUrl"    => home_url('/wc-api/wc_payselection_gateway_webhook'),
-            "WebhookUrl"    => "https://webhook.site/3f2ae6e6-d59d-4719-a5bf-11aa1ba66982",
+            "WebhookUrl"    => home_url('/wc-api/wc_payselection_gateway_webhook'),
+            //"WebhookUrl"    => "https://webhook.site/3f2ae6e6-d59d-4719-a5bf-11aa1ba66982",
         ];
     }
 
@@ -178,8 +178,8 @@ class Order extends \WC_Order
             "TransactionId" => $this->get_meta('TransactionId', true),
             "Amount"        => number_format($amount, 2, ".", ""),
             "Currency"      => $this->get_currency(),
-            //"WebhookUrl"    => home_url('/wc-api/wc_payselection_gateway_webhook'),
-            "WebhookUrl"    => "https://webhook.site/3f2ae6e6-d59d-4719-a5bf-11aa1ba66982",
+            "WebhookUrl"    => home_url('/wc-api/wc_payselection_gateway_webhook'),
+            //"WebhookUrl"    => "https://webhook.site/3f2ae6e6-d59d-4719-a5bf-11aa1ba66982",
             "ReceiptData"   => [
                 'timestamp' => date('d.m.Y H:i:s'),
                 'external_id' => (string) $this->get_id(),

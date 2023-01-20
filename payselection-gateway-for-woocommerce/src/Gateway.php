@@ -328,9 +328,9 @@ class Gateway extends \WC_Payment_Gateway
 
 		$order = wc_get_order($order_id);
 
-		// if (!($order && $order->meta_exists('TransactionId'))) {
-        //     return new \WP_Error( 'payselection-refund-error', __( 'Refund failed.', 'payselection-gateway-for-woocommerce' ) );
-		// }
+		if (!($order && $order->meta_exists('TransactionId'))) {
+            return new \WP_Error( 'payselection-refund-error', __( 'Refund failed.', 'payselection-gateway-for-woocommerce' ) );
+		}
 
         // $items[] = [
         //     'name'           => esc_html__('Refund', 'payselection-gateway-for-woocommerce'),
@@ -348,8 +348,8 @@ class Gateway extends \WC_Payment_Gateway
             "TransactionId" => $order->get_meta('TransactionId', true),
             "Amount"        => number_format($amount, 2, ".", ""),
             "Currency"      => $order->get_currency(),
-            //"WebhookUrl"    => home_url('/wc-api/wc_payselection_gateway_webhook'),
-            "WebhookUrl"    => "https://webhook.site/3f2ae6e6-d59d-4719-a5bf-11aa1ba66982",
+            "WebhookUrl"    => home_url('/wc-api/wc_payselection_gateway_webhook'),
+            //"WebhookUrl"    => "https://webhook.site/3f2ae6e6-d59d-4719-a5bf-11aa1ba66982",
             // "ReceiptData"   => [
             //     'timestamp' => date('d.m.Y H:i:s'),
             //     //'external_id' => (string) $order->get_id(),
