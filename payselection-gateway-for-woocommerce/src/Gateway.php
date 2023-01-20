@@ -328,9 +328,9 @@ class Gateway extends \WC_Payment_Gateway
 
 		$order = wc_get_order($order_id);
 
-		if (!($order && $order->meta_exists('TransactionId'))) {
-            return new \WP_Error( 'payselection-refund-error', __( 'Refund failed.', 'payselection-gateway-for-woocommerce' ) );
-		}
+		// if (!($order && $order->meta_exists('TransactionId'))) {
+        //     return new \WP_Error( 'payselection-refund-error', __( 'Refund failed.', 'payselection-gateway-for-woocommerce' ) );
+		// }
 
         // $items[] = [
         //     'name'           => esc_html__('Refund', 'payselection-gateway-for-woocommerce'),
