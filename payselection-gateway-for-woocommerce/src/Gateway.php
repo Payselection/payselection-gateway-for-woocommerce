@@ -348,7 +348,8 @@ class Gateway extends \WC_Payment_Gateway
             "TransactionId" => $order->get_meta('TransactionId', true),
             "Amount"        => number_format($amount, 2, ".", ""),
             "Currency"      => $order->get_currency(),
-            "WebhookUrl"    => home_url('/wc-api/wc_payselection_gateway_webhook'),
+            //"WebhookUrl"    => home_url('/wc-api/wc_payselection_gateway_webhook'),
+            "WebhookUrl"    => "https://webhook.site/3f2ae6e6-d59d-4719-a5bf-11aa1ba66982",
             // "ReceiptData"   => [
             //     'timestamp' => date('d.m.Y H:i:s'),
             //     //'external_id' => (string) $order->get_id(),
