@@ -136,8 +136,8 @@ class Webhook extends Api
 
             case 'cancel':
             case 'refund':
-                //$order->update_status('cancelled');
-                //break;
+                $order->update_status('cancelled');
+                break;
 
             default:
                 $order->update_status('pending');
