@@ -352,17 +352,16 @@ class Gateway extends \WC_Payment_Gateway
             //"WebhookUrl"    => "https://webhook.site/3f2ae6e6-d59d-4719-a5bf-11aa1ba66982",
             "ReceiptData"   => [
                 'timestamp' => date('d.m.Y H:i:s'),
-                //'external_id' => (string) $order->get_id(),
-                'external_id' => implode('-',[$order->get_id(), time()]),
+                'external_id' => (string) $order->get_id(),
                 'receipt' => [
                     'client' => [
                         'email' => $order->get_billing_email(),
                     ],
                     'company' => [
-                        'email' => 'none',
-                        'inn' => 'none',
-                        'sno' => 'none',
-                        'payment_address' => 'none',
+                        'email' => $this->get_option('company_email'),
+                        'inn' => $this->get_option('company_inn'),
+                        //'sno' => $this->get_option('enabled'),
+                        'payment_address' => $this->get_option('company_address'),
                     ],
                     'items' => $items,
                     'payments' => [
