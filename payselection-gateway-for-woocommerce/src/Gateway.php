@@ -318,6 +318,10 @@ class Gateway extends \WC_Payment_Gateway
                     $this->payselection->debug(wc_print_r($response, true));
                     return false;
                 }
+
+                if ($response['TransactionId']) {
+                    $order->update_meta_data('TransactionId', sanitize_text_field($response['TransactionId']));
+                }
                 
                 return true;
             }
