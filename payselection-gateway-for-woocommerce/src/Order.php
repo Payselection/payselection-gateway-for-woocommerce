@@ -170,7 +170,7 @@ class Order extends \WC_Order
             'payment_method' => 'full_prepayment',
             'payment_object' => 'commodity',
             'vat'            => [
-                'type'          => $options->company_vat,
+                'type'          => (string) $options->company_vat,
             ] 
         ];
 
@@ -188,10 +188,10 @@ class Order extends \WC_Order
                         'email' => $this->get_billing_email(),
                     ],
                     'company' => [
-                        'email' => $options->company_email,
-                        'inn' => $options->company_inn,
-                        'sno' => $options->company_tax_system,
-                        'payment_address' => $options->company_address,
+                        'email' => (string) $options->company_email,
+                        'inn' => (string) $options->company_inn,
+                        'sno' => (string) $options->company_tax_system,
+                        'payment_address' => (string) $options->company_address,
                     ],
                     'items' => $items,
                     'payments' => [
