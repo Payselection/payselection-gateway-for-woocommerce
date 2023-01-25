@@ -170,7 +170,7 @@ class Order extends \WC_Order
             'payment_method' => 'full_prepayment',
             'payment_object' => 'commodity',
             'vat'            => [
-                'type'          => (string) $options->company_vat,
+                'type'          => 'none',
             ] 
         ];
 
