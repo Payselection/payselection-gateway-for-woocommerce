@@ -44,7 +44,7 @@ class Api
         $params = [
             "timeout" => 30,
             "redirection" => 5,
-            "httpversion" => "1.0",
+            "httpversion" => "1.1",
             "blocking" => true,
             "headers" => $headers,
             "body" => $bodyJSON,
