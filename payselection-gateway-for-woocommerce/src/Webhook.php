@@ -74,7 +74,7 @@ class Webhook extends Api
         switch ($request['Event'])
         {
             case 'Payment':
-                $order->add_order_note(sprintf(esc_html__('Payment approved (ID: %s)', 'payselection-gateway-for-woocommerce'), esc_html($request['TransactionId'])));
+                $order->add_order_note(sprintf(esc_html__('Payment approved (Payment ID: %s)', 'payselection-gateway-for-woocommerce'), esc_html($request['TransactionId'])));
                 $order->update_meta_data('TransactionId', sanitize_text_field($request['TransactionId']));
                 self::payment($order, 'completed');
                 break;
@@ -84,6 +84,12 @@ class Webhook extends Api
                 break;
 
             case 'Block':
+                $order->add_order_note(
+                    sprintf(
+                        esc_html__( 'Payselection payment intent created (Payment Intent ID: %s). Process order to take payment, or cancel to remove the pre-authorization.', 'payselection-gateway-for-woocommerce' ),
+                        $request['TransactionId']
+                    )
+                );
                 $order->update_meta_data('BlockTransactionId', sanitize_text_field($request['TransactionId']));
                 self::payment($order, 'hold');
                 break;
@@ -93,6 +99,7 @@ class Webhook extends Api
                 break;
 
             case 'Cancel':
+                $order->add_order_note( sprintf( esc_html__( 'Pre-Authorization for %s voided.', 'payselection-gateway-for-woocommerce' ), $request['Amount']));
                 self::payment($order, 'cancel');
                 break;
 

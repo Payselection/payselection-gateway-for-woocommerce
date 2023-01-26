@@ -190,7 +190,7 @@ class Order extends \WC_Order
                     'company' => [
                         'email' => (string) $options->company_email,
                         'inn' => (string) $options->company_inn,
-                        //'sno' => (string) $options->company_tax_system,
+                        'sno' => (string) $options->company_tax_system,
                         'payment_address' => (string) $options->company_address,
                     ],
                     'items' => $items,
