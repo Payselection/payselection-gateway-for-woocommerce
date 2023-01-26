@@ -319,9 +319,9 @@ class Gateway extends \WC_Payment_Gateway
                     return false;
                 }
 
-                if ($response['TransactionId']) {
-                    $order->update_meta_data('TransactionId', sanitize_text_field($response['TransactionId']));
-                }
+                // if ($response['TransactionId']) {
+                //     $order->update_meta_data('TransactionId', sanitize_text_field($response['TransactionId']));
+                // }
                 
                 return true;
             }
