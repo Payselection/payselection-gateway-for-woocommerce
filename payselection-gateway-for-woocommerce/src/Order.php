@@ -160,7 +160,7 @@ class Order extends \WC_Order
      *
      * @return void
      */
-    public function getRrrefundData($amount)
+    public function getPayselectionRefundData($amount)
     {
         $items[] = [
             'name'           => esc_html__('Refund', 'payselection-gateway-for-woocommerce'),
@@ -170,7 +170,7 @@ class Order extends \WC_Order
             'payment_method' => 'full_prepayment',
             'payment_object' => 'commodity',
             'vat'            => [
-                'type'          => 'none',
+                'type'          => (string) $options->company_vat,
             ] 
         ];
 
