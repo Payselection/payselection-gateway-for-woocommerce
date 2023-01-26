@@ -386,7 +386,7 @@ class Gateway extends \WC_Payment_Gateway
         // ];
 
         $this->payselection->debug('refund data');
-        $this->payselection->debug(wc_print_r($order->getRrrefundData($amount), true));
+        $this->payselection->debug(wc_print_r($order->getPayselectionRefundData($amount), true));
 
 		$result = $this->payselection->refund($order->getPayselectionRefundData($amount));
 		// $result = $this->payselection->refund($data);
