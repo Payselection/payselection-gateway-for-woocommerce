@@ -74,11 +74,8 @@ class Webhook extends Api
         switch ($request['Event'])
         {
             case 'Payment':
-                $order->add_order_note(sprintf(esc_html__('Payment approved (Payment ID: %s)', 'payselection-gateway-for-woocommerce'), esc_html($request['TransactionId'])));
                 $order->update_meta_data('TransactionId', sanitize_text_field($request['TransactionId']));
-                // if (is_callable([$order, 'save'])) {
-                //     $order->save();
-                // }
+                $order->add_order_note(sprintf(esc_html__('Payment approved (Payment ID: %s)', 'payselection-gateway-for-woocommerce'), esc_html($request['TransactionId'])));
                 self::payment($order, 'completed');
                 break;
 
