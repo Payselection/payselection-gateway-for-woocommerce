@@ -174,7 +174,7 @@ class Order extends \WC_Order
             ] 
         ];
 
-        return [
+        $data = [
             "TransactionId" => $this->get_meta('TransactionId', true),
             "Amount"        => number_format($amount, 2, ".", ""),
             "Currency"      => $this->get_currency(),
@@ -204,5 +204,7 @@ class Order extends \WC_Order
                 ],
             ]
         ];
+
+        return $data;
     }
 }
