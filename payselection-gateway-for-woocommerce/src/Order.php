@@ -160,7 +160,7 @@ class Order extends \WC_Order
      *
      * @return void
      */
-    public function getRefundData($amount)
+    public function getRrrefundData($amount)
     {
         $items[] = [
             'name'           => esc_html__('Refund', 'payselection-gateway-for-woocommerce'),
