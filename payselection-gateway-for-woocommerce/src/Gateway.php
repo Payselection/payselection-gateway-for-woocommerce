@@ -361,7 +361,6 @@ class Gateway extends \WC_Payment_Gateway
         } elseif (!empty( $result['TransactionId'])) { 
             
 			$formatted_amount = wc_price( $result['Amount'] );
-			$order->update_meta_data( 'RefundTransactionId', sanitize_text_field($result['TransactionId']) );
 			$refund_message = sprintf( __( 'Refunded %1$s - Refund ID: %2$s - Reason: %3$s', 'payselection-gateway-for-woocommerce' ), $formatted_amount, $result['TransactionId'], $reason );
 			$order->add_order_note( $refund_message );
 

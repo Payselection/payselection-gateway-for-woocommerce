@@ -128,7 +128,8 @@ class Webhook extends Api
         switch ($status)
         {
             case 'completed':
-                $order->payment_complete($order->get_meta('TransactionId', true));
+                //$order->payment_complete($order->get_meta('TransactionId', true));
+                $order->payment_complete();
                 break;
 
             case 'fail':
