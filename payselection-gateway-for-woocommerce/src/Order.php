@@ -164,7 +164,25 @@ class Order extends \WC_Order
     {
         // Get plugin options
         $options = self::get_options();
-        
+
+        $items = [];
+        //$order_refunds = $this->get_refunds();
+
+        // foreach ($cart as $item_data) {
+        //     $product = $item_data->get_product();
+        //     $items[] = [
+        //         'name'           => mb_substr($product->get_name(), 0, 120),
+        //         'sum'            => (float) number_format(floatval($item_data->get_total()), 2, '.', ''),
+        //         'price'          => (float) number_format($product->get_price(), 2, '.', ''),
+        //         'quantity'       => (int) $item_data->get_quantity(),
+        //         'payment_method' => 'full_prepayment',
+        //         'payment_object' => 'commodity',
+        //         'vat'            => [
+        //             'type'          => $options->company_vat,
+        //         ] 
+        //     ];
+        // }
+
         $items[] = [
             'name'           => esc_html__('Refund', 'payselection-gateway-for-woocommerce'),
             'sum'            => (float) number_format(floatval($amount), 2, '.', ''),
@@ -210,4 +228,31 @@ class Order extends \WC_Order
 
         return $data;
     }
+
+    public function getTestData()
+    {
+        // Get plugin options
+        $options = self::get_options();
+
+        $items = [];
+        $order_refunds = $this->get_refunds();
+
+        // foreach ($cart as $item_data) {
+        //     $product = $item_data->get_product();
+        //     $items[] = [
+        //         'name'           => mb_substr($product->get_name(), 0, 120),
+        //         'sum'            => (float) number_format(floatval($item_data->get_total()), 2, '.', ''),
+        //         'price'          => (float) number_format($product->get_price(), 2, '.', ''),
+        //         'quantity'       => (int) $item_data->get_quantity(),
+        //         'payment_method' => 'full_prepayment',
+        //         'payment_object' => 'commodity',
+        //         'vat'            => [
+        //             'type'          => $options->company_vat,
+        //         ] 
+        //     ];
+        // }
+
+        return $order_refunds;
+    }
+    
 }
