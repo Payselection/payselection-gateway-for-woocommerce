@@ -361,9 +361,12 @@ class Gateway extends \WC_Payment_Gateway
         if (is_wp_error($result)) {
 
             $this->payselection->debug(esc_html__('Process refund', 'payselection-gateway-for-woocommerce'));
-            //$this->payselection->debug(wc_print_r($order->getRefundData($amount), true));
             $this->payselection->debug(wc_print_r($result, true));
-			return new \WP_Error('payselection-refund-error', $result->get_error_code());
+            if ($result->get_error_message()) {
+                return new \WP_Error('payselection-refund-error', $result->get_error_message());
+            } else {
+                return new \WP_Error('payselection-refund-error', $result->get_error_code());
+            }
 
         } elseif (!empty( $result['TransactionId'])) { 
             
