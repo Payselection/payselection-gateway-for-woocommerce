@@ -162,6 +162,9 @@ class Order extends \WC_Order
      */
     public function getPayselectionRefundData($amount)
     {
+        // Get plugin options
+        $options = self::get_options();
+        
         $items[] = [
             'name'           => esc_html__('Refund', 'payselection-gateway-for-woocommerce'),
             'sum'            => (float) number_format(floatval($amount), 2, '.', ''),
