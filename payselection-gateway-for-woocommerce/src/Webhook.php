@@ -35,7 +35,6 @@ class Webhook extends Api
         // Check signature
         $request_method = isset($_SERVER['REQUEST_METHOD']) ? sanitize_text_field(wp_unslash($_SERVER['REQUEST_METHOD'])) : '';
         $signBody = $request_method . PHP_EOL . home_url('/wc-api/wc_payselection_gateway_webhook') . PHP_EOL . $this->options->site_id . PHP_EOL . $request;
-        //$signBody = $request_method . PHP_EOL . "https://webhook.site/3f2ae6e6-d59d-4719-a5bf-11aa1ba66982" . PHP_EOL . $this->options->site_id . PHP_EOL . $request;
         if ($headers['X-WEBHOOK-SIGNATURE'] !== self::getSignature($signBody, $this->options->key))
             wp_die(esc_html__('Signature error', 'payselection-gateway-for-woocommerce'), '', array('response' => 403));
 
@@ -111,10 +110,6 @@ class Webhook extends Api
                 break;
         }
 
-        // test
-        $order->add_order_note(sprintf(esc_html__('Test transaction ID: %s', 'payselection-gateway-for-woocommerce'), $order->get_meta('TransactionId', true)));
-        $order->add_order_note(sprintf(esc_html__('Test block transaction ID: %s', 'payselection-gateway-for-woocommerce'), $order->get_meta('BlockTransactionId', true)));
-        $order->add_order_note(sprintf(esc_html__('Test refund transaction ID: %s', 'payselection-gateway-for-woocommerce'), $order->get_meta('RefundTransactionId', true)));
     }
     
     /**
@@ -133,7 +128,7 @@ class Webhook extends Api
         switch ($status)
         {
             case 'completed':
-                $order->payment_complete();
+                $order->payment_complete($order->get_meta('TransactionId', true));
                 break;
 
             case 'fail':
@@ -146,7 +141,6 @@ class Webhook extends Api
 
             case 'cancel':
             case 'refund':
-                //$order->update_status('cancelled');
                 break;
 
             default:
