@@ -318,11 +318,6 @@ class Gateway extends \WC_Payment_Gateway
                     $this->payselection->debug(wc_print_r($response, true));
                     return false;
                 }
-
-                // if ($response['TransactionId']) {
-                //     $order->update_meta_data('TransactionId', sanitize_text_field($response['TransactionId']));
-                    
-                // }
                 
                 return true;
             }
@@ -331,9 +326,6 @@ class Gateway extends \WC_Payment_Gateway
 
     public function process_refund($order_id, $amount = null, $reason = '') {
 
-		//$order = wc_get_order($order_id);
-
-        // global $woocommerce;
         $order = new Order($order_id);
 
 		if (!($order && $order->meta_exists('TransactionId'))) {
