@@ -333,66 +333,19 @@ class Gateway extends \WC_Payment_Gateway
 
     public function process_refund($order_id, $amount = null, $reason = '') {
 
-		//$order = wc_get_order($order_id);
+		$order = wc_get_order($order_id);
 
-        global $woocommerce;
-        $order = new Order($order_id);
+        // global $woocommerce;
+        // $order = new Order($order_id);
 
 		if (!($order && $order->meta_exists('TransactionId'))) {
             return new \WP_Error( 'payselection-refund-error', __( 'Refund failed.', 'payselection-gateway-for-woocommerce' ) );
 		}
 
-        // $items[] = [
-        //     'name'           => esc_html__('Refund', 'payselection-gateway-for-woocommerce'),
-        //     'sum'            => (float) number_format(floatval($amount), 2, '.', ''),
-        //     'price'          => (float) number_format($amount, 2, '.', ''),
-        //     'quantity'       => 1,
-        //     'payment_method' => 'full_prepayment',
-        //     'payment_object' => 'commodity',
-        //     'vat'            => [
-        //         'type'          => 'none',
-        //     ] 
-        // ];
-
-        // $data = [
-        //     "TransactionId" => $order->get_meta('TransactionId', true),
-        //     "Amount"        => number_format($amount, 2, ".", ""),
-        //     "Currency"      => $order->get_currency(),
-        //     "WebhookUrl"    => home_url('/wc-api/wc_payselection_gateway_webhook'),
-        //     //"WebhookUrl"    => "https://webhook.site/3f2ae6e6-d59d-4719-a5bf-11aa1ba66982",
-        //     "ReceiptData"   => [
-        //         'timestamp' => date('d.m.Y H:i:s'),
-        //         'external_id' => (string) $order->get_id(),
-        //         'receipt' => [
-        //             'client' => [
-        //                 'email' => $order->get_billing_email(),
-        //             ],
-        //             'company' => [
-        //                 'email' => $this->get_option('company_email'),
-        //                 'inn' => $this->get_option('company_inn'),
-        //                 'sno' => $this->get_option('company_tax_system'),
-        //                 'payment_address' => $this->get_option('company_address'),
-        //             ],
-        //             'items' => $items,
-        //             'payments' => [
-        //                 [
-        //                     'type' => 1,
-        //                     'sum' => (float) number_format($amount, 2, '.', ''),
-        //                 ]
-        //             ],
-        //             'total' => (float) number_format($amount, 2, '.', ''),
-        //         ],
-        //     ]
-        // ];
-
         $this->payselection->debug('refund data');
         $this->payselection->debug(wc_print_r($order->getPayselectionRefundData($amount), true));
 
-        $this->payselection->debug('refund woo data');
-        $this->payselection->debug(wc_print_r($order->getTestData(), true));
-
 		$result = $this->payselection->refund($order->getPayselectionRefundData($amount));
-		// $result = $this->payselection->refund($data);
 
 
         $file = get_template_directory() . '/payselection-errors2.txt'; 
