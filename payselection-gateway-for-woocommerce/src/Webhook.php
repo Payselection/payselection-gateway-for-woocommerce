@@ -38,18 +38,6 @@ class Webhook extends Api
         if ($headers['X-WEBHOOK-SIGNATURE'] !== self::getSignature($signBody, $this->options->key))
             wp_die(esc_html__('Signature error', 'payselection-gateway-for-woocommerce'), '', array('response' => 403));
 
-        //
-        $file = get_template_directory() . '/payselection-errors.txt'; 
-        $current = file_get_contents($file);
-        if (is_wp_error($request)) {
-            $current .= $request->get_error_message()."\n";
-        } else {
-            $current .= $request ."\n";
-        }
-        
-        $open = file_put_contents($file, $current);
-        //
-
         $request = json_decode($request, true);
 
         if (!$request)
