@@ -129,6 +129,9 @@ class Webhook extends Api
                 break;
 
             case 'cancel':
+                $order->update_status('cancelled');
+                break;
+
             case 'refund':
                 break;
 
