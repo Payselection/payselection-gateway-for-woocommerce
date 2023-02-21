@@ -331,6 +331,8 @@ class Gateway extends \WC_Payment_Gateway
     }
 
     public function update_order_status_on_hold_to_cancelled($order_id, $order) {
+        global $woocommerce;
+        $order = new Order($order_id);
         if ($order->meta_exists('BlockTransactionId')) {
 
             $response = $this->payselection->cancel($order->getChargeCancelData());
