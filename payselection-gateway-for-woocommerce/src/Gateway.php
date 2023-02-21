@@ -312,6 +312,7 @@ class Gateway extends \WC_Payment_Gateway
                             }    
                             $refund_message = sprintf(__( 'Payment has not been charged. Payselection error: %1$s', 'payselection-gateway-for-woocommerce' ), $error_text);
 			                $order->add_order_note($refund_message);
+                            $order->update_status($old_status);
                         }
                         break;
 
@@ -325,6 +326,7 @@ class Gateway extends \WC_Payment_Gateway
                             }    
                             $refund_message = sprintf(__( 'Payment has not been cancelled. Payselection error: %1$s', 'payselection-gateway-for-woocommerce' ), $error_text);
 			                $order->add_order_note($refund_message);
+                            $order->update_status($old_status);
                         }
                         break;
                 }
