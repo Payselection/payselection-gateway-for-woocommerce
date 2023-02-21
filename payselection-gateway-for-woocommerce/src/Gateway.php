@@ -32,7 +32,7 @@ class Gateway extends \WC_Payment_Gateway
 
         add_action("woocommerce_update_options_payment_gateways_" . $this->id, [$this, "process_admin_options"]);
         //add_action("woocommerce_order_status_changed", array($this, "update_order_status"), 10, 3);
-        add_action("woocommerce_order_status_on_hold_to_cancelled", array($this, "update_order_status_on-hold_to_cancelled"), 10, 2);
+        add_action("woocommerce_order_status_on-hold_to_cancelled", array($this, "update_order_status_on_hold_to_cancelled"), 10, 2);
         add_action("woocommerce_api_" . $this->id . "_webhook", [new Webhook(), "handle"]);
         add_action("woocommerce_api_" . $this->id . "_widget", "\Payselection\Widget::handle");
     }
