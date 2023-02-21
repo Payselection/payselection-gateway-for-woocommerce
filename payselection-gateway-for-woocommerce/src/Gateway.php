@@ -31,7 +31,8 @@ class Gateway extends \WC_Payment_Gateway
         $this->payselection = new Api();
 
         add_action("woocommerce_update_options_payment_gateways_" . $this->id, [$this, "process_admin_options"]);
-        add_action("woocommerce_order_status_changed", array($this, "update_order_status"), 10, 3);
+        //add_action("woocommerce_order_status_changed", array($this, "update_order_status"), 10, 3);
+        add_action("woocommerce_order_status_on_hold_to_cancelled", array($this, "update_order_status_on-hold_to_cancelled"), 10, 2);
         add_action("woocommerce_api_" . $this->id . "_webhook", [new Webhook(), "handle"]);
         add_action("woocommerce_api_" . $this->id . "_widget", "\Payselection\Widget::handle");
     }
@@ -326,6 +327,30 @@ class Gateway extends \WC_Payment_Gateway
                 
                 return true;
             }
+        }
+    }
+
+    public function update_order_status_on_hold_to_cancelled($order_id, $order) {
+        if ($order->meta_exists('BlockTransactionId')) {
+
+            $response = $this->payselection->cancel($order->getChargeCancelData());
+
+            $this->payselection->debug(esc_html__('Cancel request', 'payselection-gateway-for-woocommerce'));
+            $this->payselection->debug(wc_print_r($response, true));
+
+            if (is_wp_error($response)) {
+                $this->payselection->debug(esc_html__('Cancel request error', 'payselection-gateway-for-woocommerce'));
+                $this->payselection->debug(wc_print_r($order->getChargeCancelData(), true));
+                $this->payselection->debug(wc_print_r($response, true));
+                //return false;
+                if ($response->get_error_message()) {
+                    return new \WP_Error('payselection-cancel-error', $response->get_error_message());
+                } else {
+                    return new \WP_Error('payselection-cancel-error', $response->get_error_code());
+                }
+            }
+            
+            return true;
         }
     }
 
