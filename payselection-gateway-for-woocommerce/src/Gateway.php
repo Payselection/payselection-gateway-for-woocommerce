@@ -317,12 +317,12 @@ class Gateway extends \WC_Payment_Gateway
                     $this->payselection->debug(esc_html__('Charge/Cancel request error', 'payselection-gateway-for-woocommerce'));
                     $this->payselection->debug(wc_print_r($order->getChargeCancelData(), true));
                     $this->payselection->debug(wc_print_r($response, true));
-                    //return false;
-                    if ($response->get_error_message()) {
-                        return new \WP_Error('payselection-cancel-error', $response->get_error_message());
-                    } else {
-                        return new \WP_Error('payselection-cancel-error', $response->get_error_code());
-                    }
+                    // if ($response->get_error_message()) {
+                    //     return new \WP_Error('payselection-cancel-error', $response->get_error_message());
+                    // } else {
+                    //     return new \WP_Error('payselection-cancel-error', $response->get_error_code());
+                    // }
+                    return false;
                 }
                 
                 return true;
@@ -344,7 +344,7 @@ class Gateway extends \WC_Payment_Gateway
                 $this->payselection->debug(esc_html__('Cancel request error', 'payselection-gateway-for-woocommerce'));
                 $this->payselection->debug(wc_print_r($order->getChargeCancelData(), true));
                 $this->payselection->debug(wc_print_r($response, true));
-                //return false;
+                return false;
                 if ($response->get_error_message()) {
                     return new \WP_Error('payselection-cancel-error', $response->get_error_message());
                 } else {
