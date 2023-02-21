@@ -304,6 +304,15 @@ class Gateway extends \WC_Payment_Gateway
                 {
                     case "processing":
                         $response = $this->payselection->charge($order->getChargeCancelData());
+                        if (is_wp_error($response)) {
+                            if ($response->get_error_message()) {
+                                $error_text = $response->get_error_message();
+                            } else {
+                                $error_text = $response->get_error_code();
+                            }    
+                            $refund_message = sprintf(__( 'Payment has not been charged. Payselection error: %1$s', 'payselection-gateway-for-woocommerce' ), $error_text);
+			                $order->add_order_note($refund_message);
+                        }
                         break;
 
                     default:
@@ -314,7 +323,7 @@ class Gateway extends \WC_Payment_Gateway
                             } else {
                                 $error_text = $response->get_error_code();
                             }    
-                            $refund_message = sprintf(__( 'Payment has not been cancelled? Payselection error: %1$s', 'payselection-gateway-for-woocommerce' ), $error_text);
+                            $refund_message = sprintf(__( 'Payment has not been cancelled. Payselection error: %1$s', 'payselection-gateway-for-woocommerce' ), $error_text);
 			                $order->add_order_note($refund_message);
                         }
                         break;
