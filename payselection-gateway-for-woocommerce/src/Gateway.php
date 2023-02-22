@@ -352,7 +352,7 @@ class Gateway extends \WC_Payment_Gateway
 	 * @param  int $order_id Order ID.
 	 */
 	public function capture_payment( $order_id ) {
-		$order = wc_get_order( $order_id );
+		$order = new Order($order_id);
 
 		if ( 'wc_payselection_gateway' === $order->get_payment_method() && $order->meta_exists('BlockTransactionId') ) {
 			
