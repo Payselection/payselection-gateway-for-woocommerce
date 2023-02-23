@@ -326,7 +326,7 @@ class Gateway extends \WC_Payment_Gateway
     //                         } else {
     //                             $error_text = $response->get_error_code();
     //                         }    
-    //                         $order->add_order_note(sprintf(__( 'Payment could not be canceled: %s', 'payselection-gateway-for-woocommerce' ), $error_text));
+    //                         $order->add_order_note(sprintf(__( 'Payment could not be cancelled: %s', 'payselection-gateway-for-woocommerce' ), $error_text));
     //                     }
     //                     break;
     //             }
@@ -406,7 +406,7 @@ class Gateway extends \WC_Payment_Gateway
                     $error_text = $response->get_error_code();
                 }
 				/* translators: %s: Payselection gateway error message */
-				$order->add_order_note(sprintf(__( 'Payment could not be canceled: %s', 'payselection-gateway-for-woocommerce' ), $error_text));
+				$order->add_order_note(sprintf(__( 'Payment could not be cancelled: %s', 'payselection-gateway-for-woocommerce' ), $error_text));
 
                 $this->payselection->debug(esc_html__('Cancel request error', 'payselection-gateway-for-woocommerce'));
                 $this->payselection->debug(wc_print_r($order->getChargeCancelData(), true));
