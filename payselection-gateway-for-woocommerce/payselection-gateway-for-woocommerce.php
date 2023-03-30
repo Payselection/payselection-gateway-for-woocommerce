@@ -1,6 +1,6 @@
 <?php
 /**
- * Plugin Name: Payselection Gateway for WooCommerce
+ * Plugin Name: Payselection Gateway for WooCommerce test
  * Plugin URI: https://payselection.com/
  * Description: Payselection Gateway for WooCommerce
  * Version: 1.1.0
