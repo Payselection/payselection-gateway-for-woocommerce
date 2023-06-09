@@ -140,7 +140,7 @@ msgstr "Email организации"
 
 #: src/Gateway.php:143 src/Gateway.php:241
 msgid "Legal address"
-msgstr "Юридический адрес"
+msgstr "Место расчетов. Адрес сайта"
 
 #: src/Gateway.php:149
 msgid "Taxation system"
