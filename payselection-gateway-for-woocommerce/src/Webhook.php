@@ -59,15 +59,13 @@ class Webhook extends Api
         }
 
         if ($request['Event'] === 'Refund') {
-            $refund_text = '';
-
-            if (!empty($request['NewAmount'])) { 
-                $formatted_remaining_amount = wc_price($request['NewAmount']);
-                $refund_text = sprintf(esc_html__("\nOrder partially refunded. Remaining amount: %s", "payselection-gateway-for-woocommerce"), $formatted_remaining_amount);
-            } else {
-                $refund_text = esc_html__("\nOrder fully refunded.", "payselection-gateway-for-woocommerce");
+            if ($new_amount = $request['NewAmount']) {
+                $new_amount = (float) $new_amount;
+                if ($new_amount>0) {
+                    $order->add_order_note(sprintf(esc_html__("Payselection Webhook:\nEvent: %s\nOrderId: %s\nTransaction: %s\n Transaction amount is less, than order amount.", "payselection-gateway-for-woocommerce"), $request['Event'], esc_html($request['OrderId']), esc_html($request['TransactionId'])));
+                }
+                $order->add_order_note(sprintf(esc_html__("Payselection Webhook:\nEvent: %s\nOrderId: %s\nTransaction: %s", "payselection-gateway-for-woocommerce"), $request['Event'], esc_html($request['OrderId']), esc_html($request['TransactionId'])));
             }
-            $order->add_order_note(sprintf(esc_html__("Payselection Webhook:\nEvent: %s\nOrderId: %s\nTransaction: %s %s", "payselection-gateway-for-woocommerce"), $request['Event'], esc_html($request['OrderId']), esc_html($request['TransactionId']), $refund_text));
         }
 
         switch ($request['Event'])
