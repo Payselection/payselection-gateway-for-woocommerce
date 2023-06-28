@@ -63,8 +63,9 @@ class Webhook extends Api
                 $new_amount = (float) $new_amount;
                 if ($new_amount>0) {
                     $order->add_order_note(sprintf(esc_html__("Payselection Webhook:\nEvent: %s\nOrderId: %s\nTransaction: %s\n Transaction amount is less, than order amount.", "payselection-gateway-for-woocommerce"), $request['Event'], esc_html($request['OrderId']), esc_html($request['TransactionId'])));
+                } else {
+                    $order->add_order_note(sprintf(esc_html__("Payselection Webhook:\nEvent: %s\nOrderId: %s\nTransaction: %s", "payselection-gateway-for-woocommerce"), $request['Event'], esc_html($request['OrderId']), esc_html($request['TransactionId'])));
                 }
-                $order->add_order_note(sprintf(esc_html__("Payselection Webhook:\nEvent: %s\nOrderId: %s\nTransaction: %s", "payselection-gateway-for-woocommerce"), $request['Event'], esc_html($request['OrderId']), esc_html($request['TransactionId'])));
             }
         }
 
