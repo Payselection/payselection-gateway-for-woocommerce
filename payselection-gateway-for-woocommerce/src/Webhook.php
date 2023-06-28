@@ -62,7 +62,7 @@ class Webhook extends Api
             $refund_text = '';
 
             if (!empty($request['NewAmount'])) { 
-                $formatted_remaining_amount = wc_price($result['NewAmount']);
+                $formatted_remaining_amount = wc_price($request['NewAmount']);
                 $refund_text = sprintf(esc_html__("\nOrder partially refunded. Remaining amount: %s", "payselection-gateway-for-woocommerce"), $formatted_remaining_amount);
             } else {
                 $refund_text = esc_html__("\nOrder fully refunded.", "payselection-gateway-for-woocommerce");
