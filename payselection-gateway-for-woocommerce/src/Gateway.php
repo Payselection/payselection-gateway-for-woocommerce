@@ -432,15 +432,7 @@ class Gateway extends \WC_Payment_Gateway
         } elseif (!empty( $result['TransactionId'])) { 
             
 			$formatted_amount = wc_price($result['Amount']);  
-			$refund_message = '';
-
-            if (!empty($result['NewAmount'])) { 
-                $formatted_remaining_amount = wc_price($result['NewAmount']); 
-                $refund_message = sprintf(__( 'Order partially refunded. Refunded %1$s - Refund ID: %2$s - Reason: %3$s - Remaining amount: %4$s', 'payselection-gateway-for-woocommerce' ), $formatted_amount, $result['TransactionId'], $reason, $formatted_remaining_amount);
-            } else {
-                $refund_message = sprintf(__( 'Refunded %1$s - Refund ID: %2$s - Reason: %3$s', 'payselection-gateway-for-woocommerce' ), $formatted_amount, $result['TransactionId'], $reason);
-            }
-
+			$refund_message = sprintf(__( 'Refunded %1$s - Refund ID: %2$s - Reason: %3$s', 'payselection-gateway-for-woocommerce' ), $formatted_amount, $result['TransactionId'], $reason);
             $order->add_order_note($refund_message);
 
 			return true;

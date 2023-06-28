@@ -1,8 +1,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: \n"
-"POT-Creation-Date: 2023-06-28 15:08+0300\n"
-"PO-Revision-Date: 2023-06-28 15:25+0300\n"
+"POT-Creation-Date: 2023-06-28 16:12+0300\n"
+"PO-Revision-Date: 2023-06-28 16:17+0300\n"
 "Last-Translator: \n"
 "Language-Team: \n"
 "Language: ru\n"
@@ -418,16 +418,7 @@ msgstr "Ошибка возврата платежа"
 msgid "Process refund"
 msgstr "Процесс возврата платежа"
 
-#: src/Gateway.php:439
-#, php-format
-msgid ""
-"Order partially refunded. Refunded %1$s - Refund ID: %2$s - Reason: %3$s - "
-"Remaining amount: %4$s"
-msgstr ""
-"Произведен частичный возврат по ордеру. Возвращено %1$s - ID возврата "
-"платежа: %2$s - Причина: %3$s - Оставшаяся сумма: %4$s"
-
-#: src/Gateway.php:441
+#: src/Gateway.php:435
 #, php-format
 msgid "Refunded %1$s - Refund ID: %2$s - Reason: %3$s"
 msgstr "Возвращено %1$s - ID возврата платежа: %2$s - Причина: %3$s"
@@ -481,12 +472,42 @@ msgstr ""
 "Ордер: %s\n"
 "Транзакция: %s"
 
+#: src/Webhook.php:66
+#, php-format
+msgid ""
+"\n"
+"Order partially refunded. Remaining amount: %s"
+msgstr ""
+"\n"
+"Произведен частичный возврат по ордеру. Оставшаяся сумма: %s"
+
 #: src/Webhook.php:68
+msgid ""
+"\n"
+"Order fully refunded."
+msgstr ""
+"\n"
+"Произведен полный возврат по ордеру."
+
+#: src/Webhook.php:70
+#, php-format
+msgid ""
+"Payselection Webhook:\n"
+"Event: %s\n"
+"OrderId: %s\n"
+"Transaction: %s %s"
+msgstr ""
+"Payselection Webhook:\n"
+"Событие: %s\n"
+"Ордер: %s\n"
+"Транзакция: %s %s"
+
+#: src/Webhook.php:80
 #, php-format
 msgid "Payment approved (Payment ID: %s)"
 msgstr "Платёж одобрен (ID платежа: %s)"
 
-#: src/Webhook.php:79
+#: src/Webhook.php:91
 #, php-format
 msgid ""
 "Payselection payment intent created (Payment Intent ID: %s). Process order "
@@ -496,16 +517,16 @@ msgstr ""
 "Обработайте заказ, чтобы принять платеж, или отмените, чтобы удалить "
 "предварительное разрешение на платеж."
 
-#: src/Webhook.php:92
+#: src/Webhook.php:104
 #, php-format
 msgid "Pre-Authorization for %s voided."
 msgstr "Предварительно разрешение на платёж %s аннулировано."
 
-#: src/Webhook.php:97
+#: src/Webhook.php:109
 msgid "There is no handler for this event"
 msgstr "Нет обработчика для данного события"
 
-#: src/Webhook.php:113 src/Webhook.php:143
+#: src/Webhook.php:125 src/Webhook.php:155
 msgid "Ok"
 msgstr "Хорошо"
 

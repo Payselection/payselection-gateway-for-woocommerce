@@ -2,7 +2,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: Payselection Gateway for WooCommerce\n"
-"POT-Creation-Date: 2023-06-28 15:08+0300\n"
+"POT-Creation-Date: 2023-06-28 16:12+0300\n"
 "PO-Revision-Date: 2021-01-13 13:35+0300\n"
 "Last-Translator: \n"
 "Language-Team: \n"
@@ -420,14 +420,7 @@ msgstr ""
 msgid "Process refund"
 msgstr ""
 
-#: src/Gateway.php:439
-#, php-format
-msgid ""
-"Order partially refunded. Refunded %1$s - Refund ID: %2$s - Reason: %3$s - "
-"Remaining amount: %4$s"
-msgstr ""
-
-#: src/Gateway.php:441
+#: src/Gateway.php:435
 #, php-format
 msgid "Refunded %1$s - Refund ID: %2$s - Reason: %3$s"
 msgstr ""
@@ -477,27 +470,49 @@ msgid ""
 "Transaction: %s"
 msgstr ""
 
+#: src/Webhook.php:66
+#, php-format
+msgid ""
+"\n"
+"Order partially refunded. Remaining amount: %s"
+msgstr ""
+
 #: src/Webhook.php:68
+msgid ""
+"\n"
+"Order fully refunded."
+msgstr ""
+
+#: src/Webhook.php:70
+#, php-format
+msgid ""
+"Payselection Webhook:\n"
+"Event: %s\n"
+"OrderId: %s\n"
+"Transaction: %s %s"
+msgstr ""
+
+#: src/Webhook.php:80
 #, php-format
 msgid "Payment approved (Payment ID: %s)"
 msgstr ""
 
-#: src/Webhook.php:79
+#: src/Webhook.php:91
 #, php-format
 msgid ""
 "Payselection payment intent created (Payment Intent ID: %s). Process order "
 "to take payment, or cancel to remove the pre-authorization."
 msgstr ""
 
-#: src/Webhook.php:92
+#: src/Webhook.php:104
 #, php-format
 msgid "Pre-Authorization for %s voided."
 msgstr ""
 
-#: src/Webhook.php:97
+#: src/Webhook.php:109
 msgid "There is no handler for this event"
 msgstr ""
 
-#: src/Webhook.php:113 src/Webhook.php:143
+#: src/Webhook.php:125 src/Webhook.php:155
 msgid "Ok"
 msgstr ""

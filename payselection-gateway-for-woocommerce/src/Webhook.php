@@ -54,8 +54,20 @@ class Webhook extends Api
         if (empty($order))
             wp_die(esc_html__('Order not found', 'payselection-gateway-for-woocommerce'), '', array('response' => 404));
 
-        if ($request['Event'] === 'Fail' || $request['Event'] === 'Payment' || $request['Event'] === 'Refund') {
+        if ($request['Event'] === 'Fail' || $request['Event'] === 'Payment') {
             $order->add_order_note(sprintf(esc_html__("Payselection Webhook:\nEvent: %s\nOrderId: %s\nTransaction: %s", "payselection-gateway-for-woocommerce"), $request['Event'], esc_html($request['OrderId']), esc_html($request['TransactionId'])));
+        }
+
+        if ($request['Event'] === 'Refund') {
+            $refund_text = '';
+
+            if (!empty($request['NewAmount'])) { 
+                $formatted_remaining_amount = wc_price($result['NewAmount']);
+                $refund_text = sprintf(esc_html__("\nOrder partially refunded. Remaining amount: %s", "payselection-gateway-for-woocommerce"), $formatted_remaining_amount);
+            } else {
+                $refund_text = esc_html__("\nOrder fully refunded.", "payselection-gateway-for-woocommerce");
+            }
+            $order->add_order_note(sprintf(esc_html__("Payselection Webhook:\nEvent: %s\nOrderId: %s\nTransaction: %s %s", "payselection-gateway-for-woocommerce"), $request['Event'], esc_html($request['OrderId']), esc_html($request['TransactionId']), $refund_text));
         }
 
         switch ($request['Event'])
