@@ -131,6 +131,54 @@ class Gateway extends \WC_Payment_Gateway
                 "label" => esc_html__("If this option is enabled order receipts will be created and sent to your customer and to the revenue service via Payselection", "payselection-gateway-for-woocommerce"),
                 "default" => "no",
             ],
+            "payment_method" => [
+                "title" => esc_html__("Payment type", "payselection-gateway-for-woocommerce"),
+                "type" => "select",
+                "default" => "full_prepayment",
+                "options" => [
+                    "full_prepayment" => esc_html__("Full prepayment", "payselection-gateway-for-woocommerce"),
+                    "prepayment" => esc_html__("Prepayment", "payselection-gateway-for-woocommerce"),
+                    "advance" => esc_html__("Advance", "payselection-gateway-for-woocommerce"),
+                    "full_payment" => esc_html__("Full payment", "payselection-gateway-for-woocommerce"),
+                    "partial_payment" => esc_html__("Partial payment", "payselection-gateway-for-woocommerce"),
+                    "credit" => esc_html__("Credit", "payselection-gateway-for-woocommerce"),
+                    "credit_payment" => esc_html__("Credit payment", "payselection-gateway-for-woocommerce"),
+                ],
+            ],
+            "payment_object" => [
+                "title" => esc_html__("Type of goods and services", "payselection-gateway-for-woocommerce"),
+                "type" => "select",
+                "default" => "commodity",
+                "options" => [
+                    "commodity" => esc_html__("Commodity", "payselection-gateway-for-woocommerce"),
+                    "excise" => esc_html("Excise", "payselection-gateway-for-woocommerce"), 
+                    "job" => esc_html("Job", "payselection-gateway-for-woocommerce"), 
+                    "service" => esc_html("Service", "payselection-gateway-for-woocommerce"), 
+                    "gambling_bet" => esc_html("Gambling bet", "payselection-gateway-for-woocommerce"), 
+                    "gambling_prize" => esc_html("Gambling prize", "payselection-gateway-for-woocommerce"), 
+                    "lottery" => esc_html("Lottery", "payselection-gateway-for-woocommerce"), 
+                    "lottery_prize" => esc_html("Lottery prize", "payselection-gateway-for-woocommerce"), 
+                    "intellectual_activity" => esc_html("Intellectual activity", "payselection-gateway-for-woocommerce"), 
+                    "payment" => esc_html("Payment", "payselection-gateway-for-woocommerce"), 
+                    "agent_commission" => esc_html("Agent commission", "payselection-gateway-for-woocommerce"), 
+                    "composite" => esc_html("Composite", "payselection-gateway-for-woocommerce"), 
+                    "award" => esc_html("Award", "payselection-gateway-for-woocommerce"), 
+                    "another" => esc_html("Another", "payselection-gateway-for-woocommerce"), 
+                    "property_right" => esc_html("Property right", "payselection-gateway-for-woocommerce"), 
+                    "non-operating_gain" => esc_html("Non-operating gain", "payselection-gateway-for-woocommerce"),
+                    "insurance_premium" => esc_html("Insurance premium", "payselection-gateway-for-woocommerce"), 
+                    "sales_tax" => esc_html("Sales tax", "payselection-gateway-for-woocommerce"), 
+                    "resort_fee" => esc_html("Resort fee", "payselection-gateway-for-woocommerce"), 
+                    "deposit" => esc_html("Deposit", "payselection-gateway-for-woocommerce"), 
+                    "expense" => esc_html("Expense", "payselection-gateway-for-woocommerce"), 
+                    "pension_insurance_ip" => esc_html("Pension insurance ip", "payselection-gateway-for-woocommerce"), 
+                    "pension_insurance" => esc_html("Pension insurance", "payselection-gateway-for-woocommerce"), 
+                    "medical_insurance_ip" => esc_html("Medical insurance ip", "payselection-gateway-for-woocommerce"), 
+                    "medical_insurance" => esc_html("Medical insurance", "payselection-gateway-for-woocommerce"), 
+                    "social_insurance" => esc_html("Social insurance", "payselection-gateway-for-woocommerce"), 
+                    "casino_payment" => esc_html("Casino payment", "payselection-gateway-for-woocommerce"),
+                ],
+            ],
             "company_inn" => [
                 "title" => esc_html__("INN organization", "payselection-gateway-for-woocommerce"),
                 "type" => "text",
@@ -384,8 +432,16 @@ class Gateway extends \WC_Payment_Gateway
         } elseif (!empty( $result['TransactionId'])) { 
             
 			$formatted_amount = wc_price($result['Amount']);  
-			$refund_message = sprintf(__( 'Refunded %1$s - Refund ID: %2$s - Reason: %3$s', 'payselection-gateway-for-woocommerce' ), $formatted_amount, $result['TransactionId'], $reason);
-			$order->add_order_note($refund_message);
+			$refund_message = '';
+
+            if (!empty($result['NewAmount'])) { 
+                $formatted_remaining_amount = wc_price($result['NewAmount']); 
+                $refund_message = sprintf(__( 'Order partially refunded. Refunded %1$s - Refund ID: %2$s - Reason: %3$s - Remaining amount: %4$s', 'payselection-gateway-for-woocommerce' ), $formatted_amount, $result['TransactionId'], $reason, $formatted_remaining_amount);
+            } else {
+                $refund_message = sprintf(__( 'Refunded %1$s - Refund ID: %2$s - Reason: %3$s', 'payselection-gateway-for-woocommerce' ), $formatted_amount, $result['TransactionId'], $reason);
+            }
+
+            $order->add_order_note($refund_message);
 
 			return true;
 

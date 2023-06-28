@@ -84,6 +84,9 @@ class Order extends \WC_Order
         $items = [];
         $cart = $this->get_items();
 
+        $payment_method = $options->payment_method ?? 'full_prepayment';
+        $payment_object = $options->payment_object ?? 'commodity';
+
         foreach ($cart as $item_data) {
             $product = $item_data->get_product();
             $items[] = [
@@ -91,8 +94,8 @@ class Order extends \WC_Order
                 'sum'            => (float) number_format(floatval($item_data->get_total()), 2, '.', ''),
                 'price'          => (float) number_format($product->get_price(), 2, '.', ''),
                 'quantity'       => (int) $item_data->get_quantity(),
-                'payment_method' => 'full_prepayment',
-                'payment_object' => 'commodity',
+                'payment_method' => $payment_method,
+                'payment_object' => $payment_object,
                 'vat'            => [
                     'type'          => $options->company_vat,
                 ] 
@@ -105,8 +108,8 @@ class Order extends \WC_Order
                 'sum'            => (float) number_format($this->get_total_shipping(), 2, '.', ''),
                 'price'          => (float) number_format($this->get_total_shipping(), 2, '.', ''),
                 'quantity'       => 1,
-                'payment_method' => 'full_prepayment',
-                'payment_object' => 'commodity',
+                'payment_method' => $payment_method,
+                'payment_object' => $payment_object,
                 'vat'            => [
                     'type'          => $options->company_vat,
                 ]  
@@ -172,19 +175,23 @@ class Order extends \WC_Order
             "WebhookUrl"    => home_url('/wc-api/wc_payselection_gateway_webhook'),
         ];
 
-        $items[] = [
-            'name'           => esc_html__('Refund', 'payselection-gateway-for-woocommerce'),
-            'sum'            => (float) number_format(floatval($amount), 2, '.', ''),
-            'price'          => (float) number_format($amount, 2, '.', ''),
-            'quantity'       => 1,
-            'payment_method' => 'full_prepayment',
-            'payment_object' => 'commodity',
-            'vat'            => [
-                'type'          => (string) $options->company_vat,
-            ] 
-        ];
-
         if ($options->receipt === 'yes') {
+
+            $payment_method = $options->payment_method ?? 'full_prepayment';
+            $payment_object = $options->payment_object ?? 'commodity';
+
+            $items[] = [
+                'name'           => esc_html__('Refund', 'payselection-gateway-for-woocommerce'),
+                'sum'            => (float) number_format(floatval($amount), 2, '.', ''),
+                'price'          => (float) number_format($amount, 2, '.', ''),
+                'quantity'       => 1,
+                'payment_method' => $payment_method,
+                'payment_object' => $payment_object,
+                'vat'            => [
+                    'type'          => (string) $options->company_vat,
+                ] 
+            ];
+
             $data['ReceiptData'] = [
                 'timestamp' => date('d.m.Y H:i:s'),
                 'external_id' => (string) $this->get_id(),
