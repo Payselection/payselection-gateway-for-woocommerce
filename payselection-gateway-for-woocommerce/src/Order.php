@@ -142,7 +142,7 @@ class Order extends \WC_Order
 
         if (!empty($this->get_discount_total())) {
 
-            $data['payments'][] = [
+            $data['receipt']['payments'][] = [
                 'type' => 2,
                 'sum' => (float) number_format($this->get_discount_total(), 2, '.', ''),
             ];
