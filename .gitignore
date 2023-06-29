@@ -2,3 +2,4 @@
 docker
 #.github/workflows/cicd.yml
 docker-compose.yml
+woocommerce
