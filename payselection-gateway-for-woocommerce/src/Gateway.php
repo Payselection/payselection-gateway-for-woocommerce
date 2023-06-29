@@ -323,10 +323,11 @@ class Gateway extends \WC_Payment_Gateway
         // Redirect payment
         $response = $this->payselection->getPaymentLink($order->getRequestData());
 
+        $this->payselection->debug(esc_html__('Payment Link request', 'payselection-gateway-for-woocommerce'));
+        $this->payselection->debug(wc_print_r($order->getRequestData(), true));
+        $this->payselection->debug(wc_print_r($response, true));
+
         if (is_wp_error($response)) {
-            $this->payselection->debug(esc_html__('Payment Link request', 'payselection-gateway-for-woocommerce'));
-            $this->payselection->debug(wc_print_r($order->getRequestData(), true));
-            $this->payselection->debug(wc_print_r($response, true));
             wc_add_notice(esc_html__('Payselection error:', 'payselection-gateway-for-woocommerce') . " " . $response->get_error_message());
             return false;
         }

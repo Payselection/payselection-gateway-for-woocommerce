@@ -39,6 +39,7 @@ Yes! An Payselection merchant account is required for this gateway to function.
 = 1.2.0 =
 * Added settings Payment method and Payment object.
 * Added order note about partially refund.
+* Added total discount amount in receipt data.
 
 = 1.0.0 =
 * Initial release.

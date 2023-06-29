@@ -116,7 +116,7 @@ class Order extends \WC_Order
             ];
         }
 
-        return [
+        $data = [
             'timestamp' => date('d.m.Y H:i:s'),
             'external_id' => (string) $this->get_id(),
             'receipt' => [
@@ -139,6 +139,17 @@ class Order extends \WC_Order
                 'total' => (float) number_format($this->get_total(), 2, '.', ''),
             ],
         ];
+
+        if (!empty($this->get_discount_total())) {
+
+            $data['payments'][] = [
+                'type' => 2,
+                'sum' => (float) number_format($this->get_discount_total(), 2, '.', ''),
+            ];
+            
+        }
+
+        return $data;
     }
     
     /**
