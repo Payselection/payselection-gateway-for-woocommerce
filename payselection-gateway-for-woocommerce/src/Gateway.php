@@ -4,6 +4,7 @@ namespace Payselection;
 
 use Payselection\Api;
 use Payselection\Order;
+use Payselection\Paykassa\Api as PaykassaApi;
 
 class Gateway extends \WC_Payment_Gateway
 {
@@ -29,10 +30,12 @@ class Gateway extends \WC_Payment_Gateway
         $this->description = $this->get_option("description");
         
         $this->payselection = new Api();
+        $this->paykassa = new PaykassaApi();
 
         add_action('woocommerce_update_options_payment_gateways_' . $this->id, [$this, 'process_admin_options']);
         add_action('woocommerce_order_status_processing', [$this, 'capture_payment']);
 		add_action('woocommerce_order_status_completed', [$this, 'capture_payment']);
+        add_action('woocommerce_order_status_completed', [$this, 'create_paykassa_receipt']);
         add_action('woocommerce_order_status_cancelled', [ $this, 'cancel_payment' ]);
 		add_action('woocommerce_order_status_refunded', [ $this, 'cancel_payment' ]);
         add_action('woocommerce_order_status_failed', [ $this, 'cancel_payment' ]);
@@ -224,6 +227,33 @@ class Gateway extends \WC_Payment_Gateway
                     "vat118"    => esc_html__("VAT check at the estimated rate 18/118", "payselection-gateway-for-woocommerce"),
                 ],
             ],
+            "paykassa_receipt" => [
+                "title" => esc_html__("Paykassa Fiscalization", "payselection-gateway-for-woocommerce"),
+                "type" => "checkbox",
+                "label" => esc_html__("If this option is enabled order receipts will be sent to Paykassa (if Payment type = Full prepayment, Prepayment or Advance)", "payselection-gateway-for-woocommerce"),
+                "default" => "no",
+            ],
+            "paykassa_host" => [
+                "title" => esc_html__("Paykassa API host", "payselection-gateway-for-woocommerce"),
+                "type" => "text",
+                "description" => esc_html__("Paykassa API hostname", "payselection-gateway-for-woocommerce"),
+                "default" => "https://api.pay-kassa.com/",
+                "desc_tip" => true,
+            ],
+            "paykassa_merchant_id" => [
+                "title" => esc_html__("Paykassa Merchant ID", "payselection-gateway-for-woocommerce"),
+                "type" => "text",
+                "description" => esc_html__("Your Merchant ID on Paykassa", "payselection-gateway-for-woocommerce"),
+                "default" => "",
+                "desc_tip" => false,
+            ],
+            "paykassa_key" => [
+                "title" => esc_html__("Paykassa Secret Key", "payselection-gateway-for-woocommerce"),
+                "type" => "text",
+                "description" => esc_html__("Your Key on Paykassa", "payselection-gateway-for-woocommerce"),
+                "default" => "",
+                "desc_tip" => false,
+            ],
             "debug" => [
                 "title" => esc_html__("Enable DEBUG", "payselection-gateway-for-woocommerce"),
                 "type" => "checkbox",
@@ -291,6 +321,25 @@ class Gateway extends \WC_Payment_Gateway
 
             if (empty($this->get_option('company_address'))) {
                 wc_add_notice(sprintf(esc_html__('Payselection settings error: %s is required.', 'payselection-gateway-for-woocommerce'), esc_html__('Legal address', 'payselection-gateway-for-woocommerce')));
+                return false;
+            }
+
+        }
+
+        if ($this->get_option('paykassa_receipt') === 'yes') {
+
+            if (empty($this->get_option('paykassa_host'))) {
+                wc_add_notice(sprintf(esc_html__('Payselection settings error: %s is required.', 'payselection-gateway-for-woocommerce'), esc_html__('Paykassa API host', 'payselection-gateway-for-woocommerce')));
+                return false;
+            }
+
+            if (empty($this->get_option('paykassa_merchant_id'))) {
+                wc_add_notice(sprintf(esc_html__('Payselection settings error: %s is required.', 'payselection-gateway-for-woocommerce'), esc_html__('Paykassa merchant id', 'payselection-gateway-for-woocommerce')));
+                return false;
+            }
+
+            if (empty($this->get_option('paykassa_key'))) {
+                wc_add_notice(sprintf(esc_html__('Payselection settings error: %s is required.', 'payselection-gateway-for-woocommerce'), esc_html__('Paykassa secret key', 'payselection-gateway-for-woocommerce')));
                 return false;
             }
 
@@ -447,6 +496,52 @@ class Gateway extends \WC_Payment_Gateway
 
 			return true;
 
+		}
+
+        return false;
+	}
+
+    /**
+	 * Send a receipt to Paykassa when the order is completed
+	 *
+	 * @param  int $order_id Order ID.
+	 */
+	public function create_paykassa_receipt( $order_id ) {
+		$order = new Order($order_id);
+        $payment_method = $this->get_option('payment_method') ?? 'full_prepayment';
+
+		if ( 'wc_payselection_gateway' === $order->get_payment_method() 
+            // && $order->meta_exists('TransactionId')
+            // && $this->get_option('paykassa_receipt') === 'yes'
+            // && ('full_prepayment' === $payment_method 
+            //     || 'prepayment' === $payment_method 
+            //     || 'advance' === $payment_method
+            //     )
+        ) {
+            
+
+            $response = $this->paykassa->create($order->getPaykassaReceiptData());
+
+            $this->payselection->debug(esc_html__('Paykassa response', 'payselection-gateway-for-woocommerce'));
+            $this->payselection->debug(wc_print_r($response, true));
+
+			if ( is_wp_error( $response ) ) {
+                if ($response->get_error_message()) {
+                    $error_text = $response->get_error_message();
+                } else {
+                    $error_text = $response->get_error_code();
+                }
+				/* translators: %s: Payselection gateway error message */
+				$order->add_order_note(sprintf(__( 'Paykassa request could not be sended: %s', 'payselection-gateway-for-woocommerce' ), $error_text));
+
+                $this->payselection->debug(esc_html__('Paykassa request error', 'payselection-gateway-for-woocommerce'));
+                $this->payselection->debug(wc_print_r($order->getPaykassaReceiptData(), true));
+                $this->payselection->debug(wc_print_r($response, true));
+
+				return false;
+			}
+
+            $order->add_order_note(esc_html__( 'Receipt was sent to Paykassa', 'payselection-gateway-for-woocommerce' ));
 		}
 
         return false;

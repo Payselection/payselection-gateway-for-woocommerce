@@ -1,6 +1,6 @@
 <?php
 
-namespace Payselection;
+namespace Payselection\Paykassa;
 
 use Payselection\BaseApi;
 
@@ -8,7 +8,7 @@ class Api extends BaseApi
 {
 
     /**
-     * request Send request to API server
+     * request Send request to Paykassa API server
      *
      * @param  string $path - API path
      * @param  array|bool $data - Request DATA
@@ -16,6 +16,7 @@ class Api extends BaseApi
      */
     protected function request(string $host, string $path, $data = false, $method = "GET")
     {
+
         $bodyJSON = !empty($data) ? json_encode($data, JSON_UNESCAPED_UNICODE) : "";
 
         $requestID = self::guidv4();
@@ -39,13 +40,13 @@ class Api extends BaseApi
         ];
 
         // Debug request
-        $this->debug(esc_html__('Operation request', 'payselection-gateway-for-woocommerce'));
+        $this->debug(esc_html__('Paykassa request', 'payselection-gateway-for-woocommerce'));
         $this->debug(wc_print_r($params, true));
 
         $response = $method === 'POST' ? wp_remote_post($url, $params) : wp_remote_get($url, $params);
 
         // Debug response
-        $this->debug(esc_html__('Operation response', 'payselection-gateway-for-woocommerce'));
+        $this->debug(esc_html__('Paykassa response', 'payselection-gateway-for-woocommerce'));
         $this->debug(wc_print_r($response, true));
 
         if (is_wp_error($response)) {
@@ -61,50 +62,17 @@ class Api extends BaseApi
             return $response["body"];
         }
 
-        return new \WP_Error("payselection-request-error", $response["body"]["Code"] . ($response["body"]["Description"] ? " " . $response["body"]["Description"] : ""));
+        return new \WP_Error("payselection-paykassa-request-error", $response["body"]["Code"] . ($response["body"]["Description"] ? " " . $response["body"]["Description"] : ""));
     }
 
     /**
-     * getPaymentLink Get payment link
+     * create Receipt
      *
      * @param  array $data - Request params
      * @return WP_Error|string
      */
-    public function getPaymentLink(array $data = [])
+    public function create(array $data = [])
     {
-        return $this->request($this->options->create_host, 'webpayments/create', $data, 'POST');
-    }
-    
-    /**
-     * charge Charge payment
-     *
-     * @param  array $data - Request params
-     * @return WP_Error|string
-     */
-    public function charge(array $data = [])
-    {
-        return $this->request($this->options->host, 'payments/charge', $data, 'POST');
-    }
-    
-    /**
-     * cancel Cancel payment
-     *
-     * @param  array $data - Request params
-     * @return WP_Error|string
-     */
-    public function cancel(array $data = [])
-    {
-        return $this->request($this->options->host, 'payments/cancellation', $data, 'POST');
-    }
-
-    /**
-     * refund Refund payment
-     *
-     * @param  array $data - Request params
-     * @return WP_Error|string
-     */
-    public function refund(array $data = [])
-    {
-        return $this->request($this->options->host, 'payments/refund', $data, 'POST');
+        return $this->request($this->options->paykassa_host, sprintf('ca/v1/check/merchant/%s', $this->options->paykassa_merchant_id), $data, 'POST');
     }
 }

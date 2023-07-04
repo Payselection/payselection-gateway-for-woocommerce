@@ -109,7 +109,7 @@ class Order extends \WC_Order
                 'price'          => (float) number_format($this->get_total_shipping(), 2, '.', ''),
                 'quantity'       => 1,
                 'payment_method' => $payment_method,
-                'payment_object' => $payment_object,
+                'payment_object' => 'service',
                 'vat'            => [
                     'type'          => $options->company_vat,
                 ]  
@@ -226,6 +226,86 @@ class Order extends \WC_Order
                     'total' => (float) number_format($amount, 2, '.', ''),
                 ],
             ];
+        }
+
+        return $data;
+    }
+
+    /**
+     * getPaykassaReceiptData Create receipt data
+     *
+     * @param  mixed $options
+     * @return void
+     */
+    public function getPaykassaReceiptData()
+    {
+        $payment_method = $options->payment_method ?? 'full_prepayment';
+        $payment_object = $options->payment_object ?? 'commodity';
+
+        $items = [];
+        $cart = $this->get_items();
+
+        foreach ($cart as $item_data) {
+            $product = $item_data->get_product();
+            $items[] = [
+                'name'           => mb_substr($product->get_name(), 0, 120),
+                'sum'            => (float) number_format(floatval($item_data->get_total()), 2, '.', ''),
+                'price'          => (float) number_format($product->get_price(), 2, '.', ''),
+                'quantity'       => (int) $item_data->get_quantity(),
+                'payment_method' => $payment_method,
+                'payment_object' => $payment_object,
+                'vat'            => [
+                    'type'          => $options->company_vat,
+                ],
+                'measure'        => 0
+            ];
+        }
+        
+        if ($this->get_total_shipping()) {
+			$items[] = [
+                'name'           => esc_html__('Shipping', 'payselection-gateway-for-woocommerce'),
+                'sum'            => (float) number_format($this->get_total_shipping(), 2, '.', ''),
+                'price'          => (float) number_format($this->get_total_shipping(), 2, '.', ''),
+                'quantity'       => 1,
+                'payment_method' => $payment_method,
+                'payment_object' => 'service',
+                'vat'            => [
+                    'type'          => $options->company_vat,
+                ]  
+            ];
+        }
+
+        $data = [
+            'operation_type' => 'Income',
+            'external_id' => (string) $this->get_id(),
+            'receipt' => [
+                'client' => [
+                    'email' => $this->get_billing_email(),
+                ],
+                'company' => [
+                    'email' => $options->company_email,
+                    'inn' => $options->company_inn,
+                    'sno' => $options->company_tax_system,
+                    'payment_address' => $options->company_address,
+                ],
+                'items' => $items,
+                'payments' => [
+                    [
+                        'type' => 1,
+                        'sum' => (float) number_format($this->get_total(), 2, '.', ''),
+                    ]
+                ],
+                'total' => (float) number_format($this->get_total(), 2, '.', ''),
+            ],
+        ];
+
+        if (!empty($this->get_total_discount())) {
+
+            $data['receipt']['payments'][] = [
+                'type' => 2,
+                'sum' => (float) number_format($this->get_total_discount(false), 2, '.', ''),
+            ];
+            
         }
 
         return $data;
