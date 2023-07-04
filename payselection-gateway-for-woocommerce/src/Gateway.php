@@ -511,12 +511,12 @@ class Gateway extends \WC_Payment_Gateway
         $payment_method = $this->get_option('payment_method') ?? 'full_prepayment';
 
 		if ( 'wc_payselection_gateway' === $order->get_payment_method() 
-            // && $order->meta_exists('TransactionId')
-            // && $this->get_option('paykassa_receipt') === 'yes'
-            // && ('full_prepayment' === $payment_method 
-            //     || 'prepayment' === $payment_method 
-            //     || 'advance' === $payment_method
-            //     )
+            && $order->meta_exists('TransactionId')
+            && $this->get_option('paykassa_receipt') === 'yes'
+            && ('full_prepayment' === $payment_method 
+                || 'prepayment' === $payment_method 
+                || 'advance' === $payment_method
+                )
         ) {
             
 
