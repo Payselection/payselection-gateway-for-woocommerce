@@ -40,13 +40,13 @@ class Api extends BaseApi
         ];
 
         // Debug request
-        $this->debug(esc_html__('Paykassa request', 'payselection-gateway-for-woocommerce'));
+        $this->debug(esc_html__('Paykassa api request', 'payselection-gateway-for-woocommerce'));
         $this->debug(wc_print_r($params, true));
 
         $response = $method === 'POST' ? wp_remote_post($url, $params) : wp_remote_get($url, $params);
 
         // Debug response
-        $this->debug(esc_html__('Paykassa response', 'payselection-gateway-for-woocommerce'));
+        $this->debug(esc_html__('Paykassa api response', 'payselection-gateway-for-woocommerce'));
         $this->debug(wc_print_r($response, true));
 
         if (is_wp_error($response)) {

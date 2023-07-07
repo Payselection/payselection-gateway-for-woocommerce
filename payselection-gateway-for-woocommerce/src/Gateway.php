@@ -522,8 +522,9 @@ class Gateway extends \WC_Payment_Gateway
 
             $response = $this->paykassa->create($order->getPaykassaReceiptData());
 
-            $this->payselection->debug(esc_html__('Paykassa response', 'payselection-gateway-for-woocommerce'));
-            $this->payselection->debug(wc_print_r($response, true));
+            $this->paykassa->debug(esc_html__('Paykassa create receipt response', 'payselection-gateway-for-woocommerce'));
+            $this->paykassa->debug(wc_print_r($response, true));
+            $this->paykassa->debug(wc_print_r($order->getPaykassaReceiptData(), true));
 
 			if ( is_wp_error( $response ) ) {
                 if ($response->get_error_message()) {
@@ -533,10 +534,6 @@ class Gateway extends \WC_Payment_Gateway
                 }
 				/* translators: %s: Payselection gateway error message */
 				$order->add_order_note(sprintf(__( 'Paykassa request could not be sended: %s', 'payselection-gateway-for-woocommerce' ), $error_text));
-
-                $this->payselection->debug(esc_html__('Paykassa request error', 'payselection-gateway-for-woocommerce'));
-                $this->payselection->debug(wc_print_r($order->getPaykassaReceiptData(), true));
-                $this->payselection->debug(wc_print_r($response, true));
 
 				return false;
 			}
