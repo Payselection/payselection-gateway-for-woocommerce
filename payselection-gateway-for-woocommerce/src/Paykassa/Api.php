@@ -21,12 +21,13 @@ class Api extends BaseApi
 
         $requestID = self::guidv4();
 
-        $signBody = $method . PHP_EOL . "/" . $path . PHP_EOL . $this->options->paykassa_merchant_id . PHP_EOL . $requestID . PHP_EOL . $data;
+        $signBody = $method . PHP_EOL . "/" . $path . PHP_EOL . $this->options->paykassa_merchant_id . PHP_EOL . $requestID . PHP_EOL . $bodyJSON;
 
         $headers = [
             "X-MERCHANT-ID" => (string) $this->options->paykassa_merchant_id,
             "X-REQUEST-ID" => $requestID,
             "X-REQUEST-SIGNATURE" => self::getSignature($signBody, $this->options->paykassa_key),
+            "Content-Type" => "application/json; charset=utf-8"
         ];
 
         $url = $host . "/" . $path;
@@ -36,7 +37,7 @@ class Api extends BaseApi
             "httpversion" => "1.0",
             "blocking" => true,
             "headers" => $headers,
-            "body" => $data,
+            "body" => $bodyJSON,
         ];
 
         // Debug request
