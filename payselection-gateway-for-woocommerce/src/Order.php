@@ -211,7 +211,7 @@ class Order extends \WC_Order
                         'email' => $this->get_billing_email(),
                     ],
                     'company' => [
-                        //'email' => (string) $options->company_email,
+                        'email' => (string) $options->company_email,
                         'inn' => (string) $options->company_inn,
                         'sno' => (string) $options->company_tax_system,
                         'payment_address' => (string) $options->company_address,
@@ -244,6 +244,7 @@ class Order extends \WC_Order
         
         $payment_method = $options->payment_method ?? 'full_prepayment';
         $payment_object = $options->payment_object ?? 'commodity';
+        $company_email  = $options->company_email ?? '';
 
         $items = [];
         $cart = $this->get_items();
@@ -286,7 +287,6 @@ class Order extends \WC_Order
                     'email' => $this->get_billing_email(),
                 ],
                 'company' => [
-                    'email' => $options->company_email,
                     'inn' => $options->company_inn,
                     'sno' => $options->company_tax_system,
                     'payment_address' => $options->company_address,
@@ -302,11 +302,17 @@ class Order extends \WC_Order
             ],
         ];
 
-        if (!empty($this->get_total_discount())) {
+        if (!empty($company_email)) {
+
+            $data['receipt']['company']['email'] = $company_email;
+            
+        }
+
+        if (!empty($total_discount = $this->get_total_discount(false))) {
 
             $data['receipt']['payments'][] = [
                 'type' => 2,
-                'sum' => (float) number_format($this->get_total_discount(false), 2, '.', ''),
+                'sum' => (float) number_format($total_discount, 2, '.', ''),
             ];
             
         }
