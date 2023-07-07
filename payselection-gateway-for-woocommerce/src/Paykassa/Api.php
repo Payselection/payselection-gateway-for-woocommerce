@@ -24,7 +24,7 @@ class Api extends BaseApi
         $signBody = $method . PHP_EOL . "/" . $path . PHP_EOL . $this->options->paykassa_merchant_id . PHP_EOL . $requestID . PHP_EOL . $bodyJSON;
 
         $headers = [
-            "X-MERCHANT-ID" => $this->options->paykassa_merchant_id,
+            "X-MERCHANT-ID" => (string) $this->options->paykassa_merchant_id,
             "X-REQUEST-ID" => $requestID,
             "X-REQUEST-SIGNATURE" => self::getSignature($signBody, $this->options->paykassa_key),
         ];
@@ -36,7 +36,7 @@ class Api extends BaseApi
             "httpversion" => "1.0",
             "blocking" => true,
             "headers" => $headers,
-            "body" => $bodyJSON,
+            "body" => $data,
         ];
 
         // Debug request
