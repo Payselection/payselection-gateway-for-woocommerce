@@ -211,7 +211,7 @@ class Order extends \WC_Order
                         'email' => $this->get_billing_email(),
                     ],
                     'company' => [
-                        'email' => (string) $options->company_email,
+                        //'email' => (string) $options->company_email,
                         'inn' => (string) $options->company_inn,
                         'sno' => (string) $options->company_tax_system,
                         'payment_address' => (string) $options->company_address,
