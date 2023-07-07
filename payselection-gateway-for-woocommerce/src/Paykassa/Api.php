@@ -36,7 +36,7 @@ class Api extends BaseApi
             "httpversion" => "1.0",
             "blocking" => true,
             "headers" => $headers,
-            "body" => $signBody,
+            "body" => $bodyJSON,
         ];
 
         // Debug request
