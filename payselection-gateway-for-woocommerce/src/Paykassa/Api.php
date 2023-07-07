@@ -24,7 +24,7 @@ class Api extends BaseApi
         $signBody = $method . PHP_EOL . "/" . $path . PHP_EOL . $this->options->site_id . PHP_EOL . $requestID . PHP_EOL . $bodyJSON;
 
         $headers = [
-            "X-SITE-ID" => $this->options->site_id,
+            "X-MERCHANT-ID" => $this->options->site_id,
             "X-REQUEST-ID" => $requestID,
             "X-REQUEST-SIGNATURE" => self::getSignature($signBody, $this->options->key),
         ];
