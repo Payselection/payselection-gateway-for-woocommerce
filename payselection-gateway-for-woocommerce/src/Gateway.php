@@ -42,7 +42,7 @@ class Gateway extends \WC_Payment_Gateway
         add_action('woocommerce_api_' . $this->id . '_widget', '\Payselection\Widget::handle');
 
         if (!empty($this->get_option("paykassa_order_status")) && 'delivered' === $this->get_option("paykassa_order_status")) {
-            add_action('woocommerce_order_status_ps_delivered', [$this, 'create_paykassa_receipt']);
+            add_action('woocommerce_order_status_ps-delivered', [$this, 'create_paykassa_receipt']);
         } else {
             add_action('woocommerce_order_status_completed', [$this, 'create_paykassa_receipt']);
         }
@@ -260,13 +260,13 @@ class Gateway extends \WC_Payment_Gateway
                 "desc_tip" => false,
             ],
             "paykassa_order_status" => [
-                "title" => esc_html__("Order status for send receipt", "payselection-gateway-for-woocommerce"),
+                "title" => esc_html__("Order status for sending a receipt", "payselection-gateway-for-woocommerce"),
                 "type" => "select",
-                "label" => esc_html__("Select order status", "payselection-gateway-for-woocommerce"),
+                "label" => esc_html__("Select order status for sending a receipt (default woo status Completed or add new status Delivered)", "payselection-gateway-for-woocommerce"),
                 "default" => "completed",
                 "options" => [
                     "completed"      => esc_html__("Completed", "payselection-gateway-for-woocommerce"),
-                    "delivered"      => esc_html__("Delivered (add new status)", "payselection-gateway-for-woocommerce"),
+                    "delivered"      => esc_html__("Delivered", "payselection-gateway-for-woocommerce"),
                 ],
             ],
             "debug" => [

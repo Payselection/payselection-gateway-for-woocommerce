@@ -38,7 +38,7 @@ class Plugin
 
     public function register_delivered_status() {
         register_post_status(
-            'ps-delivered',
+            'wc-ps-delivered',
             array(
                 'label'		=> esc_html__('Delivered', 'payselection-gateway-for-woocommerce'),
                 'public'	=> true,
@@ -48,8 +48,8 @@ class Plugin
         );
     }
 
-    public function add_status_to_list() {
-        $order_statuses[ 'ps-delivered' ] = esc_html__('Delivered', 'payselection-gateway-for-woocommerce');
+    public function add_status_to_list($order_statuses) {
+        $order_statuses[ 'wc-ps-delivered' ] = esc_html__('Delivered', 'payselection-gateway-for-woocommerce');
 	    return $order_statuses;
     }
 }
