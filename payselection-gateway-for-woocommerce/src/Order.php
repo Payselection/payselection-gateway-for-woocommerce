@@ -253,7 +253,7 @@ class Order extends \WC_Order
             $product = $item_data->get_product();
             $items[] = [
                 'name'           => mb_substr($product->get_name(), 0, 120),
-                'sum'            => (float) number_format(floatval($item_data->get_subtotal()), 2, '.', ''),
+                'sum'            => (float) number_format(floatval($item_data->get_total()), 2, '.', ''),
                 //'price'            => (float) number_format(floatval($item_data->get_total()/$item_data->get_quantity()), 2, '.', ''),
                 'price'          => (float) number_format($product->get_price(), 2, '.', ''),
                 'quantity'       => (int) $item_data->get_quantity(),
@@ -299,7 +299,7 @@ class Order extends \WC_Order
                         'sum' => (float) number_format($this->get_total(), 2, '.', ''),
                     ]
                 ],
-                'total' => (float) number_format($this->get_subtotal(), 2, '.', ''),
+                'total' => (float) number_format($this->get_total(), 2, '.', ''),
             ],
         ];
 
@@ -309,14 +309,14 @@ class Order extends \WC_Order
             
         }
 
-        if (!empty($total_discount = $this->get_total_discount(false))) {
+        // if (!empty($total_discount = $this->get_total_discount(false))) {
 
-            $data['receipt']['payments'][] = [
-                'type' => 2,
-                'sum' => (float) number_format($total_discount, 2, '.', ''),
-            ];
+        //     $data['receipt']['payments'][] = [
+        //         'type' => 2,
+        //         'sum' => (float) number_format($total_discount, 2, '.', ''),
+        //     ];
             
-        }
+        // }
 
         return $data;
     }
