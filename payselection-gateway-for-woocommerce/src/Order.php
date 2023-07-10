@@ -253,9 +253,9 @@ class Order extends \WC_Order
             $product = $item_data->get_product();
             $items[] = [
                 'name'           => mb_substr($product->get_name(), 0, 120),
-                'sum'            => (float) number_format(floatval($item_data->get_total()), 2, '.', ''),
-                'price'            => (float) number_format(floatval($item_data->get_total()/$item_data->get_quantity()), 2, '.', ''),
-                //'price'          => (float) number_format($product->get_price(), 2, '.', ''),
+                'sum'            => (float) number_format(floatval($item_data->get_subtotal()), 2, '.', ''),
+                //'price'            => (float) number_format(floatval($item_data->get_total()/$item_data->get_quantity()), 2, '.', ''),
+                'price'          => (float) number_format($product->get_price(), 2, '.', ''),
                 'quantity'       => (int) $item_data->get_quantity(),
                 'payment_method' => $payment_method,
                 'payment_object' => $payment_object,
@@ -296,10 +296,10 @@ class Order extends \WC_Order
                 'payments' => [
                     [
                         'type' => 1,
-                        'sum' => (float) number_format($this->get_subtotal(), 2, '.', ''),
+                        'sum' => (float) number_format($this->get_total(), 2, '.', ''),
                     ]
                 ],
-                'total' => (float) number_format($this->get_total(), 2, '.', ''),
+                'total' => (float) number_format($this->get_subtotal(), 2, '.', ''),
             ],
         ];
 
