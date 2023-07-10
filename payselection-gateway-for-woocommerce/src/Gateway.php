@@ -35,12 +35,17 @@ class Gateway extends \WC_Payment_Gateway
         add_action('woocommerce_update_options_payment_gateways_' . $this->id, [$this, 'process_admin_options']);
         add_action('woocommerce_order_status_processing', [$this, 'capture_payment']);
 		add_action('woocommerce_order_status_completed', [$this, 'capture_payment']);
-        add_action('woocommerce_order_status_completed', [$this, 'create_paykassa_receipt']);
         add_action('woocommerce_order_status_cancelled', [ $this, 'cancel_payment' ]);
 		add_action('woocommerce_order_status_refunded', [ $this, 'cancel_payment' ]);
         add_action('woocommerce_order_status_failed', [ $this, 'cancel_payment' ]);
         add_action('woocommerce_api_' . $this->id . '_webhook', [new Webhook(), 'handle']);
         add_action('woocommerce_api_' . $this->id . '_widget', '\Payselection\Widget::handle');
+
+        if (!empty($this->get_option("paykassa_order_status")) && 'delivered' === $this->get_option("paykassa_order_status")) {
+            add_action('woocommerce_order_status_ps_delivered', [$this, 'create_paykassa_receipt']);
+        } else {
+            add_action('woocommerce_order_status_completed', [$this, 'create_paykassa_receipt']);
+        }
     }
 
     /**
@@ -253,6 +258,16 @@ class Gateway extends \WC_Payment_Gateway
                 "description" => esc_html__("Your Key on Paykassa", "payselection-gateway-for-woocommerce"),
                 "default" => "",
                 "desc_tip" => false,
+            ],
+            "paykassa_order_status" => [
+                "title" => esc_html__("Order status for send receipt", "payselection-gateway-for-woocommerce"),
+                "type" => "select",
+                "label" => esc_html__("Select order status", "payselection-gateway-for-woocommerce"),
+                "default" => "completed",
+                "options" => [
+                    "completed"      => esc_html__("Completed", "payselection-gateway-for-woocommerce"),
+                    "delivered"      => esc_html__("Delivered (add new status)", "payselection-gateway-for-woocommerce"),
+                ],
             ],
             "debug" => [
                 "title" => esc_html__("Enable DEBUG", "payselection-gateway-for-woocommerce"),

@@ -63,7 +63,7 @@ class Api extends BaseApi
             return $response["body"];
         }
 
-        return new \WP_Error("payselection-paykassa-request-error", $response["body"]["detail"]["error_code"] . ($response["body"]["detail"]["error"] ? " " . $response["body"]["detail"]["error"] : ""));
+        return new \WP_Error("payselection-paykassa-request-error", json_encode($response["body"]));
     }
 
     /**
