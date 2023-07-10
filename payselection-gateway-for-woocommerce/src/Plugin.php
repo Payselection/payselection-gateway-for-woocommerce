@@ -37,19 +37,33 @@ class Plugin
     }
 
     public function register_delivered_status() {
-        register_post_status(
-            'wc-ps-delivered',
-            array(
-                'label'		=> esc_html__('Delivered', 'payselection-gateway-for-woocommerce'),
-                'public'	=> true,
-                'show_in_admin_status_list' => true,
-                'label_count'	=> _n_noop( 'Delivered (%s)', 'Delivered (%s)' )
-            )
-        );
+        if (!in_array('wc-delivered', get_post_statuses())) {
+            register_post_status(
+                'wc-delivered',
+                array(
+                    'label'		=> esc_html__('Delivered', 'payselection-gateway-for-woocommerce'),
+                    'public'	=> true,
+                    'show_in_admin_status_list' => true,
+                    'label_count'	=> _n_noop( 'Delivered (%s)', 'Delivered (%s)' )
+                )
+            );
+        }
     }
 
     public function add_status_to_list($order_statuses) {
-        $order_statuses[ 'wc-ps-delivered' ] = esc_html__('Delivered', 'payselection-gateway-for-woocommerce');
-	    return $order_statuses;
+
+        $new = [];
+
+        foreach ( $order_statuses as $id => $label ) {
+            
+            if ( 'wc-completed' === $id ) { 
+                $new[ 'wc-delivered' ] = esc_html__('Delivered', 'payselection-gateway-for-woocommerce');
+            }
+            
+            $new[ $id ] = $label;
+
+        }
+
+        return $new;
     }
 }

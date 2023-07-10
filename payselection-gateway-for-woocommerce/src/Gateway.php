@@ -42,7 +42,7 @@ class Gateway extends \WC_Payment_Gateway
         add_action('woocommerce_api_' . $this->id . '_widget', '\Payselection\Widget::handle');
 
         if (!empty($this->get_option("paykassa_order_status")) && 'delivered' === $this->get_option("paykassa_order_status")) {
-            add_action('woocommerce_order_status_ps-delivered', [$this, 'create_paykassa_receipt']);
+            add_action('woocommerce_order_status_delivered', [$this, 'create_paykassa_receipt']);
         } else {
             add_action('woocommerce_order_status_completed', [$this, 'create_paykassa_receipt']);
         }
