@@ -298,7 +298,7 @@ class Order extends \WC_Order
                         'sum' => (float) number_format($this->get_subtotal(), 2, '.', ''),
                     ]
                 ],
-                'total' => (float) number_format($this->get_subtotal(), 2, '.', ''),
+                'total' => (float) number_format($this->get_total(), 2, '.', ''),
             ],
         ];
 
