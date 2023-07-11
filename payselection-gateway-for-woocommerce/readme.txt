@@ -40,6 +40,8 @@ Yes! An Payselection merchant account is required for this gateway to function.
 * Added settings Payment method and Payment object.
 * Added order note about partially refund.
 * Added total discount amount in receipt data.
+* Added Paykassa settings
+* Added order statud Delivered for sending a receipt to Paykassa
 
 = 1.0.0 =
 * Initial release.
