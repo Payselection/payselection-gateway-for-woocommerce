@@ -146,9 +146,11 @@ class Webhook extends Api
     }
 
     public function key_tolower($array = []) {
+        $new_array = [];
         foreach ($array as $key=>$value) {
             $new_key = strtolower($key);
-            $array[$new_key] = $array[$key];
+            $new_array[$new_key] = $array[$key];
         }
+        return $new_array;
     }
 }
