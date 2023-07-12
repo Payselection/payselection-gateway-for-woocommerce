@@ -262,7 +262,7 @@ class Gateway extends \WC_Payment_Gateway
             "paykassa_order_status" => [
                 "title" => esc_html__("Order status for sending a receipt", "payselection-gateway-for-woocommerce"),
                 "type" => "select",
-                "label" => esc_html__("Select order status for sending a receipt (default woo status Completed or add new status Delivered)", "payselection-gateway-for-woocommerce"),
+                "description" => esc_html__("Select order status for sending a receipt (default woo status Completed or add new status Delivered)", "payselection-gateway-for-woocommerce"),
                 "default" => "completed",
                 "options" => [
                     "completed"      => esc_html__("Completed", "payselection-gateway-for-woocommerce"),
