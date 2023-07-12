@@ -268,6 +268,7 @@ class Gateway extends \WC_Payment_Gateway
                     "completed"      => esc_html__("Completed", "payselection-gateway-for-woocommerce"),
                     "delivered"      => esc_html__("Delivered", "payselection-gateway-for-woocommerce"),
                 ],
+                "desc_tip" => true,
             ],
             "debug" => [
                 "title" => esc_html__("Enable DEBUG", "payselection-gateway-for-woocommerce"),
@@ -349,12 +350,12 @@ class Gateway extends \WC_Payment_Gateway
             }
 
             if (empty($this->get_option('paykassa_merchant_id'))) {
-                wc_add_notice(sprintf(esc_html__('Payselection settings error: %s is required.', 'payselection-gateway-for-woocommerce'), esc_html__('Paykassa merchant id', 'payselection-gateway-for-woocommerce')));
+                wc_add_notice(sprintf(esc_html__('Payselection settings error: %s is required.', 'payselection-gateway-for-woocommerce'), esc_html__('Paykassa Merchant ID', 'payselection-gateway-for-woocommerce')));
                 return false;
             }
 
             if (empty($this->get_option('paykassa_key'))) {
-                wc_add_notice(sprintf(esc_html__('Payselection settings error: %s is required.', 'payselection-gateway-for-woocommerce'), esc_html__('Paykassa secret key', 'payselection-gateway-for-woocommerce')));
+                wc_add_notice(sprintf(esc_html__('Payselection settings error: %s is required.', 'payselection-gateway-for-woocommerce'), esc_html__('Paykassa Secret Key', 'payselection-gateway-for-woocommerce')));
                 return false;
             }
 
