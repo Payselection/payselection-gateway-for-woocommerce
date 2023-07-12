@@ -18,7 +18,8 @@ class Webhook extends Api
     public function handle()
     {
         $request = file_get_contents('php://input');
-        $headers = $this->key_tolower(getallheaders());
+        //$headers = $this->key_tolower(getallheaders());
+        $headers = $this->key_tolower(false);
 
         $this->debug(esc_html__('Webhook request', 'payselection-gateway-for-woocommerce'));
         $this->debug(wc_print_r($request, true));
