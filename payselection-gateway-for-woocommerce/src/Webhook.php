@@ -20,9 +20,9 @@ class Webhook extends Api
         $request = file_get_contents('php://input');
         $headers = $this->key_tolower(getallheaders());
 
-        $this->debug(esc_html__('Webhook request', 'payselection-gateway-for-woocommerce'));
+        $this->debug(esc_html__('Webhook', 'payselection-gateway-for-woocommerce'));
         $this->debug(wc_print_r($request, true));
-        $this->debug(wc_print_r($headers, true));
+        $this->debug(wc_print_r(getallheaders(), true));
 
         if (
             empty($request) ||
