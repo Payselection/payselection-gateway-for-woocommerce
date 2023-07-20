@@ -256,7 +256,7 @@ class Order extends \WC_Order
         // Get plugin options
         $options = self::get_options();
         
-        $payment_method = $options->payment_method ?? 'full_prepayment';
+        $payment_method = 'full_prepayment';
         $payment_object = $options->payment_object ?? 'commodity';
         $company_email  = $options->company_email ?? '';
 
