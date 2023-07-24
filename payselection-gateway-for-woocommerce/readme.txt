@@ -4,7 +4,7 @@ Tags: credit card, payselection, woocommerce
 Requires at least: 5.6
 Tested up to: 6.2
 Requires PHP: 7.0
-Stable tag: 1.1.0
+Stable tag: 1.2.0
 License: GPLv3
 License URI: https://www.gnu.org/licenses/gpl-3.0.html
 
@@ -35,6 +35,13 @@ Yes! An Payselection merchant account is required for this gateway to function.
 == Screenshots ==
 
 == Changelog ==
+
+= 1.2.0 =
+* Added settings Payment method and Payment object.
+* Added order note about partially refund.
+* Added total discount amount in receipt data.
+* Added Paykassa settings
+* Added order statud Delivered for sending a receipt to Paykassa
 
 = 1.0.0 =
 * Initial release.
