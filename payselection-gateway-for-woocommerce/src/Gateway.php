@@ -140,7 +140,7 @@ class Gateway extends \WC_Payment_Gateway
                 "default" => "no",
             ],
             "payment_method" => [
-                "title" => esc_html__("Payment type", "payselection-gateway-for-woocommerce"),
+                "title" => esc_html__("Payment method", "payselection-gateway-for-woocommerce"),
                 "type" => "select",
                 "default" => "full_prepayment",
                 "options" => [
