@@ -2,7 +2,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: Payselection Gateway for WooCommerce\n"
-"POT-Creation-Date: 2023-07-12 16:37+0300\n"
+"POT-Creation-Date: 2023-07-24 14:10+0300\n"
 "PO-Revision-Date: 2021-01-13 13:35+0300\n"
 "Last-Translator: \n"
 "Language-Team: \n"
@@ -51,7 +51,7 @@ msgstr ""
 msgid "Redirect to Payselection"
 msgstr ""
 
-#: src/Gateway.php:72 src/Gateway.php:143
+#: src/Gateway.php:72
 msgid "Payment type"
 msgstr ""
 
@@ -131,6 +131,10 @@ msgstr ""
 msgid ""
 "If this option is enabled order receipts will be created and sent to your "
 "customer and to the revenue service via Payselection"
+msgstr ""
+
+#: src/Gateway.php:143
+msgid "Payment method"
 msgstr ""
 
 #: src/Gateway.php:147

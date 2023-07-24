@@ -1,8 +1,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: \n"
-"POT-Creation-Date: 2023-07-12 16:37+0300\n"
-"PO-Revision-Date: 2023-07-12 16:44+0300\n"
+"POT-Creation-Date: 2023-07-24 14:10+0300\n"
+"PO-Revision-Date: 2023-07-24 14:11+0300\n"
 "Last-Translator: \n"
 "Language-Team: \n"
 "Language: ru\n"
@@ -48,7 +48,7 @@ msgstr "Виджет/Редирект"
 msgid "Redirect to Payselection"
 msgstr "Редирект в Payselection"
 
-#: src/Gateway.php:72 src/Gateway.php:143
+#: src/Gateway.php:72
 msgid "Payment type"
 msgstr "Тип платежа"
 
@@ -129,6 +129,10 @@ msgid ""
 "If this option is enabled order receipts will be created and sent to your "
 "customer and to the revenue service via Payselection"
 msgstr "Если отмечено, то сформирует и отправит клиенту чек через Payselection"
+
+#: src/Gateway.php:143
+msgid "Payment method"
+msgstr "Признак способа расчёта"
 
 #: src/Gateway.php:147
 msgid "Full prepayment"
