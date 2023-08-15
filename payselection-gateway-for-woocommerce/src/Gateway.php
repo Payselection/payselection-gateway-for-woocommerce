@@ -171,9 +171,9 @@ class Gateway extends \WC_Payment_Gateway
                     "none"      => esc_html__("Tax excluded", "payselection-gateway-for-woocommerce"),
                     "vat0"      => esc_html__("VAT at 0%", "payselection-gateway-for-woocommerce"),
                     "vat10"     => esc_html__("VAT receipt at rate 10%", "payselection-gateway-for-woocommerce"),
-                    "vat18"     => esc_html__("VAT receipt at rate 18%", "payselection-gateway-for-woocommerce"),
+                    "vat20"     => esc_html__("VAT receipt at rate 20%", "payselection-gateway-for-woocommerce"),
                     "vat110"    => esc_html__("VAT check at the estimated rate 10/110", "payselection-gateway-for-woocommerce"),
-                    "vat118"    => esc_html__("VAT check at the estimated rate 18/118", "payselection-gateway-for-woocommerce"),
+                    "vat120"    => esc_html__("VAT check at the estimated rate 20/120", "payselection-gateway-for-woocommerce"),
                 ],
             ],
             "debug" => [
