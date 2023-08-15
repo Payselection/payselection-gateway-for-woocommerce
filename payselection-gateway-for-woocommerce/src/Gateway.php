@@ -15,6 +15,11 @@ class Gateway extends \WC_Payment_Gateway
         $this->method_title = esc_html__("Payselection", "payselection-gateway-for-woocommerce");
         $this->method_description = esc_html__("Pay via Payselection", "payselection-gateway-for-woocommerce");
 
+        $this->supports = [
+			'products',
+			'refunds',
+		];
+
         $this->init_form_fields();
         $this->init_settings();
 
@@ -25,10 +30,14 @@ class Gateway extends \WC_Payment_Gateway
         
         $this->payselection = new Api();
 
-        add_action("woocommerce_update_options_payment_gateways_" . $this->id, [$this, "process_admin_options"]);
-        add_action("woocommerce_order_status_changed", array($this, "update_order_status"), 10, 3);
-        add_action("woocommerce_api_" . $this->id . "_webhook", [new Webhook(), "handle"]);
-        add_action("woocommerce_api_" . $this->id . "_widget", "\Payselection\Widget::handle");
+        add_action('woocommerce_update_options_payment_gateways_' . $this->id, [$this, 'process_admin_options']);
+        add_action('woocommerce_order_status_processing', [$this, 'capture_payment']);
+		add_action('woocommerce_order_status_completed', [$this, 'capture_payment']);
+        add_action('woocommerce_order_status_cancelled', [ $this, 'cancel_payment' ]);
+		add_action('woocommerce_order_status_refunded', [ $this, 'cancel_payment' ]);
+        add_action('woocommerce_order_status_failed', [ $this, 'cancel_payment' ]);
+        add_action('woocommerce_api_' . $this->id . '_webhook', [new Webhook(), 'handle']);
+        add_action('woocommerce_api_' . $this->id . '_widget', '\Payselection\Widget::handle');
     }
 
     /**
@@ -267,6 +276,7 @@ class Gateway extends \WC_Payment_Gateway
         $response = $this->payselection->getPaymentLink($order->getRequestData());
 
         if (is_wp_error($response)) {
+            $this->payselection->debug(esc_html__('Payment Link request', 'payselection-gateway-for-woocommerce'));
             $this->payselection->debug(wc_print_r($order->getRequestData(), true));
             $this->payselection->debug(wc_print_r($response, true));
             wc_add_notice(esc_html__('Payselection error:', 'payselection-gateway-for-woocommerce') . " " . $response->get_error_message());
@@ -278,42 +288,110 @@ class Gateway extends \WC_Payment_Gateway
             'redirect' => $response
         );
     }
-        
-    /**
-     * update_order_status Update order action
-     *
-     * @param  mixed $order_id
-     * @param  mixed $old_status
-     * @param  mixed $new_status
-     * @return void
-     */
-    public function update_order_status($order_id, $old_status, $new_status)
-    {
-        if ($old_status === 'on-hold') {
-            global $woocommerce;
-            $order = new Order($order_id);
-            if ($order->meta_exists('BlockTransactionId')) {
-                switch ($new_status)
-                {
-                    case "processing":
-                        $response = $this->payselection->charge($order->getChargeCancelData());
-                        break;
 
-                    default:
-                        $response = $this->payselection->cancel($order->getChargeCancelData());
-                        break;
+    /**
+	 * Capture payment when the order is changed from on-hold to complete or processing
+	 *
+	 * @param  int $order_id Order ID.
+	 */
+	public function capture_payment( $order_id ) {
+		$order = new Order($order_id);
+
+		if ( 'wc_payselection_gateway' === $order->get_payment_method() 
+            && $order->meta_exists('BlockTransactionId') 
+            && !$order->meta_exists('TransactionId')
+        ) {
+			
+            $response = $this->payselection->charge($order->getChargeCancelData());
+
+            $this->payselection->debug(esc_html__('Capture Result', 'payselection-gateway-for-woocommerce'));
+            $this->payselection->debug(wc_print_r($response, true));
+
+			if ( is_wp_error( $response ) ) {
+                if ($response->get_error_message()) {
+                    $error_text = $response->get_error_message();
+                } else {
+                    $error_text = $response->get_error_code();
                 }
+				/* translators: %s: Payselection gateway error message */
+				$order->add_order_note(sprintf(__( 'Payment could not be captured: %s', 'payselection-gateway-for-woocommerce' ), $error_text));
+
+                $this->payselection->debug(esc_html__('Charge request error', 'payselection-gateway-for-woocommerce'));
+                $this->payselection->debug(wc_print_r($order->getChargeCancelData(), true));
                 $this->payselection->debug(wc_print_r($response, true));
 
-                if (is_wp_error($response)) {
-                    $this->payselection->debug(wc_print_r($order->getChargeCancelData(), true));
-                    $this->payselection->debug(wc_print_r($response, true));
-                    return false;
+				return;
+			}
+		}
+	}
+
+    /**
+	 * Cancel pre-auth on refund/cancellation.
+	 *
+	 * @param  int $order_id
+	 */
+	public function cancel_payment( $order_id ) {
+		$order = new Order($order_id);
+
+		if ( 'wc_payselection_gateway' === $order->get_payment_method() 
+            && $order->meta_exists('BlockTransactionId') 
+            && !$order->meta_exists('TransactionId')
+        ) {
+			
+            $response = $this->payselection->cancel($order->getChargeCancelData());
+
+            $this->payselection->debug(esc_html__('Cancel Result', 'payselection-gateway-for-woocommerce'));
+            $this->payselection->debug(wc_print_r($response, true));
+
+			if ( is_wp_error( $response ) ) {
+                if ($response->get_error_message()) {
+                    $error_text = $response->get_error_message();
+                } else {
+                    $error_text = $response->get_error_code();
                 }
-                
-                return true;
+				/* translators: %s: Payselection gateway error message */
+				$order->add_order_note(sprintf(__( 'Payment could not be cancelled: %s', 'payselection-gateway-for-woocommerce' ), $error_text));
+
+                $this->payselection->debug(esc_html__('Cancel request error', 'payselection-gateway-for-woocommerce'));
+                $this->payselection->debug(wc_print_r($order->getChargeCancelData(), true));
+                $this->payselection->debug(wc_print_r($response, true));
+
+				return;
+			}
+		}
+	}
+
+    public function process_refund($order_id, $amount = null, $reason = '') {
+
+        $order = new Order($order_id);
+
+		if (!($order && $order->meta_exists('TransactionId'))) {
+            return new \WP_Error( 'payselection-refund-error', __( 'Refund failed.', 'payselection-gateway-for-woocommerce' ) );
+		}
+
+		$result = $this->payselection->refund($order->getPayselectionRefundData($amount));
+
+        if (is_wp_error($result)) {
+
+            $this->payselection->debug(esc_html__('Process refund', 'payselection-gateway-for-woocommerce'));
+            $this->payselection->debug(wc_print_r($result, true));
+            if ($result->get_error_message()) {
+                return new \WP_Error('payselection-refund-error', $result->get_error_message());
+            } else {
+                return new \WP_Error('payselection-refund-error', $result->get_error_code());
             }
-        }
-    }
+
+        } elseif (!empty( $result['TransactionId'])) { 
+            
+			$formatted_amount = wc_price($result['Amount']);  
+			$refund_message = sprintf(__( 'Refunded %1$s - Refund ID: %2$s - Reason: %3$s', 'payselection-gateway-for-woocommerce' ), $formatted_amount, $result['TransactionId'], $reason);
+			$order->add_order_note($refund_message);
+
+			return true;
+
+		}
+
+        return false;
+	}
     
 }

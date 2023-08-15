@@ -51,9 +51,14 @@ class Api
         ];
 
         // Debug request
+        $this->debug(esc_html__('Operation request', 'payselection-gateway-for-woocommerce'));
         $this->debug(wc_print_r($params, true));
 
         $response = $method === 'POST' ? wp_remote_post($url, $params) : wp_remote_get($url, $params);
+
+        // Debug response
+        $this->debug(esc_html__('Operation response', 'payselection-gateway-for-woocommerce'));
+        $this->debug(wc_print_r($response, true));
 
         if (is_wp_error($response)) {
             return $response;
@@ -135,5 +140,16 @@ class Api
     public function cancel(array $data = [])
     {
         return $this->request($this->options->host, 'payments/cancellation', $data, 'POST');
+    }
+
+    /**
+     * refund Refund payment
+     *
+     * @param  array $data - Request params
+     * @return WP_Error|string
+     */
+    public function refund(array $data = [])
+    {
+        return $this->request($this->options->host, 'payments/refund', $data, 'POST');
     }
 }

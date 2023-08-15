@@ -1,8 +1,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: \n"
-"POT-Creation-Date: 2022-12-14 16:16+0300\n"
-"PO-Revision-Date: 2022-12-14 16:22+0300\n"
+"POT-Creation-Date: 2023-01-30 11:05+0300\n"
+"PO-Revision-Date: 2023-01-30 11:15+0300\n"
 "Last-Translator: \n"
 "Language-Team: \n"
 "Language: ru\n"
@@ -16,221 +16,254 @@ msgstr ""
 "X-Poedit-KeywordsList: __;_e;esc_html__;esc_attr__;esc_html_e;esc_attr_e\n"
 "X-Poedit-SearchPath-0: .\n"
 
+#: src/Api.php:54
+msgid "Operation request"
+msgstr "Запрос операции"
+
+#: src/Api.php:60
+msgid "Operation response"
+msgstr "Ответ операции"
+
 #: src/Gateway.php:15 templates/widget.php:9
 msgid "Payselection"
 msgstr "Payselection"
 
-#: src/Gateway.php:16 src/Gateway.php:180
+#: src/Gateway.php:16 src/Gateway.php:185
 msgid "Pay via Payselection"
 msgstr "Оплатить через Payselection"
 
-#: src/Gateway.php:43
+#: src/Gateway.php:48
 msgid "Enable/Disable"
 msgstr "Включено/Выключено"
 
-#: src/Gateway.php:45
+#: src/Gateway.php:50
 msgid "Enable Payselection"
 msgstr "Включить Payselection"
 
-#: src/Gateway.php:49
+#: src/Gateway.php:54
 msgid "Widget/Redirect"
 msgstr "Виджет/Редирект"
 
-#: src/Gateway.php:51
+#: src/Gateway.php:56
 msgid "Redirect to Payselection"
 msgstr "Редирект в Payselection"
 
-#: src/Gateway.php:55
+#: src/Gateway.php:60
 msgid "Payment type"
 msgstr "Тип платежа"
 
-#: src/Gateway.php:59
+#: src/Gateway.php:64
 msgid "Pay"
 msgstr "Оплата"
 
-#: src/Gateway.php:60
+#: src/Gateway.php:65
 msgid "Block"
 msgstr "Блокировка"
 
-#: src/Gateway.php:64
+#: src/Gateway.php:69
 msgid "Webhook URL"
 msgstr "URL вебхука"
 
-#: src/Gateway.php:70 src/Gateway.php:209
+#: src/Gateway.php:75 src/Gateway.php:214
 msgid "API host"
 msgstr "Хост API"
 
-#: src/Gateway.php:72
+#: src/Gateway.php:77
 msgid "API hostname"
 msgstr "Имя хоста API"
 
-#: src/Gateway.php:77 src/Gateway.php:214
+#: src/Gateway.php:82 src/Gateway.php:219
 msgid "Create Payment host"
 msgstr "Хост для создания платежа"
 
-#: src/Gateway.php:79
+#: src/Gateway.php:84
 msgid "Create Payment hostname"
 msgstr "Имя хоста для создания платежа"
 
-#: src/Gateway.php:84 src/Gateway.php:219
+#: src/Gateway.php:89 src/Gateway.php:224
 msgid "Site ID"
 msgstr "ID сайта"
 
-#: src/Gateway.php:86
+#: src/Gateway.php:91
 msgid "Your site ID on Payselection"
 msgstr "Ваш ID сайта в Payselection"
 
-#: src/Gateway.php:91 src/Gateway.php:224
+#: src/Gateway.php:96 src/Gateway.php:229
 msgid "Secret Key"
 msgstr "Секретный ключ"
 
-#: src/Gateway.php:93
+#: src/Gateway.php:98
 msgid "Your Key on Payselection"
 msgstr "Ваш ключ в Payselection"
 
-#: src/Gateway.php:98 src/Gateway.php:246
+#: src/Gateway.php:103 src/Gateway.php:251
 msgid "Widget URL"
 msgstr "URL виджета"
 
-#: src/Gateway.php:104 src/Gateway.php:251
+#: src/Gateway.php:109 src/Gateway.php:256
 msgid "Public Key"
 msgstr "Открытый ключ"
 
-#: src/Gateway.php:106
+#: src/Gateway.php:111
 msgid "Your Public Key on Payselection"
 msgstr "Ваш открытый ключ в Payselection"
 
-#: src/Gateway.php:111
+#: src/Gateway.php:116
 msgid "Widget language"
 msgstr "Язык виджета"
 
-#: src/Gateway.php:115
+#: src/Gateway.php:120
 msgid "Russian"
 msgstr "Русский"
 
-#: src/Gateway.php:116
+#: src/Gateway.php:121
 msgid "English"
 msgstr "Английский"
 
-#: src/Gateway.php:120
+#: src/Gateway.php:125
 msgid "Fiscalization"
 msgstr "Печать чеков"
 
-#: src/Gateway.php:122
+#: src/Gateway.php:127
 msgid ""
 "If this option is enabled order receipts will be created and sent to your "
 "customer and to the revenue service via Payselection"
 msgstr "Если отмечено, то сформирует и отправит клиенту чек через Payselection"
 
-#: src/Gateway.php:126 src/Gateway.php:231
+#: src/Gateway.php:131 src/Gateway.php:236
 msgid "INN organization"
 msgstr "ИНН организации"
 
-#: src/Gateway.php:132
+#: src/Gateway.php:137
 msgid "Email organization"
 msgstr "Email организации"
 
-#: src/Gateway.php:138 src/Gateway.php:236
+#: src/Gateway.php:143 src/Gateway.php:241
 msgid "Legal address"
 msgstr "Юридический адрес"
 
-#: src/Gateway.php:144
+#: src/Gateway.php:149
 msgid "Taxation system"
 msgstr "Система налогообложения"
 
-#: src/Gateway.php:148
+#: src/Gateway.php:153
 msgid "General"
 msgstr "Общая"
 
-#: src/Gateway.php:149
+#: src/Gateway.php:154
 msgid "Simplified, income"
 msgstr "Упрощённая, доход"
 
-#: src/Gateway.php:150
+#: src/Gateway.php:155
 msgid "Simplified, income minus expences"
 msgstr "Упрощённая, доход минус расход"
 
-#: src/Gateway.php:151
+#: src/Gateway.php:156
 msgid "Unified tax on imputed income"
 msgstr "Единый налог на вменённый доход"
 
-#: src/Gateway.php:152
+#: src/Gateway.php:157
 msgid "Unified agricultural tax"
 msgstr "Единый сельскохозяйственный налог"
 
-#: src/Gateway.php:153
+#: src/Gateway.php:158
 msgid "Patent taxation system"
 msgstr "Патентная система налогообложения"
 
-#: src/Gateway.php:157
+#: src/Gateway.php:162
 msgid "Item-dependent tax (VAT)"
 msgstr "НДС"
 
-#: src/Gateway.php:159
+#: src/Gateway.php:164
 msgid "Be sure to specify if you use receipt printing through Payselection"
 msgstr "Обязательно укажите, если используете печать чеков через Payselection"
 
-#: src/Gateway.php:162
+#: src/Gateway.php:167
 msgid "Tax excluded"
 msgstr "Без НДС"
 
-#: src/Gateway.php:163
+#: src/Gateway.php:168
 msgid "VAT at 0%"
 msgstr "НДС по ставке 0%"
 
-#: src/Gateway.php:164
+#: src/Gateway.php:169
 msgid "VAT receipt at rate 10%"
 msgstr "НДС чека по ставке 10%"
 
-#: src/Gateway.php:165
+#: src/Gateway.php:170
 msgid "VAT receipt at rate 18%"
 msgstr "НДС чека по ставке 18%"
 
-#: src/Gateway.php:166
+#: src/Gateway.php:171
 msgid "VAT check at the estimated rate 10/110"
 msgstr "НДС чека по расчетной ставке 10/110"
 
-#: src/Gateway.php:167
+#: src/Gateway.php:172
 msgid "VAT check at the estimated rate 18/118"
 msgstr "НДС чека по расчетной ставке 18/118"
 
-#: src/Gateway.php:171 src/Gateway.php:173
+#: src/Gateway.php:176 src/Gateway.php:178
 msgid "Enable DEBUG"
 msgstr "Включить отладку"
 
-#: src/Gateway.php:177
+#: src/Gateway.php:182
 msgid "Title"
 msgstr "Заголовок"
 
-#: src/Gateway.php:179
+#: src/Gateway.php:184
 msgid "This controls the title which the user sees during checkout."
 msgstr "Заголовок который увидят пользователи в корзине."
 
-#: src/Gateway.php:184
+#: src/Gateway.php:189
 msgid "Description"
 msgstr "Описание"
 
-#: src/Gateway.php:186
+#: src/Gateway.php:191
 msgid "Payment method description that the customer will see on your checkout."
 msgstr "Описание шлюза которое увидят пользователи в корзине."
 
-#: src/Gateway.php:187
+#: src/Gateway.php:192
 msgid ""
 "To pay for the order, you will be redirected to the Payselection service "
 "page."
 msgstr ""
 "Для оплаты заказа, вы будете перенаправлены на страницу оплаты Payselection."
 
-#: src/Gateway.php:209 src/Gateway.php:214 src/Gateway.php:219
-#: src/Gateway.php:224 src/Gateway.php:231 src/Gateway.php:236
-#: src/Gateway.php:246 src/Gateway.php:251
+#: src/Gateway.php:214 src/Gateway.php:219 src/Gateway.php:224
+#: src/Gateway.php:229 src/Gateway.php:236 src/Gateway.php:241
+#: src/Gateway.php:251 src/Gateway.php:256
 #, php-format
 msgid "Payselection settings error: %s is required."
 msgstr "Ошибка настроек Payselection: %s обязательное поле."
 
-#: src/Gateway.php:272
+#: src/Gateway.php:275
+msgid "Payment Link request"
+msgstr "Payment Link запрос"
+
+#: src/Gateway.php:278
 msgid "Payselection error:"
 msgstr "Ошибка Payselection:"
+
+#: src/Gateway.php:312
+msgid "Charge/Cancel request"
+msgstr "Запрос операции оплатить/отменить"
+
+#: src/Gateway.php:316
+msgid "Charge/Cancel request error"
+msgstr "Ошибки запроса операции оплатить/отменить"
+
+#: src/Gateway.php:332
+msgid "Refund failed."
+msgstr "Ошибка возврата платежа"
+
+#: src/Gateway.php:353
+msgid "Process refund"
+msgstr "Процесс возврата платежа"
+
+#: src/Gateway.php:364
+#, php-format
+msgid "Refunded %1$s - Refund ID: %2$s - Reason: %3$s"
+msgstr "Возвращено %1$s - ID возврата платежа: %2$s - Причина: %3$s"
 
 #: src/Order.php:39
 msgid "Order payment #"
@@ -240,27 +273,35 @@ msgstr "Оплата заказа #"
 msgid "Shipping"
 msgstr "Доставка"
 
-#: src/Webhook.php:32
+#: src/Order.php:176
+msgid "Refund"
+msgstr "Возврат платежа"
+
+#: src/Webhook.php:23
+msgid "Webhook request"
+msgstr "Запрос вебхука"
+
+#: src/Webhook.php:33
 msgid "Not found"
 msgstr "Не найдено"
 
-#: src/Webhook.php:38
+#: src/Webhook.php:39
 msgid "Signature error"
 msgstr "Ошибка сигнатуры"
 
-#: src/Webhook.php:43
+#: src/Webhook.php:56
 msgid "Can't decode JSON"
 msgstr "Не возможно декодировать JSON"
 
-#: src/Webhook.php:48
+#: src/Webhook.php:61
 msgid "Order id error"
 msgstr "Ошибка id заказа"
 
-#: src/Webhook.php:54
+#: src/Webhook.php:67
 msgid "Order not found"
 msgstr "Заказ не найден"
 
-#: src/Webhook.php:57
+#: src/Webhook.php:70
 #, php-format
 msgid ""
 "Payselection Webhook:\n"
@@ -273,16 +314,31 @@ msgstr ""
 "Ордер: %s\n"
 "Транзакция: %s"
 
-#: src/Webhook.php:63
+#: src/Webhook.php:80
 #, php-format
-msgid "Payment approved (ID: %s)"
-msgstr "Платёж одобрен (ID: %s)"
+msgid "Payment approved (Payment ID: %s)"
+msgstr "Платёж одобрен (ID платежа: %s)"
 
-#: src/Webhook.php:86
+#: src/Webhook.php:91
+#, php-format
+msgid ""
+"Payselection payment intent created (Payment Intent ID: %s). Process order "
+"to take payment, or cancel to remove the pre-authorization."
+msgstr ""
+"Платежное намерение Payselection создано (ID платежного намерения: %s). "
+"Обработайте заказ, чтобы принять платеж, или отмените, чтобы удалить "
+"предварительное разрешение на платеж."
+
+#: src/Webhook.php:104
+#, php-format
+msgid "Pre-Authorization for %s voided."
+msgstr "Предварительно разрешение на платёж %s аннулировано."
+
+#: src/Webhook.php:109
 msgid "There is no handler for this event"
 msgstr "Нет обработчика для данного события"
 
-#: src/Webhook.php:101 src/Webhook.php:124
+#: src/Webhook.php:125 src/Webhook.php:152
 msgid "Ok"
 msgstr "Хорошо"
 

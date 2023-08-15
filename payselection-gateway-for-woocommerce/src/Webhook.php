@@ -20,6 +20,7 @@ class Webhook extends Api
         $request = file_get_contents('php://input');
         $headers = getallheaders();
 
+        $this->debug(esc_html__('Webhook request', 'payselection-gateway-for-woocommerce'));
         $this->debug(wc_print_r($request, true));
         $this->debug(wc_print_r($headers, true));
 
@@ -34,7 +35,6 @@ class Webhook extends Api
         // Check signature
         $request_method = isset($_SERVER['REQUEST_METHOD']) ? sanitize_text_field(wp_unslash($_SERVER['REQUEST_METHOD'])) : '';
         $signBody = $request_method . PHP_EOL . home_url('/wc-api/wc_payselection_gateway_webhook') . PHP_EOL . $this->options->site_id . PHP_EOL . $request;
-
         if ($headers['X-WEBHOOK-SIGNATURE'] !== self::getSignature($signBody, $this->options->key))
             wp_die(esc_html__('Signature error', 'payselection-gateway-for-woocommerce'), '', array('response' => 403));
 
@@ -54,15 +54,18 @@ class Webhook extends Api
         if (empty($order))
             wp_die(esc_html__('Order not found', 'payselection-gateway-for-woocommerce'), '', array('response' => 404));
 
-        if ($request['Event'] === 'Fail' || $request['Event'] === 'Payment') {
+        if ($request['Event'] === 'Fail' || $request['Event'] === 'Payment' || $request['Event'] === 'Refund') {
             $order->add_order_note(sprintf(esc_html__("Payselection Webhook:\nEvent: %s\nOrderId: %s\nTransaction: %s", "payselection-gateway-for-woocommerce"), $request['Event'], esc_html($request['OrderId']), esc_html($request['TransactionId'])));
         }
 
         switch ($request['Event'])
         {
             case 'Payment':
-                $order->add_order_note(sprintf(esc_html__('Payment approved (ID: %s)', 'payselection-gateway-for-woocommerce'), esc_html($request['TransactionId'])));
                 $order->update_meta_data('TransactionId', sanitize_text_field($request['TransactionId']));
+                if (is_callable([$order, 'save'])) {
+                    $order->save();
+                }
+                $order->add_order_note(sprintf(esc_html__('Payment approved (Payment ID: %s)', 'payselection-gateway-for-woocommerce'), esc_html($request['TransactionId'])));
                 self::payment($order, 'completed');
                 break;
 
@@ -71,6 +74,12 @@ class Webhook extends Api
                 break;
 
             case 'Block':
+                $order->add_order_note(
+                    sprintf(
+                        esc_html__( 'Payselection payment intent created (Payment Intent ID: %s). Process order to take payment, or cancel to remove the pre-authorization.', 'payselection-gateway-for-woocommerce' ),
+                        $request['TransactionId']
+                    )
+                );
                 $order->update_meta_data('BlockTransactionId', sanitize_text_field($request['TransactionId']));
                 self::payment($order, 'hold');
                 break;
@@ -80,6 +89,7 @@ class Webhook extends Api
                 break;
 
             case 'Cancel':
+                $order->add_order_note( sprintf( esc_html__( 'Pre-Authorization for %s voided.', 'payselection-gateway-for-woocommerce' ), $request['Amount']));
                 self::payment($order, 'cancel');
                 break;
 
@@ -87,6 +97,7 @@ class Webhook extends Api
                 wp_die(esc_html__('There is no handler for this event', 'payselection-gateway-for-woocommerce'), '', array('response' => 404));
                 break;
         }
+
     }
     
     /**
@@ -105,7 +116,12 @@ class Webhook extends Api
         switch ($status)
         {
             case 'completed':
+                //$order->payment_complete($order->get_meta('TransactionId', true));
                 $order->payment_complete();
+                break;
+
+            case 'fail':
+                $order->update_status('failed');
                 break;
 
             case 'hold':
@@ -113,8 +129,10 @@ class Webhook extends Api
                 break;
 
             case 'cancel':
-            case 'refund':
                 $order->update_status('cancelled');
+                break;
+
+            case 'refund':
                 break;
 
             default:
