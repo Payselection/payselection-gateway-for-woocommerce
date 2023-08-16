@@ -52,7 +52,7 @@ class Order extends \WC_Order
 
         if (!empty($billing_phone = $this->get_billing_phone())) {
             $format_billing_phone = '+' === substr($billing_phone, 0, 1) ? $billing_phone : '+' . $billing_phone;
-            $data['CustomerInfo']['Phone'] = $format_billing_phone;
+            $data['CustomerInfo']['Phone'] = str_replace(array('(', ')', ' ', '-'), '', $format_billing_phone);
         }
 
         if (!empty($billing_address = $this->get_billing_address_1())) {
