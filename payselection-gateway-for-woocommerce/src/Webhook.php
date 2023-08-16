@@ -20,7 +20,7 @@ class Webhook extends Api
         $request = file_get_contents('php://input');
         $headers = getallheaders();
 
-        $this->debug(esc_html__('Webhook request', 'payselection-gateway-for-woocommerce'));
+        $this->debug(esc_html__('Webhook', 'payselection-gateway-for-woocommerce'));
         $this->debug(wc_print_r($request, true));
         $this->debug(wc_print_r($headers, true));
 
@@ -35,7 +35,7 @@ class Webhook extends Api
         // Check signature
         $request_method = isset($_SERVER['REQUEST_METHOD']) ? sanitize_text_field(wp_unslash($_SERVER['REQUEST_METHOD'])) : '';
         $signBody = $request_method . PHP_EOL . home_url('/wc-api/wc_payselection_gateway_webhook') . PHP_EOL . $this->options->site_id . PHP_EOL . $request;
-        if ($headers['X-WEBHOOK-SIGNATURE'] !== self::getSignature($signBody, $this->options->key))
+        if ($headers['x-webhook-signature'] !== self::getSignature($signBody, $this->options->key))
             wp_die(esc_html__('Signature error', 'payselection-gateway-for-woocommerce'), '', array('response' => 403));
 
         $request = json_decode($request, true);
