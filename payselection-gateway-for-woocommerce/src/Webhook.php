@@ -18,17 +18,17 @@ class Webhook extends Api
     public function handle()
     {
         $request = file_get_contents('php://input');
-        $headers = $this->key_tolower(getallheaders());
+        $headers = getallheaders();
 
         $this->debug(esc_html__('Webhook', 'payselection-gateway-for-woocommerce'));
         $this->debug(wc_print_r($request, true));
-        $this->debug(wc_print_r(getallheaders(), true));
+        $this->debug(wc_print_r($headers, true));
 
         if (
             empty($request) ||
-            empty($headers['x-site-id']) ||
-            $this->options->site_id != $headers['x-site-id'] ||
-            empty($headers['x-webhook-signature'])
+            empty($headers['X-SITE-ID']) ||
+            $this->options->site_id != $headers['X-SITE-ID'] ||
+            empty($headers['X-WEBHOOK-SIGNATURE'])
         )
             wp_die(esc_html__('Not found', 'payselection-gateway-for-woocommerce'), '', array('response' => 404));
         
@@ -85,7 +85,7 @@ class Webhook extends Api
                 break;
 
             case 'Refund':
-                self::payment($order, 'refund'); 
+                self::payment($order, 'refund');
                 break;
 
             case 'Cancel':
@@ -141,14 +141,5 @@ class Webhook extends Api
         }        
         
         wp_die(esc_html__('Ok', 'payselection-gateway-for-woocommerce'), '', array('response' => 200));
-    }
-
-    public function key_tolower($array = []) {
-        $new_array = [];
-        foreach ($array as $key=>$value) {
-            $new_key = strtolower($key);
-            $new_array[$new_key] = $array[$key];
-        }
-        return $new_array;
     }
 }
