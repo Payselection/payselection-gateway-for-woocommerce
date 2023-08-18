@@ -2,7 +2,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: Payselection Gateway for WooCommerce\n"
-"POT-Creation-Date: 2023-07-24 14:10+0300\n"
+"POT-Creation-Date: 2023-08-15 16:32+0300\n"
 "PO-Revision-Date: 2021-01-13 13:35+0300\n"
 "Last-Translator: \n"
 "Language-Team: \n"
@@ -19,519 +19,283 @@ msgstr ""
 "esc_html_e;esc_html_x:1,2c;__ngettext:1,2;__ngettext_noop:1,2\n"
 "X-Poedit-SearchPath-0: .\n"
 
-#: src/Api.php:42
+#: src/Api.php:54
 msgid "Operation request"
 msgstr ""
 
-#: src/Api.php:48
+#: src/Api.php:60
 msgid "Operation response"
 msgstr ""
 
-#: src/Gateway.php:16 templates/widget.php:9
+#: src/Gateway.php:15 templates/widget.php:9
 msgid "Payselection"
 msgstr ""
 
-#: src/Gateway.php:17 src/Gateway.php:283
+#: src/Gateway.php:16 src/Gateway.php:189
 msgid "Pay via Payselection"
 msgstr ""
 
-#: src/Gateway.php:60
+#: src/Gateway.php:52
 msgid "Enable/Disable"
 msgstr ""
 
-#: src/Gateway.php:62
+#: src/Gateway.php:54
 msgid "Enable Payselection"
 msgstr ""
 
-#: src/Gateway.php:66
+#: src/Gateway.php:58
 msgid "Widget/Redirect"
 msgstr ""
 
-#: src/Gateway.php:68
+#: src/Gateway.php:60
 msgid "Redirect to Payselection"
 msgstr ""
 
-#: src/Gateway.php:72
+#: src/Gateway.php:64
 msgid "Payment type"
 msgstr ""
 
-#: src/Gateway.php:76
+#: src/Gateway.php:68
 msgid "Pay"
 msgstr ""
 
-#: src/Gateway.php:77
+#: src/Gateway.php:69
 msgid "Block"
 msgstr ""
 
-#: src/Gateway.php:81
+#: src/Gateway.php:73
 msgid "Webhook URL"
 msgstr ""
 
-#: src/Gateway.php:87 src/Gateway.php:312
+#: src/Gateway.php:79 src/Gateway.php:218
 msgid "API host"
 msgstr ""
 
-#: src/Gateway.php:89
+#: src/Gateway.php:81
 msgid "API hostname"
 msgstr ""
 
-#: src/Gateway.php:94 src/Gateway.php:317
+#: src/Gateway.php:86 src/Gateway.php:223
 msgid "Create Payment host"
 msgstr ""
 
-#: src/Gateway.php:96
+#: src/Gateway.php:88
 msgid "Create Payment hostname"
 msgstr ""
 
-#: src/Gateway.php:101 src/Gateway.php:322
+#: src/Gateway.php:93 src/Gateway.php:228
 msgid "Site ID"
 msgstr ""
 
-#: src/Gateway.php:103
+#: src/Gateway.php:95
 msgid "Your site ID on Payselection"
 msgstr ""
 
-#: src/Gateway.php:108 src/Gateway.php:327
+#: src/Gateway.php:100 src/Gateway.php:233
 msgid "Secret Key"
 msgstr ""
 
-#: src/Gateway.php:110
+#: src/Gateway.php:102
 msgid "Your Key on Payselection"
 msgstr ""
 
-#: src/Gateway.php:115 src/Gateway.php:368
+#: src/Gateway.php:107 src/Gateway.php:255
 msgid "Widget URL"
 msgstr ""
 
-#: src/Gateway.php:121 src/Gateway.php:373
+#: src/Gateway.php:113 src/Gateway.php:260
 msgid "Public Key"
 msgstr ""
 
-#: src/Gateway.php:123
+#: src/Gateway.php:115
 msgid "Your Public Key on Payselection"
 msgstr ""
 
-#: src/Gateway.php:128
+#: src/Gateway.php:120
 msgid "Widget language"
 msgstr ""
 
-#: src/Gateway.php:132
+#: src/Gateway.php:124
 msgid "Russian"
 msgstr ""
 
-#: src/Gateway.php:133
+#: src/Gateway.php:125
 msgid "English"
 msgstr ""
 
-#: src/Gateway.php:137
+#: src/Gateway.php:129
 msgid "Fiscalization"
 msgstr ""
 
-#: src/Gateway.php:139
+#: src/Gateway.php:131
 msgid ""
 "If this option is enabled order receipts will be created and sent to your "
 "customer and to the revenue service via Payselection"
 msgstr ""
 
-#: src/Gateway.php:143
-msgid "Payment method"
-msgstr ""
-
-#: src/Gateway.php:147
-msgid "Full prepayment"
-msgstr ""
-
-#: src/Gateway.php:148
-msgid "Prepayment"
-msgstr ""
-
-#: src/Gateway.php:149
-msgid "Advance"
-msgstr ""
-
-#: src/Gateway.php:150
-msgid "Full payment"
-msgstr ""
-
-#: src/Gateway.php:151
-msgid "Partial payment"
-msgstr ""
-
-#: src/Gateway.php:152
-msgid "Credit"
-msgstr ""
-
-#: src/Gateway.php:153
-msgid "Credit payment"
-msgstr ""
-
-#: src/Gateway.php:157
-msgid "Type of goods and services"
-msgstr ""
-
-#: src/Gateway.php:161
-msgid "Commodity"
-msgstr ""
-
-#: src/Gateway.php:162
-msgid "Excise"
-msgstr ""
-
-#: src/Gateway.php:163
-msgid "Job"
-msgstr ""
-
-#: src/Gateway.php:164
-msgid "Service"
-msgstr ""
-
-#: src/Gateway.php:165
-msgid "Gambling bet"
-msgstr ""
-
-#: src/Gateway.php:166
-msgid "Gambling prize"
-msgstr ""
-
-#: src/Gateway.php:167
-msgid "Lottery"
-msgstr ""
-
-#: src/Gateway.php:168
-msgid "Lottery prize"
-msgstr ""
-
-#: src/Gateway.php:169
-msgid "Intellectual activity"
-msgstr ""
-
-#: src/Gateway.php:170
-msgid "Payment"
-msgstr ""
-
-#: src/Gateway.php:171
-msgid "Agent commission"
-msgstr ""
-
-#: src/Gateway.php:172
-msgid "Composite"
-msgstr ""
-
-#: src/Gateway.php:173
-msgid "Award"
-msgstr ""
-
-#: src/Gateway.php:174
-msgid "Another"
-msgstr ""
-
-#: src/Gateway.php:175
-msgid "Property right"
-msgstr ""
-
-#: src/Gateway.php:176
-msgid "Non-operating gain"
-msgstr ""
-
-#: src/Gateway.php:177
-msgid "Insurance premium"
-msgstr ""
-
-#: src/Gateway.php:178
-msgid "Sales tax"
-msgstr ""
-
-#: src/Gateway.php:179
-msgid "Resort fee"
-msgstr ""
-
-#: src/Gateway.php:180
-msgid "Deposit"
-msgstr ""
-
-#: src/Gateway.php:181
-msgid "Expense"
-msgstr ""
-
-#: src/Gateway.php:182
-msgid "Pension insurance ip"
-msgstr ""
-
-#: src/Gateway.php:183
-msgid "Pension insurance"
-msgstr ""
-
-#: src/Gateway.php:184
-msgid "Medical insurance ip"
-msgstr ""
-
-#: src/Gateway.php:185
-msgid "Medical insurance"
-msgstr ""
-
-#: src/Gateway.php:186
-msgid "Social insurance"
-msgstr ""
-
-#: src/Gateway.php:187
-msgid "Casino payment"
-msgstr ""
-
-#: src/Gateway.php:191 src/Gateway.php:334
+#: src/Gateway.php:135 src/Gateway.php:240
 msgid "INN organization"
 msgstr ""
 
-#: src/Gateway.php:197
+#: src/Gateway.php:141
 msgid "Email organization"
 msgstr ""
 
-#: src/Gateway.php:203 src/Gateway.php:339
+#: src/Gateway.php:147 src/Gateway.php:245
 msgid "Legal address"
 msgstr ""
 
-#: src/Gateway.php:209
+#: src/Gateway.php:153
 msgid "Taxation system"
 msgstr ""
 
-#: src/Gateway.php:213
+#: src/Gateway.php:157
 msgid "General"
 msgstr ""
 
-#: src/Gateway.php:214
+#: src/Gateway.php:158
 msgid "Simplified, income"
 msgstr ""
 
-#: src/Gateway.php:215
+#: src/Gateway.php:159
 msgid "Simplified, income minus expences"
 msgstr ""
 
-#: src/Gateway.php:216
+#: src/Gateway.php:160
 msgid "Unified tax on imputed income"
 msgstr ""
 
-#: src/Gateway.php:217
+#: src/Gateway.php:161
 msgid "Unified agricultural tax"
 msgstr ""
 
-#: src/Gateway.php:218
+#: src/Gateway.php:162
 msgid "Patent taxation system"
 msgstr ""
 
-#: src/Gateway.php:222
+#: src/Gateway.php:166
 msgid "Item-dependent tax (VAT)"
 msgstr ""
 
-#: src/Gateway.php:224
+#: src/Gateway.php:168
 msgid "Be sure to specify if you use receipt printing through Payselection"
 msgstr ""
 
-#: src/Gateway.php:227
+#: src/Gateway.php:171
 msgid "Tax excluded"
 msgstr ""
 
-#: src/Gateway.php:228
+#: src/Gateway.php:172
 msgid "VAT at 0%"
 msgstr ""
 
-#: src/Gateway.php:229
+#: src/Gateway.php:173
 msgid "VAT receipt at rate 10%"
 msgstr ""
 
-#: src/Gateway.php:230
-msgid "VAT receipt at rate 18%"
+#: src/Gateway.php:174
+msgid "VAT receipt at rate 20%"
 msgstr ""
 
-#: src/Gateway.php:231
+#: src/Gateway.php:175
 msgid "VAT check at the estimated rate 10/110"
 msgstr ""
 
-#: src/Gateway.php:232
-msgid "VAT check at the estimated rate 18/118"
+#: src/Gateway.php:176
+msgid "VAT check at the estimated rate 20/120"
 msgstr ""
 
-#: src/Gateway.php:236
-msgid "Paykassa Fiscalization"
-msgstr ""
-
-#: src/Gateway.php:238
-msgid ""
-"If this option is enabled order receipts will be sent to Paykassa (if "
-"Payment type = Full prepayment, Prepayment or Advance)"
-msgstr ""
-
-#: src/Gateway.php:242 src/Gateway.php:348
-msgid "Paykassa API host"
-msgstr ""
-
-#: src/Gateway.php:244
-msgid "Paykassa API hostname"
-msgstr ""
-
-#: src/Gateway.php:249 src/Gateway.php:353
-msgid "Paykassa Merchant ID"
-msgstr ""
-
-#: src/Gateway.php:251
-msgid "Your Merchant ID on Paykassa"
-msgstr ""
-
-#: src/Gateway.php:256 src/Gateway.php:358
-msgid "Paykassa Secret Key"
-msgstr ""
-
-#: src/Gateway.php:258
-msgid "Your Key on Paykassa"
-msgstr ""
-
-#: src/Gateway.php:263
-msgid "Order status for sending a receipt"
-msgstr ""
-
-#: src/Gateway.php:265
-msgid ""
-"Select order status for sending a receipt (default woo status Completed or "
-"add new status Delivered)"
-msgstr ""
-
-#: src/Gateway.php:268
-msgid "Completed"
-msgstr ""
-
-#: src/Gateway.php:269 src/Plugin.php:43 src/Plugin.php:58
-msgid "Delivered"
-msgstr ""
-
-#: src/Gateway.php:274 src/Gateway.php:276
+#: src/Gateway.php:180 src/Gateway.php:182
 msgid "Enable DEBUG"
 msgstr ""
 
-#: src/Gateway.php:280
+#: src/Gateway.php:186
 msgid "Title"
 msgstr ""
 
-#: src/Gateway.php:282
+#: src/Gateway.php:188
 msgid "This controls the title which the user sees during checkout."
 msgstr ""
 
-#: src/Gateway.php:287
+#: src/Gateway.php:193
 msgid "Description"
 msgstr ""
 
-#: src/Gateway.php:289
+#: src/Gateway.php:195
 msgid "Payment method description that the customer will see on your checkout."
 msgstr ""
 
-#: src/Gateway.php:290
+#: src/Gateway.php:196
 msgid ""
 "To pay for the order, you will be redirected to the Payselection service "
 "page."
 msgstr ""
 
-#: src/Gateway.php:312 src/Gateway.php:317 src/Gateway.php:322
-#: src/Gateway.php:327 src/Gateway.php:334 src/Gateway.php:339
-#: src/Gateway.php:348 src/Gateway.php:353 src/Gateway.php:358
-#: src/Gateway.php:368 src/Gateway.php:373
+#: src/Gateway.php:218 src/Gateway.php:223 src/Gateway.php:228
+#: src/Gateway.php:233 src/Gateway.php:240 src/Gateway.php:245
+#: src/Gateway.php:255 src/Gateway.php:260
 #, php-format
 msgid "Payselection settings error: %s is required."
 msgstr ""
 
-#: src/Gateway.php:391
+#: src/Gateway.php:279
 msgid "Payment Link request"
 msgstr ""
 
-#: src/Gateway.php:396
+#: src/Gateway.php:282
 msgid "Payselection error:"
 msgstr ""
 
-#: src/Gateway.php:421
+#: src/Gateway.php:307
 msgid "Capture Result"
 msgstr ""
 
-#: src/Gateway.php:431
+#: src/Gateway.php:317
 #, php-format
 msgid "Payment could not be captured: %s"
 msgstr ""
 
-#: src/Gateway.php:433
+#: src/Gateway.php:319
 msgid "Charge request error"
 msgstr ""
 
-#: src/Gateway.php:457
+#: src/Gateway.php:343
 msgid "Cancel Result"
 msgstr ""
 
-#: src/Gateway.php:467
+#: src/Gateway.php:353
 #, php-format
 msgid "Payment could not be cancelled: %s"
 msgstr ""
 
-#: src/Gateway.php:469
+#: src/Gateway.php:355
 msgid "Cancel request error"
 msgstr ""
 
-#: src/Gateway.php:483
+#: src/Gateway.php:369
 msgid "Refund failed."
 msgstr ""
 
-#: src/Gateway.php:490
+#: src/Gateway.php:376
 msgid "Process refund"
 msgstr ""
 
-#: src/Gateway.php:506
-#, php-format
-msgid ""
-"Order partially refund. Refunded %1$s - Refund ID: %2$s - Reason: %3$s - "
-"Remaining amount: %4$s"
-msgstr ""
-
-#: src/Gateway.php:508
+#: src/Gateway.php:387
 #, php-format
 msgid "Refunded %1$s - Refund ID: %2$s - Reason: %3$s"
-msgstr ""
-
-#: src/Gateway.php:541
-msgid "Paykassa create receipt response"
-msgstr ""
-
-#: src/Gateway.php:552
-#, php-format
-msgid "Paykassa request could not be sended: %s"
-msgstr ""
-
-#: src/Gateway.php:557
-msgid "Receipt was sent to Paykassa"
 msgstr ""
 
 #: src/Order.php:39
 msgid "Order payment #"
 msgstr ""
 
-#: src/Order.php:107 src/Order.php:284
+#: src/Order.php:104
 msgid "Shipping"
 msgstr ""
 
-#: src/Order.php:121 src/Order.php:298
-msgid "Tax"
-msgstr ""
-
-#: src/Order.php:209
+#: src/Order.php:176
 msgid "Refund"
 msgstr ""
-
-#: src/Paykassa/Api.php:44
-msgid "Paykassa api request"
-msgstr ""
-
-#: src/Paykassa/Api.php:50
-msgid "Paykassa api response"
-msgstr ""
-
-#: src/Plugin.php:46
-#, php-format
-msgid "Delivered (%s)"
-msgid_plural "Delivered (%s)"
-msgstr[0] ""
-msgstr[1] ""
 
 #: src/Webhook.php:23
 msgid "Webhook request"
@@ -557,7 +321,7 @@ msgstr ""
 msgid "Order not found"
 msgstr ""
 
-#: src/Webhook.php:58 src/Webhook.php:67
+#: src/Webhook.php:58
 #, php-format
 msgid ""
 "Payselection Webhook:\n"
@@ -566,37 +330,27 @@ msgid ""
 "Transaction: %s"
 msgstr ""
 
-#: src/Webhook.php:65
-#, php-format
-msgid ""
-"Payselection Webhook:\n"
-"Event: %s\n"
-"OrderId: %s\n"
-"Transaction: %s\n"
-" Transaction amount is less, than order amount."
-msgstr ""
-
-#: src/Webhook.php:79
+#: src/Webhook.php:68
 #, php-format
 msgid "Payment approved (Payment ID: %s)"
 msgstr ""
 
-#: src/Webhook.php:90
+#: src/Webhook.php:79
 #, php-format
 msgid ""
 "Payselection payment intent created (Payment Intent ID: %s). Process order "
 "to take payment, or cancel to remove the pre-authorization."
 msgstr ""
 
-#: src/Webhook.php:103
+#: src/Webhook.php:92
 #, php-format
 msgid "Pre-Authorization for %s voided."
 msgstr ""
 
-#: src/Webhook.php:108
+#: src/Webhook.php:97
 msgid "There is no handler for this event"
 msgstr ""
 
-#: src/Webhook.php:124 src/Webhook.php:154
+#: src/Webhook.php:113 src/Webhook.php:143
 msgid "Ok"
 msgstr ""

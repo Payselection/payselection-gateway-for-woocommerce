@@ -54,19 +54,8 @@ class Webhook extends Api
         if (empty($order))
             wp_die(esc_html__('Order not found', 'payselection-gateway-for-woocommerce'), '', array('response' => 404));
 
-        if ($request['Event'] === 'Fail' || $request['Event'] === 'Payment') {
+        if ($request['Event'] === 'Fail' || $request['Event'] === 'Payment' || $request['Event'] === 'Refund') {
             $order->add_order_note(sprintf(esc_html__("Payselection Webhook:\nEvent: %s\nOrderId: %s\nTransaction: %s", "payselection-gateway-for-woocommerce"), $request['Event'], esc_html($request['OrderId']), esc_html($request['TransactionId'])));
-        }
-
-        if ($request['Event'] === 'Refund') {
-            if ($new_amount = $request['NewAmount']) {
-                $new_amount = (float) $new_amount;
-                if ($new_amount>0) {
-                    $order->add_order_note(sprintf(esc_html__("Payselection Webhook:\nEvent: %s\nOrderId: %s\nTransaction: %s\n Transaction amount is less, than order amount.", "payselection-gateway-for-woocommerce"), $request['Event'], esc_html($request['OrderId']), esc_html($request['TransactionId'])));
-                } else {
-                    $order->add_order_note(sprintf(esc_html__("Payselection Webhook:\nEvent: %s\nOrderId: %s\nTransaction: %s", "payselection-gateway-for-woocommerce"), $request['Event'], esc_html($request['OrderId']), esc_html($request['TransactionId'])));
-                }
-            }
         }
 
         switch ($request['Event'])
