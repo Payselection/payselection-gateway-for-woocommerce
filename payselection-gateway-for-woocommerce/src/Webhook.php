@@ -18,11 +18,11 @@ class Webhook extends Api
     public function handle()
     {
         $request = file_get_contents('php://input');
-        $headers = $this->key_tolower(getallheaders());
+        $headers = $this->key_tolower($this->getHeaders());
 
         $this->debug(esc_html__('Webhook', 'payselection-gateway-for-woocommerce'));
         $this->debug(wc_print_r($request, true));
-        $this->debug(wc_print_r(getallheaders(), true));
+        $this->debug(wc_print_r($this->getHeaders(), true));
 
         if (
             empty($request) ||
@@ -150,5 +150,21 @@ class Webhook extends Api
             $new_array[$new_key] = $array[$key];
         }
         return $new_array;
+    }
+
+
+    public function getHeaders() {
+        if (!function_exists('getallheaders')) {
+            $headers = [];
+            foreach ($_SERVER as $name => $value) {
+                if (substr($name, 0, 5) == 'HTTP_') {
+                    $name = str_replace(' ', '-', ucwords(strtolower(str_replace('_', ' ', substr($name, 5)))));
+                    $headers[$name] = $value;
+                }
+            }
+            return $headers;
+        } else {
+            return getallheaders();
+        }
     }
 }
