@@ -16,6 +16,18 @@ deploy-stage:
     - sudo rsync --remove-source-files -r ${repo_dir} ${stage_dir} 
     - sudo chown -R www-data:www-data ${stage_dir}
 
+deploy-any-stage:
+  stage: update
+  except: 
+    - staging
+    - master
+  when: manual
+  tags:
+    - wp-staging
+  script:
+    - sudo rsync --remove-source-files -r ${repo_dir} ${stage_dir} 
+    - sudo chown -R www-data:www-data ${stage_dir}
+
 deploy-main:
   stage: update
   only: 
