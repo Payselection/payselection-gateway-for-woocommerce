@@ -36,6 +36,10 @@ Yes! An Payselection merchant account is required for this gateway to function.
 
 == Changelog ==
 
+= 1.2.0 =
+* Added checkout block support.
+* Formated widget error codes to text.
+
 = 1.1.1 =
 * Updated the list of VATs.
 
