@@ -2,6 +2,8 @@
 
 namespace Payselection;
 
+defined( 'ABSPATH' ) || exit;
+
 class Order extends \WC_Order
 {
     use Traits\Options;

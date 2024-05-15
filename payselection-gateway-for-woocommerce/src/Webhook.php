@@ -4,6 +4,8 @@ namespace Payselection;
 
 use Payselection\Api;
 
+defined( 'ABSPATH' ) || exit;
+
 class Webhook extends Api
 {
     public function __construct() {

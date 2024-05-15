@@ -2,7 +2,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: Payselection Gateway for WooCommerce\n"
-"POT-Creation-Date: 2024-05-15 14:50+0300\n"
+"POT-Creation-Date: 2024-04-12 15:46+0300\n"
 "PO-Revision-Date: 2021-01-13 13:35+0300\n"
 "Last-Translator: \n"
 "Language-Team: \n"
@@ -18,314 +18,348 @@ msgstr ""
 "_n_noop:1,2;_nx_noop:1,2,3c;esc_attr__;esc_attr_e;esc_attr_x:1,2c;esc_html__;"
 "esc_html_e;esc_html_x:1,2c;__ngettext:1,2;__ngettext_noop:1,2\n"
 "X-Poedit-SearchPath-0: .\n"
+"X-Poedit-SearchPathExcluded-0: assets/src/node_modules\n"
 
-#: src/Api.php:54
+#: src/Api.php:56
 msgid "Operation request"
 msgstr ""
 
-#: src/Api.php:60
+#: src/Api.php:62
 msgid "Operation response"
 msgstr ""
 
-#: src/Gateway.php:15 templates/widget.php:9
+#: src/Gateway.php:17 templates/widget.php:9
 msgid "Payselection"
 msgstr ""
 
-#: src/Gateway.php:16 src/Gateway.php:189
+#: src/Gateway.php:18 src/Gateway.php:191
 msgid "Pay via Payselection"
 msgstr ""
 
-#: src/Gateway.php:52
+#: src/Gateway.php:54
 msgid "Enable/Disable"
 msgstr ""
 
-#: src/Gateway.php:54
+#: src/Gateway.php:56
 msgid "Enable Payselection"
 msgstr ""
 
-#: src/Gateway.php:58
+#: src/Gateway.php:60
 msgid "Widget/Redirect"
 msgstr ""
 
-#: src/Gateway.php:60
+#: src/Gateway.php:62
 msgid "Redirect to Payselection"
 msgstr ""
 
-#: src/Gateway.php:64
+#: src/Gateway.php:66
 msgid "Payment type"
 msgstr ""
 
-#: src/Gateway.php:68
+#: src/Gateway.php:70
 msgid "Pay"
 msgstr ""
 
-#: src/Gateway.php:69
+#: src/Gateway.php:71
 msgid "Block"
 msgstr ""
 
-#: src/Gateway.php:73
+#: src/Gateway.php:75
 msgid "Webhook URL"
 msgstr ""
 
-#: src/Gateway.php:79 src/Gateway.php:218
+#: src/Gateway.php:81 src/Gateway.php:207
 msgid "API host"
 msgstr ""
 
-#: src/Gateway.php:81
+#: src/Gateway.php:83
 msgid "API hostname"
 msgstr ""
 
-#: src/Gateway.php:86 src/Gateway.php:223
+#: src/Gateway.php:88 src/Gateway.php:212
 msgid "Create Payment host"
 msgstr ""
 
-#: src/Gateway.php:88
+#: src/Gateway.php:90
 msgid "Create Payment hostname"
 msgstr ""
 
-#: src/Gateway.php:93 src/Gateway.php:228
+#: src/Gateway.php:95 src/Gateway.php:217
 msgid "Site ID"
 msgstr ""
 
-#: src/Gateway.php:95
+#: src/Gateway.php:97
 msgid "Your site ID on Payselection"
 msgstr ""
 
-#: src/Gateway.php:100 src/Gateway.php:233
+#: src/Gateway.php:102 src/Gateway.php:222
 msgid "Secret Key"
 msgstr ""
 
-#: src/Gateway.php:102
+#: src/Gateway.php:104
 msgid "Your Key on Payselection"
 msgstr ""
 
-#: src/Gateway.php:107 src/Gateway.php:255
+#: src/Gateway.php:109 src/Gateway.php:243
 msgid "Widget URL"
 msgstr ""
 
-#: src/Gateway.php:113 src/Gateway.php:260
+#: src/Gateway.php:115 src/Gateway.php:248
 msgid "Public Key"
 msgstr ""
 
-#: src/Gateway.php:115
+#: src/Gateway.php:117
 msgid "Your Public Key on Payselection"
 msgstr ""
 
-#: src/Gateway.php:120
+#: src/Gateway.php:122
 msgid "Widget language"
 msgstr ""
 
-#: src/Gateway.php:124
+#: src/Gateway.php:126
 msgid "Russian"
 msgstr ""
 
-#: src/Gateway.php:125
+#: src/Gateway.php:127
 msgid "English"
 msgstr ""
 
-#: src/Gateway.php:129
+#: src/Gateway.php:131
 msgid "Fiscalization"
 msgstr ""
 
-#: src/Gateway.php:131
+#: src/Gateway.php:133
 msgid ""
 "If this option is enabled order receipts will be created and sent to your "
 "customer and to the revenue service via Payselection"
 msgstr ""
 
-#: src/Gateway.php:135 src/Gateway.php:240
+#: src/Gateway.php:137 src/Gateway.php:229
 msgid "INN organization"
 msgstr ""
 
-#: src/Gateway.php:141
+#: src/Gateway.php:143
 msgid "Email organization"
 msgstr ""
 
-#: src/Gateway.php:147
-msgid "Place of calculations. Website address"
+#: src/Gateway.php:149 src/Gateway.php:234
+msgid "Legal address"
 msgstr ""
 
-#: src/Gateway.php:153
+#: src/Gateway.php:155
 msgid "Taxation system"
 msgstr ""
 
-#: src/Gateway.php:157
+#: src/Gateway.php:159
 msgid "General"
 msgstr ""
 
-#: src/Gateway.php:158
+#: src/Gateway.php:160
 msgid "Simplified, income"
 msgstr ""
 
-#: src/Gateway.php:159
+#: src/Gateway.php:161
 msgid "Simplified, income minus expences"
 msgstr ""
 
-#: src/Gateway.php:160
+#: src/Gateway.php:162
 msgid "Unified tax on imputed income"
 msgstr ""
 
-#: src/Gateway.php:161
+#: src/Gateway.php:163
 msgid "Unified agricultural tax"
 msgstr ""
 
-#: src/Gateway.php:162
+#: src/Gateway.php:164
 msgid "Patent taxation system"
 msgstr ""
 
-#: src/Gateway.php:166
+#: src/Gateway.php:168
 msgid "Item-dependent tax (VAT)"
 msgstr ""
 
-#: src/Gateway.php:168
+#: src/Gateway.php:170
 msgid "Be sure to specify if you use receipt printing through Payselection"
 msgstr ""
 
-#: src/Gateway.php:171
+#: src/Gateway.php:173
 msgid "Tax excluded"
 msgstr ""
 
-#: src/Gateway.php:172
+#: src/Gateway.php:174
 msgid "VAT at 0%"
 msgstr ""
 
-#: src/Gateway.php:173
+#: src/Gateway.php:175
 msgid "VAT receipt at rate 10%"
 msgstr ""
 
-#: src/Gateway.php:174
+#: src/Gateway.php:176
 msgid "VAT receipt at rate 20%"
 msgstr ""
 
-#: src/Gateway.php:175
+#: src/Gateway.php:177
 msgid "VAT check at the estimated rate 10/110"
 msgstr ""
 
-#: src/Gateway.php:176
+#: src/Gateway.php:178
 msgid "VAT check at the estimated rate 20/120"
 msgstr ""
 
-#: src/Gateway.php:180 src/Gateway.php:182
+#: src/Gateway.php:182 src/Gateway.php:184
 msgid "Enable DEBUG"
 msgstr ""
 
-#: src/Gateway.php:186
+#: src/Gateway.php:188
 msgid "Title"
 msgstr ""
 
-#: src/Gateway.php:188
+#: src/Gateway.php:190
 msgid "This controls the title which the user sees during checkout."
 msgstr ""
 
-#: src/Gateway.php:193
+#: src/Gateway.php:195
 msgid "Description"
 msgstr ""
 
-#: src/Gateway.php:195
+#: src/Gateway.php:197
 msgid "Payment method description that the customer will see on your checkout."
 msgstr ""
 
-#: src/Gateway.php:196
+#: src/Gateway.php:198
 msgid ""
 "To pay for the order, you will be redirected to the Payselection service "
 "page."
 msgstr ""
 
-#: src/Gateway.php:218 src/Gateway.php:223 src/Gateway.php:228
-#: src/Gateway.php:233 src/Gateway.php:240 src/Gateway.php:245
-#: src/Gateway.php:255 src/Gateway.php:260
+#: src/Gateway.php:207 src/Gateway.php:212 src/Gateway.php:217
+#: src/Gateway.php:222 src/Gateway.php:229 src/Gateway.php:234
+#: src/Gateway.php:243 src/Gateway.php:248
 #, php-format
 msgid "Payselection settings error: %s is required."
 msgstr ""
 
-#: src/Gateway.php:245
-msgid "Legal address"
-msgstr ""
-
-#: src/Gateway.php:279
+#: src/Gateway.php:287
 msgid "Payment Link request"
 msgstr ""
 
-#: src/Gateway.php:282
-msgid "Payselection error:"
+#: src/Gateway.php:295
+#, php-format
+msgid "Payselection error - %s"
 msgstr ""
 
-#: src/Gateway.php:307
+#: src/Gateway.php:327
 msgid "Capture Result"
 msgstr ""
 
-#: src/Gateway.php:317
+#: src/Gateway.php:337
 #, php-format
 msgid "Payment could not be captured: %s"
 msgstr ""
 
-#: src/Gateway.php:319
+#: src/Gateway.php:339
 msgid "Charge request error"
 msgstr ""
 
-#: src/Gateway.php:343
+#: src/Gateway.php:363
 msgid "Cancel Result"
 msgstr ""
 
-#: src/Gateway.php:353
+#: src/Gateway.php:373
 #, php-format
 msgid "Payment could not be cancelled: %s"
 msgstr ""
 
-#: src/Gateway.php:355
+#: src/Gateway.php:375
 msgid "Cancel request error"
 msgstr ""
 
-#: src/Gateway.php:369
+#: src/Gateway.php:389
 msgid "Refund failed."
 msgstr ""
 
-#: src/Gateway.php:376
+#: src/Gateway.php:396
 msgid "Process refund"
 msgstr ""
 
-#: src/Gateway.php:387
+#: src/Gateway.php:407
 #, php-format
 msgid "Refunded %1$s - Refund ID: %2$s - Reason: %3$s"
 msgstr ""
 
-#: src/Order.php:39
+#: src/Order.php:41
 msgid "Order payment #"
 msgstr ""
 
-#: src/Order.php:107
+#: src/Order.php:108
 msgid "Shipping"
 msgstr ""
 
-#: src/Order.php:179
+#: src/Order.php:180
 msgid "Refund"
 msgstr ""
 
-#: src/Webhook.php:23
+#: src/Plugin.php:38
+msgid "Payselection Error:"
+msgstr ""
+
+#: src/Plugin.php:40
+msgid "Parameter error"
+msgstr ""
+
+#: src/Plugin.php:41
+msgid "System error"
+msgstr ""
+
+#: src/Plugin.php:42
+msgid "Network error"
+msgstr ""
+
+#: src/Plugin.php:43
+msgid "Transaction error"
+msgstr ""
+
+#: src/Plugin.php:44
+msgid "Close after an error"
+msgstr ""
+
+#: src/Plugin.php:45
+msgid "Payment not completed"
+msgstr ""
+
+#: src/Plugin.php:46
+msgid "Close after fail"
+msgstr ""
+
+#: src/Plugin.php:47
+msgid "Close after success"
+msgstr ""
+
+#: src/Webhook.php:25
 msgid "Webhook"
 msgstr ""
 
-#: src/Webhook.php:33
+#: src/Webhook.php:35
 msgid "Not found"
 msgstr ""
 
-#: src/Webhook.php:39
+#: src/Webhook.php:41
 msgid "Signature error"
 msgstr ""
 
-#: src/Webhook.php:44
+#: src/Webhook.php:46
 msgid "Can't decode JSON"
 msgstr ""
 
-#: src/Webhook.php:49
+#: src/Webhook.php:51
 msgid "Order id error"
 msgstr ""
 
-#: src/Webhook.php:55
+#: src/Webhook.php:57
 msgid "Order not found"
 msgstr ""
 
-#: src/Webhook.php:58
+#: src/Webhook.php:60
 #, php-format
 msgid ""
 "Payselection Webhook:\n"
@@ -334,27 +368,27 @@ msgid ""
 "Transaction: %s"
 msgstr ""
 
-#: src/Webhook.php:68
+#: src/Webhook.php:70
 #, php-format
 msgid "Payment approved (Payment ID: %s)"
 msgstr ""
 
-#: src/Webhook.php:79
+#: src/Webhook.php:81
 #, php-format
 msgid ""
 "Payselection payment intent created (Payment Intent ID: %s). Process order "
 "to take payment, or cancel to remove the pre-authorization."
 msgstr ""
 
-#: src/Webhook.php:92
+#: src/Webhook.php:94
 #, php-format
 msgid "Pre-Authorization for %s voided."
 msgstr ""
 
-#: src/Webhook.php:97
+#: src/Webhook.php:99
 msgid "There is no handler for this event"
 msgstr ""
 
-#: src/Webhook.php:113 src/Webhook.php:143
+#: src/Webhook.php:115 src/Webhook.php:145
 msgid "Ok"
 msgstr ""
