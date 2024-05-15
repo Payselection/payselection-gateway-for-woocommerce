@@ -144,7 +144,7 @@ class Gateway extends \WC_Payment_Gateway
                 "desc_tip" => false,
             ],
             "company_address" => [
-                "title" => esc_html__("Legal address", "payselection-gateway-for-woocommerce"),
+                "title" => esc_html__("Place of calculations. Website address", "payselection-gateway-for-woocommerce"),
                 "type" => "text",
                 "default" => "",
                 "desc_tip" => false,

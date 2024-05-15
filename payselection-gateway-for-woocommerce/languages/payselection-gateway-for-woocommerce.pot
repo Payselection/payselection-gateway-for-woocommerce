@@ -2,7 +2,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: Payselection Gateway for WooCommerce\n"
-"POT-Creation-Date: 2023-08-15 16:32+0300\n"
+"POT-Creation-Date: 2024-05-15 14:50+0300\n"
 "PO-Revision-Date: 2021-01-13 13:35+0300\n"
 "Last-Translator: \n"
 "Language-Team: \n"
@@ -141,8 +141,8 @@ msgstr ""
 msgid "Email organization"
 msgstr ""
 
-#: src/Gateway.php:147 src/Gateway.php:245
-msgid "Legal address"
+#: src/Gateway.php:147
+msgid "Place of calculations. Website address"
 msgstr ""
 
 #: src/Gateway.php:153
@@ -238,6 +238,10 @@ msgstr ""
 msgid "Payselection settings error: %s is required."
 msgstr ""
 
+#: src/Gateway.php:245
+msgid "Legal address"
+msgstr ""
+
 #: src/Gateway.php:279
 msgid "Payment Link request"
 msgstr ""
@@ -289,16 +293,16 @@ msgstr ""
 msgid "Order payment #"
 msgstr ""
 
-#: src/Order.php:104
+#: src/Order.php:107
 msgid "Shipping"
 msgstr ""
 
-#: src/Order.php:176
+#: src/Order.php:179
 msgid "Refund"
 msgstr ""
 
 #: src/Webhook.php:23
-msgid "Webhook request"
+msgid "Webhook"
 msgstr ""
 
 #: src/Webhook.php:33

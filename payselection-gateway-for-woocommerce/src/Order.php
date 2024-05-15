@@ -48,6 +48,7 @@ class Order extends \WC_Order
 
         if (!empty($billing_email = $this->get_billing_email())) {
             $data['CustomerInfo']['Email'] = $billing_email;
+            $data['CustomerInfo']['ReceiptEmail'] = $billing_email;
         }
 
         if (!empty($billing_phone = $this->get_billing_phone())) {

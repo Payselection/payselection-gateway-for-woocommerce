@@ -1,8 +1,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: \n"
-"POT-Creation-Date: 2023-08-15 16:32+0300\n"
-"PO-Revision-Date: 2023-08-15 16:38+0300\n"
+"POT-Creation-Date: 2024-05-15 14:50+0300\n"
+"PO-Revision-Date: 2024-05-15 14:53+0300\n"
 "Last-Translator: \n"
 "Language-Team: \n"
 "Language: ru\n"
@@ -138,9 +138,9 @@ msgstr "ИНН организации"
 msgid "Email organization"
 msgstr "Email организации"
 
-#: src/Gateway.php:147 src/Gateway.php:245
-msgid "Legal address"
-msgstr "Юридический адрес"
+#: src/Gateway.php:147
+msgid "Place of calculations. Website address"
+msgstr "Место расчетов. Адрес сайта"
 
 #: src/Gateway.php:153
 msgid "Taxation system"
@@ -236,6 +236,10 @@ msgstr ""
 msgid "Payselection settings error: %s is required."
 msgstr "Ошибка настроек Payselection: %s обязательное поле."
 
+#: src/Gateway.php:245
+msgid "Legal address"
+msgstr "Место расчетов. Адрес сайта."
+
 #: src/Gateway.php:279
 msgid "Payment Link request"
 msgstr "Payment Link запрос"
@@ -251,7 +255,7 @@ msgstr ""
 #: src/Gateway.php:317
 #, php-format
 msgid "Payment could not be captured: %s"
-msgstr ""
+msgstr "Не удалось получить платеж: %s"
 
 #: src/Gateway.php:319
 msgid "Charge request error"
@@ -264,7 +268,7 @@ msgstr ""
 #: src/Gateway.php:353
 #, php-format
 msgid "Payment could not be cancelled: %s"
-msgstr ""
+msgstr "Платеж не может быть отменен: %s"
 
 #: src/Gateway.php:355
 msgid "Cancel request error"
@@ -287,17 +291,19 @@ msgstr "Возвращено %1$s - ID возврата платежа: %2$s - �
 msgid "Order payment #"
 msgstr "Оплата заказа #"
 
-#: src/Order.php:104
+#: src/Order.php:107
 msgid "Shipping"
 msgstr "Доставка"
 
-#: src/Order.php:176
+#: src/Order.php:179
 msgid "Refund"
 msgstr "Возврат платежа"
 
 #: src/Webhook.php:23
-msgid "Webhook request"
-msgstr "Запрос вебхука"
+#, fuzzy
+#| msgid "Webhook URL"
+msgid "Webhook"
+msgstr "URL вебхука"
 
 #: src/Webhook.php:33
 msgid "Not found"
@@ -359,6 +365,9 @@ msgstr "Нет обработчика для данного события"
 #: src/Webhook.php:113 src/Webhook.php:143
 msgid "Ok"
 msgstr "Хорошо"
+
+#~ msgid "Webhook request"
+#~ msgstr "Запрос вебхука"
 
 #~ msgid "VAT receipt at rate 18%"
 #~ msgstr "НДС чека по ставке 18%"

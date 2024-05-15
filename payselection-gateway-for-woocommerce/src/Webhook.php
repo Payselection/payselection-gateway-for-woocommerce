@@ -93,6 +93,10 @@ class Webhook extends Api
                 self::payment($order, 'cancel');
                 break;
 
+            case '3DS':
+            case 'Redirect3DS':
+                break;
+
             default:
                 wp_die(esc_html__('There is no handler for this event', 'payselection-gateway-for-woocommerce'), '', array('response' => 404));
                 break;
