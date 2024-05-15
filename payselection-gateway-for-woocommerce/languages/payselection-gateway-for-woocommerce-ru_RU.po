@@ -1,8 +1,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: \n"
-"POT-Creation-Date: 2024-04-12 15:46+0300\n"
-"PO-Revision-Date: 2024-04-12 15:52+0300\n"
+"POT-Creation-Date: 2024-05-15 15:21+0300\n"
+"PO-Revision-Date: 2024-05-15 15:22+0300\n"
 "Last-Translator: \n"
 "Language-Team: \n"
 "Language: ru\n"
@@ -138,9 +138,9 @@ msgstr "ИНН организации"
 msgid "Email organization"
 msgstr "Email организации"
 
-#: src/Gateway.php:149 src/Gateway.php:234
-msgid "Legal address"
-msgstr "Юридический адрес"
+#: src/Gateway.php:149
+msgid "Place of calculations. Website address"
+msgstr "Место расчетов. Адрес сайта"
 
 #: src/Gateway.php:155
 msgid "Taxation system"
@@ -236,6 +236,10 @@ msgstr ""
 msgid "Payselection settings error: %s is required."
 msgstr "Ошибка настроек Payselection: %s обязательное поле."
 
+#: src/Gateway.php:234
+msgid "Legal address"
+msgstr "Юридический адрес"
+
 #: src/Gateway.php:287
 msgid "Payment Link request"
 msgstr "Payment Link запрос"
@@ -288,47 +292,47 @@ msgstr "Возвращено %1$s - ID возврата платежа: %2$s - �
 msgid "Order payment #"
 msgstr "Оплата заказа #"
 
-#: src/Order.php:108
+#: src/Order.php:109
 msgid "Shipping"
 msgstr "Доставка"
 
-#: src/Order.php:180
+#: src/Order.php:181
 msgid "Refund"
 msgstr "Возврат платежа"
 
-#: src/Plugin.php:38
+#: src/Plugin.php:39
 msgid "Payselection Error:"
 msgstr "Ошибка Payselection:"
 
-#: src/Plugin.php:40
+#: src/Plugin.php:41
 msgid "Parameter error"
 msgstr "Ошибка параметра"
 
-#: src/Plugin.php:41
+#: src/Plugin.php:42
 msgid "System error"
 msgstr "Ошибка системы"
 
-#: src/Plugin.php:42
+#: src/Plugin.php:43
 msgid "Network error"
 msgstr "Ошибка сети"
 
-#: src/Plugin.php:43
+#: src/Plugin.php:44
 msgid "Transaction error"
 msgstr "Ошибка транзакции"
 
-#: src/Plugin.php:44
+#: src/Plugin.php:45
 msgid "Close after an error"
 msgstr "Закрыто после ошибки"
 
-#: src/Plugin.php:45
+#: src/Plugin.php:46
 msgid "Payment not completed"
 msgstr "Платеж не завершен"
 
-#: src/Plugin.php:46
+#: src/Plugin.php:47
 msgid "Close after fail"
 msgstr "Закрыто после сбоя"
 
-#: src/Plugin.php:47
+#: src/Plugin.php:48
 msgid "Close after success"
 msgstr "Закрыто после успеха"
 
@@ -389,11 +393,11 @@ msgstr ""
 msgid "Pre-Authorization for %s voided."
 msgstr "Предварительно разрешение на платёж %s аннулировано."
 
-#: src/Webhook.php:99
+#: src/Webhook.php:103
 msgid "There is no handler for this event"
 msgstr "Нет обработчика для данного события"
 
-#: src/Webhook.php:115 src/Webhook.php:145
+#: src/Webhook.php:119 src/Webhook.php:149
 msgid "Ok"
 msgstr "Хорошо"
 
