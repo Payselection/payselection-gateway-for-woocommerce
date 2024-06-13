@@ -2,6 +2,8 @@
 
 namespace Payselection;
 
+defined( 'ABSPATH' ) || exit;
+
 class Api
 {
     protected $options;
