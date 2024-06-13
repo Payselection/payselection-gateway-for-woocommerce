@@ -97,6 +97,7 @@ class Webhook extends Api
 
             case '3DS':
             case 'Redirect3DS':
+                // Do nothing.
                 break;
 
             default:
