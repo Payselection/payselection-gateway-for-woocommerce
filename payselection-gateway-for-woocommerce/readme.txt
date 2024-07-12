@@ -2,7 +2,7 @@
 Contributors: payselection
 Tags: credit card, payselection, woocommerce
 Requires at least: 5.6
-Tested up to: 6.5
+Tested up to: 6.6
 Requires PHP: 7.0
 Stable tag: 1.2.0
 License: GPLv3
