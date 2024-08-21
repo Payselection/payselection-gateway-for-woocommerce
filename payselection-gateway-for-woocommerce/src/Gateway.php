@@ -9,6 +9,10 @@ defined( 'ABSPATH' ) || exit;
 
 class Gateway extends \WC_Payment_Gateway
 {
+    public $redirect;
+
+    protected $payselection;
+
     public function __construct()
     {
         $this->id = "wc_payselection_gateway";
@@ -299,7 +303,7 @@ class Gateway extends \WC_Payment_Gateway
                 'result'   => 'success',
                 'redirect' => $response
             );
-        } catch (\Exception $e) {
+        } catch (Exception $e) {
             wc_add_notice($e->getMessage(), 'error');
 
 			return [
