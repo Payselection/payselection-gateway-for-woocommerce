@@ -4,6 +4,8 @@ namespace Payselection;
 
 use Payselection\Order;
 
+defined( 'ABSPATH' ) || exit;
+
 class Widget
 {
     use Traits\Options;
@@ -93,7 +95,8 @@ class Widget
                         window.location.href = '" . esc_url($data["PaymentRequest"]["ExtraData"]["SuccessUrl"]) . "';
                     },
                     onError: (res) => {
-                        localStorage.payselectionWidgetError = res.code;
+                        localStorage.payselectionWidgetErrorCode = res.code;
+                        localStorage.payselectionWidgetErrorMessage = res.message;
                         localStorage.payselectionWidgetUrl = window.location.href;
                         window.location.href = '" . esc_url($data["PaymentRequest"]["ExtraData"]["CancelUrl"]) . "';
                     },

@@ -5,8 +5,14 @@ namespace Payselection;
 use Payselection\Api;
 use Payselection\Order;
 
+defined( 'ABSPATH' ) || exit;
+
 class Gateway extends \WC_Payment_Gateway
 {
+    public $redirect;
+
+    protected $payselection;
+
     public function __construct()
     {
         $this->id = "wc_payselection_gateway";
@@ -144,7 +150,7 @@ class Gateway extends \WC_Payment_Gateway
                 "desc_tip" => false,
             ],
             "company_address" => [
-                "title" => esc_html__("Legal address", "payselection-gateway-for-woocommerce"),
+                "title" => esc_html__("Place of calculations. Website address", "payselection-gateway-for-woocommerce"),
                 "type" => "text",
                 "default" => "",
                 "desc_tip" => false,
@@ -199,6 +205,58 @@ class Gateway extends \WC_Payment_Gateway
         ];
     }
 
+    public function validate_fields() {
+
+        if (empty($this->get_option('host'))) {
+            wc_add_notice(sprintf(esc_html__('Payselection settings error: %s is required.', 'payselection-gateway-for-woocommerce'), esc_html__('API host', 'payselection-gateway-for-woocommerce')), 'error');
+            return false;
+        }
+
+        if (empty($this->get_option('create_host'))) {
+            wc_add_notice(sprintf(esc_html__('Payselection settings error: %s is required.', 'payselection-gateway-for-woocommerce'), esc_html__('Create Payment host', 'payselection-gateway-for-woocommerce')), 'error');
+            return false;
+        }
+
+        if (empty($this->get_option('site_id'))) {
+            wc_add_notice(sprintf(esc_html__('Payselection settings error: %s is required.', 'payselection-gateway-for-woocommerce'), esc_html__('Site ID', 'payselection-gateway-for-woocommerce')), 'error');
+            return false;
+        }
+
+        if (empty($this->get_option('key'))) {
+            wc_add_notice(sprintf(esc_html__('Payselection settings error: %s is required.', 'payselection-gateway-for-woocommerce'), esc_html__('Secret Key', 'payselection-gateway-for-woocommerce')), 'error');
+            return false;
+        }
+
+        if ($this->get_option('receipt') === 'yes') {
+
+            if (empty($this->get_option('company_inn'))) {
+                wc_add_notice(sprintf(esc_html__('Payselection settings error: %s is required.', 'payselection-gateway-for-woocommerce'), esc_html__('INN organization', 'payselection-gateway-for-woocommerce')), 'error');
+                return false;
+            }
+
+            if (empty($this->get_option('company_address'))) {
+                wc_add_notice(sprintf(esc_html__('Payselection settings error: %s is required.', 'payselection-gateway-for-woocommerce'), esc_html__('Legal address', 'payselection-gateway-for-woocommerce')), 'error');
+                return false;
+            }
+
+        }
+
+        if (empty($this->redirect) || $this->redirect !== 'yes')  {
+
+            if (empty($this->get_option('widget_url'))) {
+                wc_add_notice(sprintf(esc_html__('Payselection settings error: %s is required.', 'payselection-gateway-for-woocommerce'), esc_html__('Widget URL', 'payselection-gateway-for-woocommerce')), 'error');
+                return false;
+            }
+
+            if (empty($this->get_option('widget_key'))) {
+                wc_add_notice(sprintf(esc_html__('Payselection settings error: %s is required.', 'payselection-gateway-for-woocommerce'), esc_html__('Public Key', 'payselection-gateway-for-woocommerce')), 'error');
+                return false;
+            }
+
+        }
+
+    }
+
     /**
      * process_payment Create payment link and redirect
      *
@@ -211,55 +269,13 @@ class Gateway extends \WC_Payment_Gateway
         $order = new Order($order_id);
 
         if (!$order) {
-            return false;
-        }
-
-        if (empty($this->get_option('host'))) {
-            wc_add_notice(sprintf(esc_html__('Payselection settings error: %s is required.', 'payselection-gateway-for-woocommerce'), esc_html__('API host', 'payselection-gateway-for-woocommerce')));
-            return false;
-        }
-
-        if (empty($this->get_option('create_host'))) {
-            wc_add_notice(sprintf(esc_html__('Payselection settings error: %s is required.', 'payselection-gateway-for-woocommerce'), esc_html__('Create Payment host', 'payselection-gateway-for-woocommerce')));
-            return false;
-        }
-
-        if (empty($this->get_option('site_id'))) {
-            wc_add_notice(sprintf(esc_html__('Payselection settings error: %s is required.', 'payselection-gateway-for-woocommerce'), esc_html__('Site ID', 'payselection-gateway-for-woocommerce')));
-            return false;
-        }
-
-        if (empty($this->get_option('key'))) {
-            wc_add_notice(sprintf(esc_html__('Payselection settings error: %s is required.', 'payselection-gateway-for-woocommerce'), esc_html__('Secret Key', 'payselection-gateway-for-woocommerce')));
-            return false;
-        }
-
-        if ($this->get_option('receipt') === 'yes') {
-
-            if (empty($this->get_option('company_inn'))) {
-                wc_add_notice(sprintf(esc_html__('Payselection settings error: %s is required.', 'payselection-gateway-for-woocommerce'), esc_html__('INN organization', 'payselection-gateway-for-woocommerce')));
-                return false;
-            }
-
-            if (empty($this->get_option('company_address'))) {
-                wc_add_notice(sprintf(esc_html__('Payselection settings error: %s is required.', 'payselection-gateway-for-woocommerce'), esc_html__('Legal address', 'payselection-gateway-for-woocommerce')));
-                return false;
-            }
-
+            return array(
+                'result'   => 'failure',
+            );
         }
 
         // Widget payment
         if (empty($this->redirect) || $this->redirect !== 'yes')  {
-
-            if (empty($this->get_option('widget_url'))) {
-                wc_add_notice(sprintf(esc_html__('Payselection settings error: %s is required.', 'payselection-gateway-for-woocommerce'), esc_html__('Widget URL', 'payselection-gateway-for-woocommerce')));
-                return false;
-            }
-
-            if (empty($this->get_option('widget_key'))) {
-                wc_add_notice(sprintf(esc_html__('Payselection settings error: %s is required.', 'payselection-gateway-for-woocommerce'), esc_html__('Public Key', 'payselection-gateway-for-woocommerce')));
-                return false;
-            }
 
             $args = [
                 "paywidget" => 1,
@@ -272,21 +288,29 @@ class Gateway extends \WC_Payment_Gateway
             ];
         }
 
-        // Redirect payment
-        $response = $this->payselection->getPaymentLink($order->getRequestData());
+        $this->payselection->debug(esc_html__('Payment Link request', 'payselection-gateway-for-woocommerce'));
+        $this->payselection->debug(wc_print_r($order->getRequestData(), true));
 
-        if (is_wp_error($response)) {
-            $this->payselection->debug(esc_html__('Payment Link request', 'payselection-gateway-for-woocommerce'));
-            $this->payselection->debug(wc_print_r($order->getRequestData(), true));
-            $this->payselection->debug(wc_print_r($response, true));
-            wc_add_notice(esc_html__('Payselection error:', 'payselection-gateway-for-woocommerce') . " " . $response->get_error_message());
-            return false;
-        }
+        try {
+            // Redirect payment
+            $response = $this->payselection->getPaymentLink($order->getRequestData());
 
-        return array(
-            'result'   => 'success',
-            'redirect' => $response
-        );
+            if (is_wp_error($response)) {
+                throw new \Exception(sprintf(esc_html__('Payselection error - %s', 'payselection-gateway-for-woocommerce'), $response->get_error_message()));
+            }
+
+            return array(
+                'result'   => 'success',
+                'redirect' => $response
+            );
+        } catch (Exception $e) {
+            wc_add_notice($e->getMessage(), 'error');
+
+			return [
+				'result'   => 'failure',
+				'redirect' => '',
+			];
+        }     
     }
 
     /**

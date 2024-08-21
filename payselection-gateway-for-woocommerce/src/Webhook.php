@@ -4,6 +4,8 @@ namespace Payselection;
 
 use Payselection\Api;
 
+defined( 'ABSPATH' ) || exit;
+
 class Webhook extends Api
 {
     public function __construct() {
@@ -91,6 +93,11 @@ class Webhook extends Api
             case 'Cancel':
                 $order->add_order_note( sprintf( esc_html__( 'Pre-Authorization for %s voided.', 'payselection-gateway-for-woocommerce' ), $request['Amount']));
                 self::payment($order, 'cancel');
+                break;
+
+            case '3DS':
+            case 'Redirect3DS':
+                // Do nothing.
                 break;
 
             default:
