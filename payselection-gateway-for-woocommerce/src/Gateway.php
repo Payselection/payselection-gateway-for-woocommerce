@@ -9,6 +9,10 @@ defined( 'ABSPATH' ) || exit;
 
 class Gateway extends \WC_Payment_Gateway
 {
+    public $redirect;
+
+    protected $payselection;
+
     public function __construct()
     {
         $this->id = "wc_payselection_gateway";
