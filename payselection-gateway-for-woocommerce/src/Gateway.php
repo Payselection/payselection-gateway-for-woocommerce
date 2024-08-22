@@ -4,8 +4,6 @@ namespace Payselection;
 
 use Payselection\Api;
 use Payselection\Order;
-use Automattic\WooCommerce\StoreApi\Payments\PaymentContext;
-use Automattic\WooCommerce\StoreApi\Payments\PaymentResult;
 
 defined( 'ABSPATH' ) || exit;
 
@@ -46,7 +44,6 @@ class Gateway extends \WC_Payment_Gateway
         add_action('woocommerce_order_status_failed', [ $this, 'cancel_payment' ]);
         add_action('woocommerce_api_' . $this->id . '_webhook', [new Webhook(), 'handle']);
         add_action('woocommerce_api_' . $this->id . '_widget', '\Payselection\Widget::handle');
-        add_action('woocommerce_rest_checkout_process_payment_with_context', [ $this, 'setup_payment_error_handler' ], 10, 2);
     }
 
     /**
@@ -261,25 +258,6 @@ class Gateway extends \WC_Payment_Gateway
     }
 
     /**
-	 * Sets up a handler to add error details to the payment result.
-	 * Registers an action to handle 'update_payment_result_on_error',
-	 * using the payment result object from 'woocommerce_rest_checkout_process_payment_with_context'.
-	 *
-	 * @param PaymentContext $context The payment context.
-	 * @param PaymentResult  $result  The payment result, passed by reference.
-	 */
-	public function setup_payment_error_handler(PaymentContext $context, PaymentResult &$result) {
-		add_action(
-			'update_payment_result_on_error',
-			function ($error) use (&$result) {
-                if ($error instanceof \Exception) {
-                    throw $error;
-                }
-			}
-		);
-	}
-
-    /**
      * process_payment Create payment link and redirect
      *
      * @param  int $order_id
@@ -326,8 +304,6 @@ class Gateway extends \WC_Payment_Gateway
                 'redirect' => $response
             );
         } catch (\Exception $e) {
-
-            do_action('update_payment_result_on_error', $e, $order);
             wc_add_notice($e->getMessage(), 'error');
 
 			return [
