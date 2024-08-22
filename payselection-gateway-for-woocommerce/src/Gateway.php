@@ -262,7 +262,7 @@ class Gateway extends \WC_Payment_Gateway
 
     /**
 	 * Sets up a handler to add error details to the payment result.
-	 * Registers an action to handle 'update_payment_result_on_error',
+	 * Registers an action to handle 'payselection_update_payment_result_on_error',
 	 * using the payment result object from 'woocommerce_rest_checkout_process_payment_with_context'.
 	 *
 	 * @param PaymentContext $context The payment context.
@@ -270,7 +270,7 @@ class Gateway extends \WC_Payment_Gateway
 	 */
 	public function setup_payment_error_handler(PaymentContext $context, PaymentResult &$result) {
 		add_action(
-			'update_payment_result_on_error',
+			'payselection_update_payment_result_on_error',
 			function ($error) use (&$result) {
                 if ($error instanceof \Exception) {
                     throw $error;
@@ -327,7 +327,7 @@ class Gateway extends \WC_Payment_Gateway
             );
         } catch (\Exception $e) {
 
-            do_action('update_payment_result_on_error', $e, $order);
+            do_action('payselection_update_payment_result_on_error', $e, $order);
             wc_add_notice($e->getMessage(), 'error');
 
 			return [
