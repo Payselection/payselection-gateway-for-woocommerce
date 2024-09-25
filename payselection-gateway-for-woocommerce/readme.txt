@@ -4,7 +4,7 @@ Tags: credit card, payselection, woocommerce
 Requires at least: 5.6
 Tested up to: 6.6
 Requires PHP: 7.0
-Stable tag: 1.2.2
+Stable tag: 1.3.0
 License: GPLv3
 License URI: https://www.gnu.org/licenses/gpl-3.0.html
 
@@ -36,8 +36,9 @@ Yes! An Payselection merchant account is required for this gateway to function.
 
 == Changelog ==
 
-= 1.2.2 =
+= 1.3.0 =
 * Fixed checkout error display.
+* Update request signature
 
 = 1.2.1 =
 * Fixed deprecated code.
