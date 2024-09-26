@@ -98,10 +98,10 @@ class Widget
                         localStorage.payselectionWidgetErrorCode = res.code;
                         localStorage.payselectionWidgetErrorMessage = res.message;
                         localStorage.payselectionWidgetUrl = window.location.href;
-                        window.location.href = '" . esc_url($data["PaymentRequest"]["ExtraData"]["CancelUrl"]) . "';
+                        // window.location.href = '" . esc_url($data["PaymentRequest"]["ExtraData"]["CancelUrl"]) . "';
                     },
                     onClose: () => {
-                        window.location.href = '" . esc_url($data["PaymentRequest"]["ExtraData"]["CancelUrl"]) . "';
+                        //window.location.href = '" . esc_url($data["PaymentRequest"]["ExtraData"]["CancelUrl"]) . "';
                     }
                 });
             });

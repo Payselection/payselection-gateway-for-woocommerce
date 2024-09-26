@@ -33,6 +33,8 @@ class Order extends \WC_Order
         $data = [
             "MetaData" => [
                 "PaymentType" => !empty($options->type) ? $options->type : "Pay",
+                "PreviewForm" => 'yes' === $options->preview_form ? true : false,
+                "OfferUrl" => ''
             ],
             "PaymentRequest" => [
                 "OrderId" => implode("-",[$this->get_id(), $options->site_id, time()]),
