@@ -30,7 +30,8 @@ class Gateway extends \WC_Payment_Gateway
         $this->init_settings();
 
         $this->enabled = $this->get_option("enabled");
-        $this->redirect = $this->get_option("redirect");
+        //$this->redirect = $this->get_option("redirect");
+        $this->redirect = 'no';
         $this->title = $this->get_option("title");
         $this->description = $this->get_option("description");
         
@@ -60,12 +61,12 @@ class Gateway extends \WC_Payment_Gateway
                 "label" => esc_html__("Enable Payselection", "payselection-gateway-for-woocommerce"),
                 "default" => "yes",
             ],
-            "redirect" => [
-                "title" => esc_html__("Widget/Redirect", "payselection-gateway-for-woocommerce"),
-                "type" => "checkbox",
-                "label" => esc_html__("Redirect to Payselection", "payselection-gateway-for-woocommerce"),
-                "default" => "no",
-            ],
+            // "redirect" => [
+            //     "title" => esc_html__("Widget/Redirect", "payselection-gateway-for-woocommerce"),
+            //     "type" => "checkbox",
+            //     "label" => esc_html__("Redirect to Payselection", "payselection-gateway-for-woocommerce"),
+            //     "default" => "no",
+            // ],
             "type" => [
                 "title" => esc_html__("Payment type", "payselection-gateway-for-woocommerce"),
                 "type" => "select",
@@ -104,7 +105,7 @@ class Gateway extends \WC_Payment_Gateway
             ],
             "key" => [
                 "title" => esc_html__("Secret Key", "payselection-gateway-for-woocommerce"),
-                "type" => "text",
+                "type" => "password",
                 "description" => esc_html__("Your Key on Payselection", "payselection-gateway-for-woocommerce"),
                 "default" => "",
                 "desc_tip" => false,
@@ -119,6 +120,33 @@ class Gateway extends \WC_Payment_Gateway
                 "title" => esc_html__("Public Key", "payselection-gateway-for-woocommerce"),
                 "type" => "text",
                 "description" => esc_html__("Your Public Key on Payselection", "payselection-gateway-for-woocommerce"),
+                "default" => "",
+                "desc_tip" => false,
+            ],
+            "preview_form" => [
+                "title" => esc_html__("Preview Form", "payselection-gateway-for-woocommerce"),
+                "type" => "checkbox",
+                "label" => esc_html__("Display Preview Form", "payselection-gateway-for-woocommerce"),
+                "default" => "no",
+            ],
+            "offer_url" => [
+                "title" => esc_html__("Offer Url", "payselection-gateway-for-woocommerce"),
+                "type" => "url",
+                "description" => esc_html__("Your Offer Url for Preview Form", "payselection-gateway-for-woocommerce"),
+                "default" => "",
+                "desc_tip" => false,
+            ],
+            "short_description_ru" => [
+                "title" => esc_html__("Short Description in Russian", "payselection-gateway-for-woocommerce"),
+                "type" => "text",
+                "description" => esc_html__("Short Description of the purpose of payment", "payselection-gateway-for-woocommerce"),
+                "default" => "",
+                "desc_tip" => false,
+            ],
+            "short_description_en" => [
+                "title" => esc_html__("Short Description in English", "payselection-gateway-for-woocommerce"),
+                "type" => "text",
+                "description" => esc_html__("Short Description of the purpose of payment", "payselection-gateway-for-woocommerce"),
                 "default" => "",
                 "desc_tip" => false,
             ],
@@ -225,6 +253,13 @@ class Gateway extends \WC_Payment_Gateway
         if (empty($this->get_option('key'))) {
             wc_add_notice(sprintf(esc_html__('Payselection settings error: %s is required.', 'payselection-gateway-for-woocommerce'), esc_html__('Secret Key', 'payselection-gateway-for-woocommerce')), 'error');
             return false;
+        }
+
+        if ($this->get_option('preview_form') === 'yes') {
+            if (empty($this->get_option('offer_url'))) {
+                wc_add_notice(sprintf(esc_html__('Payselection settings error: %s is required.', 'payselection-gateway-for-woocommerce'), esc_html__('Offer Url', 'payselection-gateway-for-woocommerce')), 'error');
+                return false;
+            }
         }
 
         if ($this->get_option('receipt') === 'yes') {

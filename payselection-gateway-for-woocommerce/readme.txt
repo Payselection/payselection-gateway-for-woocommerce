@@ -36,6 +36,10 @@ Yes! An Payselection merchant account is required for this gateway to function.
 
 == Changelog ==
 
+= 1.2.2 =
+* Delete redirect setting.
+* Added PrewiewForm, OfferUrl and ShortDescription setting.
+
 = 1.2.1 =
 * Fixed deprecated code.
 
