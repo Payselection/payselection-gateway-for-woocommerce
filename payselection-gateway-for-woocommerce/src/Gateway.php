@@ -356,7 +356,7 @@ class Gateway extends \WC_Payment_Gateway
             }
 
             if (empty($response['Url'])) {
-                throw new \Exception(esc_html__('Payselection error - invalid responce', 'payselection-gateway-for-woocommerce'));
+                throw new \Exception(esc_html__('Payselection error - server invalid response', 'payselection-gateway-for-woocommerce'));
             }
 
             return array(

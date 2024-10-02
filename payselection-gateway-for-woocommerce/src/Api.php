@@ -120,17 +120,6 @@ class Api
         $hash = hash_hmac("sha256", $body, $key, false);
         return $hash;
     }
-    
-    // /**
-    //  * getPaymentLink Get payment link
-    //  *
-    //  * @param  array $data - Request params
-    //  * @return WP_Error|string
-    //  */
-    // public function getPaymentLink(array $data = [])
-    // {
-    //     return $this->request($this->options->create_host, 'webpayments/create', $data, 'POST');
-    // }
 
     /**
      * getPaymentLink Get payment link
