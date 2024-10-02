@@ -21,25 +21,35 @@ class Api
         }
     }
 
-    /**
+     /**
      * request Send request to API server
      *
+     * @param  string $host - API url
      * @param  string $path - API path
+     * @param  string $type - key use type (paylink/operation)
      * @param  array|bool $data - Request DATA
+     * @param  string $method - http method
      * @return WP_Error|string
      */
-    protected function request(string $host, string $path, $data = false, $method = "GET")
+    protected function request(string $host, string $path, string $type = "operation", $data = false, $method = "GET")
     {
         $bodyJSON = !empty($data) ? json_encode($data, JSON_UNESCAPED_UNICODE) : "";
 
         $requestID = self::guidv4();
 
-        $signBody = $method . PHP_EOL . "/" . $path . PHP_EOL . $this->options->site_id . PHP_EOL . $requestID . PHP_EOL . $bodyJSON;
+        $key = "operation" === $type ? $this->options->key : $this->options->widget_key;
+
+        if ("operation" === $type) {
+            $signBody = $method . PHP_EOL . "/" . $path . PHP_EOL . $this->options->site_id . PHP_EOL . $requestID . PHP_EOL . $bodyJSON;
+        } else {
+            $signBody = $method . PHP_EOL . "/" . esc_url(get_home_url()) . PHP_EOL . $this->options->site_id . PHP_EOL . $requestID . PHP_EOL . $bodyJSON;
+        }
+        
 
         $headers = [
             "X-SITE-ID" => $this->options->site_id,
             "X-REQUEST-ID" => $requestID,
-            "X-REQUEST-SIGNATURE" => self::getSignature($signBody, $this->options->key),
+            "X-REQUEST-SIGNATURE" => self::getSignature($signBody, $key),
         ];
 
         $url = $host . "/" . $path;
@@ -98,19 +108,30 @@ class Api
      * getSignature Get signature by request body and key
      *
      * @param  string $body
-     * @param  string $secretKey
+     * @param  string $key
      * @return string
      */
-    protected static function getSignature(string $body, string $secretKey)
+    protected static function getSignature(string $body, string $key)
     {
         if (empty($body)) {
             return ";";
         }
 
-        $hash = hash_hmac("sha256", $body, $secretKey, false);
+        $hash = hash_hmac("sha256", $body, $key, false);
         return $hash;
     }
     
+    // /**
+    //  * getPaymentLink Get payment link
+    //  *
+    //  * @param  array $data - Request params
+    //  * @return WP_Error|string
+    //  */
+    // public function getPaymentLink(array $data = [])
+    // {
+    //     return $this->request($this->options->create_host, 'webpayments/create', $data, 'POST');
+    // }
+
     /**
      * getPaymentLink Get payment link
      *
@@ -119,7 +140,7 @@ class Api
      */
     public function getPaymentLink(array $data = [])
     {
-        return $this->request($this->options->create_host, 'webpayments/create', $data, 'POST');
+        return $this->request($this->options->create_host, 'webpayments/paylink_create', 'paylink', $data, 'POST');
     }
     
     /**
@@ -130,7 +151,7 @@ class Api
      */
     public function charge(array $data = [])
     {
-        return $this->request($this->options->host, 'payments/charge', $data, 'POST');
+        return $this->request($this->options->host, 'payments/charge', 'operation', $data, 'POST');
     }
     
     /**
@@ -141,7 +162,7 @@ class Api
      */
     public function cancel(array $data = [])
     {
-        return $this->request($this->options->host, 'payments/cancellation', $data, 'POST');
+        return $this->request($this->options->host, 'payments/cancellation', 'operation', $data, 'POST');
     }
 
     /**
@@ -152,6 +173,6 @@ class Api
      */
     public function refund(array $data = [])
     {
-        return $this->request($this->options->host, 'payments/refund', $data, 'POST');
+        return $this->request($this->options->host, 'payments/refund', 'operation', $data, 'POST');
     }
 }
