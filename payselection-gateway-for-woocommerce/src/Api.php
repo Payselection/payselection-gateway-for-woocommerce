@@ -37,17 +37,13 @@ class Api
 
         $requestID = self::guidv4();
 
-        // $key = "operation" === $type ? $this->options->key : $this->options->widget_key;
+        $key = "operation" === $type ? $this->options->key : $this->options->widget_key;
 
-        // if ("operation" === $type) {
-        //     $signBody = $method . PHP_EOL . "/" . $path . PHP_EOL . $this->options->site_id . PHP_EOL . $requestID . PHP_EOL . $bodyJSON;
-        // } else {
-        //     $signBody = $method . PHP_EOL . "/" . esc_url(get_home_url()) . PHP_EOL . $this->options->site_id . PHP_EOL . $requestID . PHP_EOL . $bodyJSON;
-        // }
-
-        $key = $this->options->widget_key;
-        $signBody = $method . PHP_EOL . "/" . esc_url(get_home_url()) . PHP_EOL . $this->options->site_id . PHP_EOL . $requestID . PHP_EOL . $bodyJSON;
-        
+        if ("operation" === $type) {
+            $signBody = $method . PHP_EOL . "/" . $path . PHP_EOL . $this->options->site_id . PHP_EOL . $requestID . PHP_EOL . $bodyJSON;
+        } else {
+            $signBody = $method . PHP_EOL . "/" . esc_url(get_home_url()) . PHP_EOL . $this->options->site_id . PHP_EOL . $requestID . PHP_EOL . $bodyJSON;
+        }
 
         $headers = [
             "X-SITE-ID" => $this->options->site_id,
