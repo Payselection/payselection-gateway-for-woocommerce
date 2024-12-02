@@ -42,7 +42,7 @@ class Api
         if ("operation" === $type) {
             $signBody = $method . PHP_EOL . "/" . $path . PHP_EOL . $this->options->site_id . PHP_EOL . $requestID . PHP_EOL . $bodyJSON;
         } else {
-            $signBody = $method . PHP_EOL . "/" . esc_url(get_home_url()) . PHP_EOL . $this->options->site_id . PHP_EOL . $requestID . PHP_EOL . $bodyJSON;
+            $signBody = $method . PHP_EOL . "/" . "test.com" . PHP_EOL . $this->options->site_id . PHP_EOL . $requestID . PHP_EOL . $bodyJSON;
         }
 
         $headers = [
