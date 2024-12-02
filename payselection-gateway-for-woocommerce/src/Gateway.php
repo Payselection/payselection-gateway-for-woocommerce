@@ -105,6 +105,13 @@ class Gateway extends \WC_Payment_Gateway
                 "default" => "",
                 "desc_tip" => false,
             ],
+            "site_name" => [
+                "title" => esc_html__("Site name", "payselection-gateway-for-woocommerce"),
+                "type" => "text",
+                "description" => esc_html__("Your site name on Payselection", "payselection-gateway-for-woocommerce"),
+                "default" => "",
+                "desc_tip" => false,
+            ],
             "key" => [
                 "title" => esc_html__("Secret Key", "payselection-gateway-for-woocommerce"),
                 "type" => "password",
@@ -249,6 +256,11 @@ class Gateway extends \WC_Payment_Gateway
 
         if (empty($this->get_option('site_id'))) {
             wc_add_notice(sprintf(esc_html__('Payselection settings error: %s is required.', 'payselection-gateway-for-woocommerce'), esc_html__('Site ID', 'payselection-gateway-for-woocommerce')), 'error');
+            return false;
+        } 
+
+        if (empty($this->get_option('site_name'))) {
+            wc_add_notice(sprintf(esc_html__('Payselection settings error: %s is required.', 'payselection-gateway-for-woocommerce'), esc_html__('Site name', 'payselection-gateway-for-woocommerce')), 'error');
             return false;
         }
 
