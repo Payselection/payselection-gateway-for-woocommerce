@@ -28,11 +28,17 @@ class Order extends \WC_Order
             "CancelUrl"     => $cancelUrl,
             "DeclineUrl"    => $cancelUrl,
             "FailUrl"       => $cancelUrl,
+            "ShortDescription" => [
+                "ru" => $options->short_description_ru,
+                "en" => $options->short_description_en,
+            ]
         ];
 
         $data = [
             "MetaData" => [
                 "PaymentType" => !empty($options->type) ? $options->type : "Pay",
+                "PreviewForm" => 'yes' === $options->preview_form ? true : false,
+                "OfferUrl" => $options->offer_url
             ],
             "PaymentRequest" => [
                 "OrderId" => implode("-",[$this->get_id(), $options->site_id, time()]),
