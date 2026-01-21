@@ -6,3 +6,4 @@ woocommerce
 nginx/nginx.conf
 docker-compose-nginx.yml
 payselection-gateway-for-woocommerce/assets/src
+.vscode

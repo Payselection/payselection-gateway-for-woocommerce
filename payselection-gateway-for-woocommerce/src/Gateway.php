@@ -4,6 +4,8 @@ namespace Payselection;
 
 use Payselection\Api;
 use Payselection\Order;
+use Automattic\WooCommerce\StoreApi\Payments\PaymentContext;
+use Automattic\WooCommerce\StoreApi\Payments\PaymentResult;
 
 defined( 'ABSPATH' ) || exit;
 
@@ -44,6 +46,7 @@ class Gateway extends \WC_Payment_Gateway
         add_action('woocommerce_order_status_failed', [ $this, 'cancel_payment' ]);
         add_action('woocommerce_api_' . $this->id . '_webhook', [new Webhook(), 'handle']);
         add_action('woocommerce_api_' . $this->id . '_widget', '\Payselection\Widget::handle');
+        add_action('woocommerce_rest_checkout_process_payment_with_context', [ $this, 'setup_payment_error_handler' ], 10, 2);
     }
 
     /**
@@ -104,7 +107,7 @@ class Gateway extends \WC_Payment_Gateway
             ],
             "key" => [
                 "title" => esc_html__("Secret Key", "payselection-gateway-for-woocommerce"),
-                "type" => "text",
+                "type" => "password",
                 "description" => esc_html__("Your Key on Payselection", "payselection-gateway-for-woocommerce"),
                 "default" => "",
                 "desc_tip" => false,
@@ -119,6 +122,33 @@ class Gateway extends \WC_Payment_Gateway
                 "title" => esc_html__("Public Key", "payselection-gateway-for-woocommerce"),
                 "type" => "text",
                 "description" => esc_html__("Your Public Key on Payselection", "payselection-gateway-for-woocommerce"),
+                "default" => "",
+                "desc_tip" => false,
+            ],
+            "preview_form" => [
+                "title" => esc_html__("Preview Form", "payselection-gateway-for-woocommerce"),
+                "type" => "checkbox",
+                "label" => esc_html__("Display Preview Form", "payselection-gateway-for-woocommerce"),
+                "default" => "no",
+            ],
+            "offer_url" => [
+                "title" => esc_html__("Offer Url", "payselection-gateway-for-woocommerce"),
+                "type" => "url",
+                "description" => esc_html__("Your Offer Url for Preview Form", "payselection-gateway-for-woocommerce"),
+                "default" => "",
+                "desc_tip" => false,
+            ],
+            "short_description_ru" => [
+                "title" => esc_html__("Short Description in Russian", "payselection-gateway-for-woocommerce"),
+                "type" => "text",
+                "description" => esc_html__("Short Description of the purpose of payment", "payselection-gateway-for-woocommerce"),
+                "default" => "",
+                "desc_tip" => false,
+            ],
+            "short_description_en" => [
+                "title" => esc_html__("Short Description in English", "payselection-gateway-for-woocommerce"),
+                "type" => "text",
+                "description" => esc_html__("Short Description of the purpose of payment", "payselection-gateway-for-woocommerce"),
                 "default" => "",
                 "desc_tip" => false,
             ],
@@ -176,10 +206,16 @@ class Gateway extends \WC_Payment_Gateway
                 "options" => [
                     "none"      => esc_html__("Tax excluded", "payselection-gateway-for-woocommerce"),
                     "vat0"      => esc_html__("VAT at 0%", "payselection-gateway-for-woocommerce"),
+                    "vat5"      => esc_html__("VAT receipt at rate 5%", "payselection-gateway-for-woocommerce"),
+                    "vat7"      => esc_html__("VAT receipt at rate 7%", "payselection-gateway-for-woocommerce"),
                     "vat10"     => esc_html__("VAT receipt at rate 10%", "payselection-gateway-for-woocommerce"),
                     "vat20"     => esc_html__("VAT receipt at rate 20%", "payselection-gateway-for-woocommerce"),
+                    "vat22"     => esc_html__("VAT receipt at rate 22%", "payselection-gateway-for-woocommerce"),
+                    "vat105"    => esc_html__("VAT check at the estimated rate 5/105", "payselection-gateway-for-woocommerce"),
+                    "vat107"    => esc_html__("VAT check at the estimated rate 7/107", "payselection-gateway-for-woocommerce"),
                     "vat110"    => esc_html__("VAT check at the estimated rate 10/110", "payselection-gateway-for-woocommerce"),
                     "vat120"    => esc_html__("VAT check at the estimated rate 20/120", "payselection-gateway-for-woocommerce"),
+                    "vat122"    => esc_html__("VAT check at the estimated rate 22/122", "payselection-gateway-for-woocommerce"),
                 ],
             ],
             "debug" => [
@@ -227,6 +263,13 @@ class Gateway extends \WC_Payment_Gateway
             return false;
         }
 
+        if ($this->get_option('preview_form') === 'yes') {
+            if (empty($this->get_option('offer_url'))) {
+                wc_add_notice(sprintf(esc_html__('Payselection settings error: %s is required.', 'payselection-gateway-for-woocommerce'), esc_html__('Offer Url', 'payselection-gateway-for-woocommerce')), 'error');
+                return false;
+            }
+        }
+
         if ($this->get_option('receipt') === 'yes') {
 
             if (empty($this->get_option('company_inn'))) {
@@ -241,6 +284,11 @@ class Gateway extends \WC_Payment_Gateway
 
         }
 
+        if (empty($this->get_option('widget_key'))) {
+            wc_add_notice(sprintf(esc_html__('Payselection settings error: %s is required.', 'payselection-gateway-for-woocommerce'), esc_html__('Public Key', 'payselection-gateway-for-woocommerce')), 'error');
+            return false;
+        }
+
         if (empty($this->redirect) || $this->redirect !== 'yes')  {
 
             if (empty($this->get_option('widget_url'))) {
@@ -248,14 +296,28 @@ class Gateway extends \WC_Payment_Gateway
                 return false;
             }
 
-            if (empty($this->get_option('widget_key'))) {
-                wc_add_notice(sprintf(esc_html__('Payselection settings error: %s is required.', 'payselection-gateway-for-woocommerce'), esc_html__('Public Key', 'payselection-gateway-for-woocommerce')), 'error');
-                return false;
-            }
-
         }
 
     }
+
+    /**
+	 * Sets up a handler to add error details to the payment result.
+	 * Registers an action to handle 'payselection_update_payment_result_on_error',
+	 * using the payment result object from 'woocommerce_rest_checkout_process_payment_with_context'.
+	 *
+	 * @param PaymentContext $context The payment context.
+	 * @param PaymentResult  $result  The payment result, passed by reference.
+	 */
+	public function setup_payment_error_handler(PaymentContext $context, PaymentResult &$result) {
+		add_action(
+			'payselection_update_payment_result_on_error',
+			function ($error) use (&$result) {
+                if ($error instanceof \Exception) {
+                    throw $error;
+                }
+			}
+		);
+	}
 
     /**
      * process_payment Create payment link and redirect
@@ -299,11 +361,16 @@ class Gateway extends \WC_Payment_Gateway
                 throw new \Exception(sprintf(esc_html__('Payselection error - %s', 'payselection-gateway-for-woocommerce'), $response->get_error_message()));
             }
 
+            if (empty($response['Url'])) {
+                throw new \Exception(esc_html__('Payselection error - server invalid response', 'payselection-gateway-for-woocommerce'));
+            }
+
             return array(
                 'result'   => 'success',
-                'redirect' => $response
+                'redirect' => $response['Url']
             );
         } catch (\Exception $e) {
+            do_action('payselection_update_payment_result_on_error', $e, $order);
             wc_add_notice($e->getMessage(), 'error');
 
 			return [
