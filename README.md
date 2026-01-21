@@ -13,7 +13,7 @@
 
 * Создайте резервную копию вашего сайта и базы данных
 * Скачайте архив плагина [wordpress-woocommerce](https://github.com/Payselection/wordpress-woocommerce/archive/refs/heads/master.zip)
-* Распакуйте архив и скопируйте папку `payselection-gateway` в папку `/wp-content/plugins/` вашего сайта
+* Распакуйте архив и скопируйте папку `payselection-gateway-for-woocommerce` в папку `/wp-content/plugins/` вашего сайта
 * Войдите в админку сайта и выберите пункт меню `Плагины -> Установленные`
 * Активируйте плагин `Payselection Gateway for WooCommerce`. Будет добавлена платежная система Payselection к способам оплаты в WooCommerce.
 
